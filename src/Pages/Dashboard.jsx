@@ -14,7 +14,6 @@ const Dashboard = () => {
   const handleDashboardSubmit = (e) => {
     handleSubmit(e);
     
-    // Handle additional logic after submission if needed
     console.log('Plan submitted:', formData);
 
     // Reset form data after submission
