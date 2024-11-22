@@ -40,31 +40,31 @@ const Dashboard = () => {
 
   return (
     <div style={styles.container}>
-      <h2 style={styles.header}>Choose your plan</h2>
+      <h2 style={styles.header}>اختر خطتك</h2>
       <Form onSubmit={handleDashboardSubmit}>
-        {isSubmitted && <p style={styles.successMessage}>Submitted successfully!</p>}
+        {isSubmitted && <p style={styles.successMessage}>تم الإرسال بنجاح!</p>}
         <InputField
-          label="Number of Pages:"
+          label="عدد الصفحات:"
           name="surahPages"
           value={formData.surahPages}
           onChange={handleChange}
-          placeholder="Enter number of pages"
+          placeholder="أدخل عدد الصفحات"
           type="number"
         />
         <InputField
-          label="Number of Days to Memorize:"
+          label="عدد الأيام للحفظ:"
           name="daysToMemorize"
           value={formData.daysToMemorize}
           onChange={handleChange}
-          placeholder="Enter number of days"
+          placeholder="أدخل عدد الأيام"
           type="number"
         />
-        <Button label="Submit Plan Request" type="submit" />
+        <Button label="إرسال طلب الخطة" type="submit" />
       </Form>
 
       {/* Pending Requests Section */}
       <div style={styles.requestsContainer}>
-        <h3 style={styles.requestsHeader}>Pending Requests</h3>
+        <h3 style={styles.requestsHeader}>الطلبات المعلقة</h3>
         {pendingRequests.length > 0 ? (
           pendingRequests.map((request) => (
             <div key={request.id} style={styles.requestCard}>
@@ -74,14 +74,14 @@ const Dashboard = () => {
             </div>
           ))
         ) : (
-          <p>No pending requests at the moment.</p>
+          <p>لا توجد طلبات معلقة في الوقت الحالي.</p>
         )}
       </div>
 
       {/* Start Learning Button */}
       <div style={styles.buttonContainer}>
         <Button
-          label="Start Learning"
+          label="ابدأ التعلم"
           onClick={() => navigate('/start-learning-form')}
         />
       </div>

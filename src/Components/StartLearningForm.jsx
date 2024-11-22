@@ -36,34 +36,34 @@ const StartLearningForm = ({ userID, sheikhID }) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        alert('Request submitted successfully! Pending admin approval.');
+        alert('تم إرسال الطلب بنجاح! في انتظار موافقة المشرف.');
         navigate('/dashboard');
       })
       .catch((err) => {
         console.error(err);
-        alert('An error occurred. Please try again.');
+        alert('لقد حدث خطأ. يرجى المحاولة مرة أخرى.');
       });
   };
 
   return (
     <div style={styles.container}>
-      <h2 style={styles.header}>Start Learning</h2>
+      <h2 style={styles.header}>ابدأ التعلم</h2>
       <Form onSubmit={handleSubmit}>
         <InputField
-          label="Your Availability (e.g., Weekdays, 5-7 PM):"
+          label="توفر وقتك (على سبيل المثال، أيام الأسبوع، من 5 إلى 7 مساءً):"
           name="availability"
           value={formData.availability}
           onChange={handleChange}
-          placeholder="Enter your available times"
+          placeholder="أدخل أوقاتك المتاحة"
         />
         <InputField
-          label="Memorization Goal (e.g., Surah Al-Baqarah):"
+          label="هدف الحفظ (سورة البقرة مثلاً):"
           name="memorizationGoal"
           value={formData.memorizationGoal}
           onChange={handleChange}
-          placeholder="What do you want to memorize?"
+          placeholder="ماذا تريد أن تحفظ؟"
         />
-        <Button label="Submit Request" type="submit" />
+        <Button label="إرسال الطلب" type="submit" />
       </Form>
     </div>
   );

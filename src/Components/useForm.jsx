@@ -16,7 +16,7 @@ const useForm = (initialValues, validate) => {
     if (validate) {
       const errors = validate(formData);
       if (Object.keys(errors).length > 0) {
-        alert('Please fill in all required fields.');
+        alert('يرجى ملء جميع الحقول المطلوبة.');
         return;
       }
     }
