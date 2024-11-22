@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom'; 
 import Button from '../Components/Button';
 import InputField from '../Components/InputField';
 import Form from '../Components/Form';
 
 const Register = () => {
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate(); 
   const [registerData, setRegisterData] = useState({
     username: '',
     email: '',
@@ -21,7 +21,7 @@ const Register = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+  
     // Validation
     if (
       !registerData.username ||
@@ -36,11 +36,18 @@ const Register = () => {
       alert('Passwords do not match.');
       return;
     }
-
+  
     setIsSubmitted(true);
-    // Perform registration logic here (e.g., API request)
+  
+    // Save the registered user data (mock storage for demo)
+    const user = {
+      email: registerData.email,
+      password: registerData.password,
+    };
+    localStorage.setItem('registeredUser', JSON.stringify(user));
+  
     console.log('Registered with:', registerData);
-    
+  
     // Reset the form data
     setRegisterData({
       username: '',
@@ -48,13 +55,13 @@ const Register = () => {
       password: '',
       confirmPassword: '',
     });
-
+  
     // Redirect to login page after successful registration
     setTimeout(() => {
-      navigate('/login'); // Navigate to the login page
-    }, 2000); // Optional delay before redirect (e.g., for the success message to show)
+      navigate('/login');
+    }, 1000);
   };
-
+  
   return (
     <div style={styles.container}>
       <h2 style={styles.header}>Register</h2>

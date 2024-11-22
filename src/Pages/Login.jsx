@@ -1,5 +1,4 @@
-// Login.jsx
-import React from 'react'; 
+import React, { useState } from 'react'; 
 import { useNavigate } from 'react-router-dom'; 
 import { Link } from 'react-router-dom'; 
 import Button from '../Components/Button';
@@ -11,35 +10,53 @@ const Login = () => {
   const navigate = useNavigate(); 
   const initialValues = { usernameOrEmail: '', password: '' };
 
-  // The useForm hook
-  const { formData, handleChange, handleSubmit, isSubmitted, setFormData } = useForm(initialValues);
+  const { formData, handleChange, setFormData } = useForm(initialValues);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleLoginSubmit = (e) => {
-    handleSubmit(e);
+    e.preventDefault();
+    
+    // Validate input
+    if (!formData.usernameOrEmail || !formData.password) {
+      setErrorMessage('Please fill in both fields.');
+      return;
+    }
+    
+    // Retrieve stored user data
+    const storedUser = JSON.parse(localStorage.getItem('registeredUser'));
+  
+    if (!storedUser) {
+      setErrorMessage('No user found. Please register first.');
+      return;
+    }
+  
+    // Validate credentials
+    if (
+      formData.usernameOrEmail === storedUser.email &&
+      formData.password === storedUser.password
+    ) {
+      setErrorMessage('');
+      setIsSubmitted(true);
 
-    // Mock API response after form submission (temporary)
-    const mockApiResponse = {
-      usernameOrEmail: formData.usernameOrEmail,
-      password: formData.password,
-      role: 'student',
-    };
-
-    console.log('Logged in with:', mockApiResponse);
-
-    // Reset data
+      // Show success message briefly before redirection
+      setTimeout(() => {
+        navigate('/student-dashboard'); // Redirect to dashboard
+      }, 1000);
+    } else {
+      setErrorMessage('Invalid email or password. Please try again.');
+    }
+  
+    // Reset form data
     setFormData(initialValues);
-
-    // Redirect to student dashboard
-    setTimeout(() => {
-      navigate('/student-dashboard'); 
-    }, 1000); 
   };
-
+  
   return (
     <div style={styles.container}>
       <h2 style={styles.header}>Login</h2>
       <Form onSubmit={handleLoginSubmit}>
         {isSubmitted && <p style={styles.successMessage}>Logged in successfully!</p>}
+        {errorMessage && <p style={styles.errorMessage}>{errorMessage}</p>}
         <InputField
           label="Username or Email:"
           name="usernameOrEmail"
@@ -84,6 +101,12 @@ const styles = {
   successMessage: {
     color: 'green',
     fontSize: '1.2rem',
+    fontWeight: 'bold',
+    marginBottom: '1rem',
+  },
+  errorMessage: {
+    color: 'red',
+    fontSize: '1rem',
     fontWeight: 'bold',
     marginBottom: '1rem',
   },
