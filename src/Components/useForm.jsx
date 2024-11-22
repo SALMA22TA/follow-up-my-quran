@@ -1,4 +1,3 @@
-// src/Components/useForm.jsx
 import { useState } from 'react';
 
 const useForm = (initialValues, validate) => {
@@ -23,7 +22,6 @@ const useForm = (initialValues, validate) => {
     }
 
     setIsSubmitted(true);
-    // Reset the form data after submission (optional)
     setFormData(initialValues);
   };
 
