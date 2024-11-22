@@ -37,28 +37,28 @@ const Login = () => {
 
   return (
     <div style={styles.container}>
-      <h2 style={styles.header}>تسجيل الدخول</h2>
+      <h2 style={styles.header}>Login</h2>
       <Form onSubmit={handleLoginSubmit}>
-        {isSubmitted && <p style={styles.successMessage}>تم تسجيل الدخول بنجاح!</p>}
+        {isSubmitted && <p style={styles.successMessage}>Logged in successfully!</p>}
         <InputField
-          label="اسم المستخدم أو البريد الإلكتروني:"
+          label="Username or Email:"
           name="usernameOrEmail"
           value={formData.usernameOrEmail}
           onChange={handleChange}
-          placeholder="أدخل اسم المستخدم أو البريد الإلكتروني الخاص بك."
+          placeholder="Enter your username or email"
         />
         <InputField
-          label="كلمة المرور:"
+          label="Password:"
           name="password"
           value={formData.password}
           onChange={handleChange}
-          placeholder="أدخل كلمة المرور الخاصة بك."
+          placeholder="Enter your password"
           type="password"
         />
-        <Button label="تسجيل الدخول" type="submit" />
+        <Button label="Login" type="submit" />
       </Form>
       <p style={styles.signupHint}>
-      لا تملك حسابًا؟ <Link to="/register">اشترك هنا</Link>
+        Don't have an account? <Link to="/register">Sign up here</Link>
       </p>
     </div>
   );

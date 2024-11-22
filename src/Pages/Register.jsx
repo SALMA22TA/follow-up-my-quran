@@ -29,11 +29,11 @@ const Register = () => {
       !registerData.password ||
       !registerData.confirmPassword
     ) {
-      alert('يرجى ملء جميع الحقول.');
+      alert('Please fill in all fields.');
       return;
     }
     if (registerData.password !== registerData.confirmPassword) {
-      alert('كلمات المرور غير متطابقة.');
+      alert('Passwords do not match.');
       return;
     }
 
@@ -56,40 +56,40 @@ const Register = () => {
 
   return (
     <div style={styles.container}>
-      <h2 style={styles.header}>تسجيل حساب جديد</h2>
+      <h2 style={styles.header}>Register</h2>
       <Form onSubmit={handleSubmit}>
-        {isSubmitted && <p style={styles.successMessage}>تم التسجيل بنجاح!</p>}
+        {isSubmitted && <p style={styles.successMessage}>Registered successfully!</p>}
         <InputField
-          label="اسم المستخدم:"
+          label="Username:"
           name="username"
           value={registerData.username}
           onChange={handleChange}
-          placeholder="أدخل اسم المستخدم الخاص بك"
+          placeholder="Enter your username"
         />
         <InputField
-          label="بريد إلكتروني:"
+          label="Email:"
           name="email"
           value={registerData.email}
           onChange={handleChange}
-          placeholder="أدخل بريدك الإلكتروني"
+          placeholder="Enter your email"
         />
         <InputField
-          label="كلمة المرور:"
+          label="Password:"
           name="password"
           value={registerData.password}
           onChange={handleChange}
-          placeholder="أدخل كلمة المرور الخاصة بك"
+          placeholder="Enter your password"
           type="password"
         />
         <InputField
-          label="تأكيد كلمة المرور:"
+          label="Confirm Password:"
           name="confirmPassword"
           value={registerData.confirmPassword}
           onChange={handleChange}
-          placeholder="تأكيد كلمة المرور الخاصة بك"
+          placeholder="Confirm your password"
           type="password"
         />
-        <Button label="تسجيل" type="submit" />
+        <Button label="Register" type="submit" />
       </Form>
     </div>
   );
