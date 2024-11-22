@@ -6,11 +6,17 @@ import Form from '../Components/Form';
 import useForm from '../Components/useForm'; 
 
 const Dashboard = () => {
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   const initialValues = { surahPages: '', daysToMemorize: '' };
 
   // Use the useForm hook
-  const { formData, handleChange, handleSubmit, isSubmitted, setFormData } = useForm(initialValues);
+  const { formData, handleChange, setFormData } = useForm(initialValues);
+
+  // State for validation errors
+  const [error, setError] = useState('');
+
+  // State for success message
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   // State for pending requests
   const [pendingRequests, setPendingRequests] = useState([]);
@@ -19,7 +25,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchPendingRequests = async () => {
       try {
-        const response = await fetch('/api/pending-requests'); // we are replacing it with actual API endpoint
+        const response = await fetch('/api/pending-requests'); // we will replace it with actual API endpoint
         const data = await response.json();
         setPendingRequests(data);
       } catch (error) {
@@ -31,17 +37,33 @@ const Dashboard = () => {
   }, []);
 
   const handleDashboardSubmit = (e) => {
-    handleSubmit(e);
+    e.preventDefault();
 
+    // Validate form fields
+    if (!formData.surahPages || !formData.daysToMemorize) {
+      setError('Both fields are required.');
+      setIsSubmitted(false); // Clear success message on error
+      return;
+    }
+
+    // Clear errors and process form submission
+    setError('');
     console.log('Plan submitted:', formData);
 
+    setIsSubmitted(true);
+
     setFormData(initialValues);
+
+    setTimeout(() => {
+      setIsSubmitted(false);
+    }, 2000);
   };
 
   return (
     <div style={styles.container}>
       <h2 style={styles.header}>Choose your plan</h2>
       <Form onSubmit={handleDashboardSubmit}>
+        {error && <p style={styles.errorMessage}>{error}</p>}
         {isSubmitted && <p style={styles.successMessage}>Submitted successfully!</p>}
         <InputField
           label="Number of Pages:"
@@ -89,6 +111,7 @@ const Dashboard = () => {
   );
 };
 
+
 const styles = {
   container: {
     display: 'flex',
@@ -111,6 +134,11 @@ const styles = {
     color: 'green',
     fontSize: '1.2rem',
     fontWeight: 'bold',
+    marginBottom: '1rem',
+  },
+  errorMessage: {
+    color: 'red',
+    fontSize: '1rem',
     marginBottom: '1rem',
   },
   requestsContainer: {
