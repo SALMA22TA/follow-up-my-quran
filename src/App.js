@@ -10,6 +10,7 @@ import TeacherList from "./Components/TeacherList";
 import TeacherDetail from "./Components/TeacherDetail";
 
 
+
 const App = () => {
   // Define dummy data for now (we are going to replace with actual data later)
   const currentUser = { id: '123' }; 
