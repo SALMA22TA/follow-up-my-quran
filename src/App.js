@@ -23,7 +23,7 @@ const App = () => {
           path="/start-learning-form"
           element={<StartLearningForm userID={currentUser.id} sheikhID={selectedSheikh.id} />}
         />
-         <Route path="/" element={<TeacherList />} />
+         <Route path="/teacher-list" element={<TeacherList />} />
          <Route path="/teachers/:id" element={<TeacherDetail />} />
       </Routes>
     </Router>
