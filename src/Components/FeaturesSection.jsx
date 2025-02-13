@@ -63,8 +63,8 @@ const styles = {
     borderRadius: '10px',
   },
   subheading: {
-    fontFamily: '"Tajawal", sans-serif',
-    fontSize: '18px',
+    fontFamily: '"Aref Ruqaa", sans-serif',
+    fontSize: '24px',
     fontWeight: 'bold',
     color: '#D4A800',
   },
