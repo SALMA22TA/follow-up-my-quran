@@ -8,6 +8,8 @@ import Terms from './Pages/Terms';
 import Privacy from './Pages/Privacy';
 import TeacherList from "./Components/TeacherList";
 import TeacherDetail from "./Components/TeacherDetail";
+import LandingPage from './Pages/LandingPage';
+
 
 
 
@@ -29,6 +31,7 @@ const App = () => {
         />
         <Route path="/terms" element={<Terms />} />
         <Route path="/privacy" element={<Privacy />} />
+        <Route path="/landing-page" element={<LandingPage />}/>
         <Route path="/teacher-list" element={<TeacherList />} />
         <Route path="/teachers/:id" element={<TeacherDetail />} />
       </Routes>
