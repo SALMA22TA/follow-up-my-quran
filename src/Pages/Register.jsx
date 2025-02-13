@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import quranImage from './images/quran.png';
+import quranImage from './images/q.png';
 
 const Register = () => {
   const navigate = useNavigate();
