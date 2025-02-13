@@ -64,7 +64,16 @@ const Register = () => {
       {/* Left Section */}
       <div style={styles.leftContainer}>
         <h2 style={styles.header}>إنشاء حساب جديد</h2>
-        <p style={styles.description}>قم بإنشاء حساب في منصة هدى القرآن وابدأ رحلتك الآن</p>
+        <p style={styles.description}>قم بتسجيل الدخول إلى منصة هدى القرآن باستخدام إحدى الطرق التالية</p>
+
+        <button style={styles.googleButton}>تسجيل بواسطة جوجل <span style={styles.icon}>G</span></button>
+        <button style={styles.facebookButton}>تسجيل بواسطة فيسبوك <span style={styles.icon}>f</span></button>
+
+        <div style={styles.orContainer}>
+          <div style={styles.line}></div>
+          <span style={styles.orText}>أو</span>
+          <div style={styles.line}></div>
+        </div>
 
         {errorMessage && <p style={styles.errorMessage}>{errorMessage}</p>}
         {successMessage && <p style={styles.successMessage}>{successMessage}</p>}
@@ -110,14 +119,16 @@ const Register = () => {
             style={styles.input}
           />
 
-          <button type="submit" style={styles.registerButton}>إنشاء حساب</button>
+          <button type="submit" style={styles.registerButton}>إنشاء حساب جديد</button>
         </form>
 
-        <p style={styles.loginText}>
-          لديك حساب بالفعل؟{' '}
           <Link to="/login" style={styles.link}>
-            سجل دخولك الآن
+            تسجيل الدخول؟
           </Link>
+          <p style={styles.loginText}>
+          بتسجيلك في منصة هدى القرآن يعني أنك موافق على{' '}
+          <Link to="/terms" style={styles.link}>شروط الاستخدام</Link> و{' '}
+          <Link to="/privacy" style={styles.link}>قوانين الخصوصية</Link>
         </p>
       </div>
 
@@ -133,8 +144,9 @@ const styles = {
   mainContainer: {
     display: 'flex',
     flexDirection: 'row',
-    height: '100vh',
-    fontFamily: '"Arial", sans-serif',
+    overflow: 'hidden',
+    height: '100%',
+    fontFamily: "'Cairo', sans-serif",
   },
   leftContainer: {
     flex: 1,
@@ -146,22 +158,83 @@ const styles = {
     justifyContent: 'center',
     textAlign: 'center',
   },
+  rightContainer: {
+    flex: 1,
+  },
+  rightImage: {
+    width: '100%',
+    height: '100%',
+  },
+  icon: {
+    fontSize: '1.2rem', 
+    fontWeight: 'bold',
+  },
   header: {
-    fontSize: '2.5rem',
-    marginBottom: '1rem',
-    color: '#333',
+    fontFamily: "'Cairo', sans-serif",
+    fontWeight: 'bold',
+    fontSize: "24px",
+    marginBottom: '1px',
+    letterSpacing: "0%",
+    textAlign: "center",
+    color: "#090909",
   },
   description: {
-    fontSize: '1rem',
+    fontFamily: "'Cairo', sans-serif",
+    fontWeight: 400,
+    fontSize: "14px",
+    marginBottom: '10px',
+    letterSpacing: "0%",
+    textAlign: "center",
+    color: "#A5A5A5",
+  },
+  googleButton: {
+    width: '80%',
+    padding: '10px',
+    backgroundColor: '#db4437',
+    color: 'white',
+    border: 'none',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    fontSize: '16px',
+  },
+  facebookButton: {
+    width: '80%',
+    padding: '10px',
+    backgroundColor: '#4267B2',
+    color: 'white',
+    border: 'none',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    fontSize: '16px',
+    marginTop: '10px',
+  },
+  orContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '80%',
+    margin: '1rem 0',
+  },
+  line: {
+    flex: 1,
+    height: '1px',
+    backgroundColor: '#ccc',
+    margin: '0 1rem',
+  },
+  orText: {
+    fontFamily: "'Cairo', sans-serif",
     color: '#555',
-    marginBottom: '1.5rem',
+    whiteSpace: 'nowrap',
+    fontWeight: 'bold',
   },
   errorMessage: {
+    fontFamily: "'Cairo', sans-serif",
     color: 'red',
     fontSize: '0.9rem',
     marginBottom: '1rem',
   },
   successMessage: {
+    fontFamily: "'Cairo', sans-serif",
     color: 'green',
     fontSize: '0.9rem',
     marginBottom: '1rem',
@@ -172,12 +245,15 @@ const styles = {
     width: '80%',
   },
   label: {
+    fontFamily: "'Cairo', sans-serif",
     marginBottom: '0.5rem',
     fontSize: '1rem',
     color: '#333',
     textAlign: 'right',
+    fontWeight: 'bold',
   },
   input: {
+    fontFamily: "'Cairo', sans-serif",
     marginBottom: '1rem',
     padding: '0.8rem',
     border: '1px solid #ccc',
@@ -187,35 +263,31 @@ const styles = {
     direction: 'rtl', // Arabic text alignment
   },
   registerButton: {
+    fontFamily: "'Cairo', sans-serif",
     padding: '0.8rem',
-    backgroundColor: '#4caf50',
-    color: '#fff',
+    backgroundColor: '#1EC8A0',
+    color: '#FFFFFF',
     border: 'none',
     borderRadius: '5px',
     fontSize: '1rem',
     cursor: 'pointer',
+    fontWeight: 'bold',
   },
   loginText: {
+    fontFamily: "'Cairo', sans-serif",
     marginTop: '1rem',
     fontSize: '0.9rem',
-    color: '#555',
+    color: "#A5A5A5",
   },
   link: {
-    color: '#4caf50',
+    fontFamily: "'Cairo', sans-serif",
+    color: '#090909',
     textDecoration: 'none',
-  },
-  rightContainer: {
-    flex: 1,
-    backgroundColor: '#e8f5e9',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: '0',
-  },
-  rightImage: {
-    width: '100%',
-    height: '100%',
-    objectFit: 'cover',
+    fontSize: '14px',
+    fontWeight: 'bold',
+    letterSpacing: "0%",
+    textAlign: "center",
+    marginTop: '10px',
   },
 };
 
