@@ -1,7 +1,7 @@
 import React from "react";
 import mashariImage from "../Pages/images/Mashari.jpeg";
+import verifyIcon from "../Pages/images/verify.svg.svg"; // Add the verification icon
 import { Link } from "react-router-dom";
-
 
 const TeachersSection = () => {
     const teachers = [
@@ -34,23 +34,26 @@ const TeachersSection = () => {
     return (
         <div style={styles.container}>
             <p style={styles.subheading}>المعلمون</p>
-            <h2 style={styles.heading}>إليكم معلمون منصة هدى القرآن</h2>
+            <h2 style={styles.heading}>إليكم معلمو منصة هدى القرآن</h2>
 
             <div style={styles.teachersGrid}>
                 {teachers.map((teacher, index) => (
                     <div key={index} style={styles.teacherCard}>
                         <img src={teacher.image} alt={teacher.name} style={styles.image} />
-                        <h3 style={styles.teacherName}>{teacher.name}</h3>
+                        <div style={styles.nameContainer}>
+                            <h3 style={styles.teacherName}>{teacher.name}</h3>
+                            <img src={verifyIcon} alt="Verified" style={styles.verifyIcon} />
+                        </div>
                         <p style={styles.teacherDescription}>{teacher.description}</p>
                     </div>
                 ))}
             </div>
+
             <div style={{ marginTop: "40px" }}>
                 <Link to="/teacher-list" style={styles.moreButton}>
                     عرض المزيد
                 </Link>
             </div>
-
         </div>
     );
 };
@@ -63,8 +66,8 @@ const styles = {
         backgroundColor: "#F8F8F8",
     },
     subheading: {
-        fontFamily: '"Tajawal", sans-serif',
-        fontSize: "18px",
+        fontFamily: "'Aref Ruqaa', sans-serif",
+        fontSize: "24px",
         fontWeight: "bold",
         color: "#D4A800",
     },
@@ -81,29 +84,40 @@ const styles = {
         gap: "20px",
     },
     teacherCard: {
-        backgroundColor: "#F8F8F8",
+        backgroundColor: "#fff",
         borderRadius: "10px",
         padding: "20px",
-        textAlign: "center",
+        textAlign: "right",
         boxShadow: "0px 5px 15px rgba(0, 0, 0, 0.1)",
     },
     image: {
         width: "100%",
         borderRadius: "10px",
     },
+    nameContainer: {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "right",
+        gap: "5px",
+    },
     teacherName: {
         fontSize: "18px",
         fontWeight: "bold",
         marginTop: "10px",
     },
+    verifyIcon: {
+        width: "18px",
+        height: "18px",
+    },
     teacherDescription: {
         fontSize: "14px",
         color: "#5A5A5A",
         marginTop: "10px",
+        textAlign: "right",
     },
     moreButton: {
         fontFamily: '"Tajawal", sans-serif',
-        marginTop: "20px", // You can increase this value if needed
+        marginTop: "20px",
         padding: "10px 48px",
         backgroundColor: "transparent",
         color: "#20C997",
@@ -113,7 +127,7 @@ const styles = {
         cursor: "pointer",
         fontWeight: "bold",
         transition: "0.3s ease",
-    }
+    },
 };
 
 export default TeachersSection;
