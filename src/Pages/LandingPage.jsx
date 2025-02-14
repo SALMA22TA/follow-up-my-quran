@@ -1,6 +1,8 @@
 import React from 'react';
 import FeaturesSection from '../Components/FeaturesSection';
 import TeachersSection from '../Components/TeachersSection';
+import TestimonialsSection from "../Components/TestimonialsSection";
+
 
 const LandingPage = () => {
     return (
@@ -52,6 +54,8 @@ const LandingPage = () => {
             <FeaturesSection />
             {/* The Teachers Section */}
             <TeachersSection />
+            {/* The Testimonials Section */}
+            <TestimonialsSection />
         </div>
     );
 };
