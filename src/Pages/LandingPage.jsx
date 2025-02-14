@@ -5,7 +5,6 @@ import TeachersSection from '../Components/TeachersSection';
 const LandingPage = () => {
     return (
         <div>
-            {/* Existing Sections */}
             <div style={styles.container}>
                 {/* Left Section */}
                 <div style={styles.leftSection}>
@@ -119,7 +118,7 @@ const styles = {
     },
     checkIcon: {
         marginLeft: '8px',
-        flexShrink: 0, // Ensures the icon does not get resized
+        flexShrink: 0,
     },
     rightSection: {
         flex: 1,

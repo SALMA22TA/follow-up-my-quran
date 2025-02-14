@@ -260,7 +260,7 @@ const styles = {
     borderRadius: '8px',
     fontSize: '1rem',
     textAlign: 'right',
-    direction: 'rtl', // Arabic text alignment
+    direction: 'rtl', 
   },
   registerButton: {
     fontFamily: '"Tajawal", sans-serif',

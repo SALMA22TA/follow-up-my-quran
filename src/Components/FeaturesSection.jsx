@@ -81,7 +81,7 @@ const styles = {
     gap: '20px',
   },
   featureBox: {
-    position: 'relative', // Allows absolute positioning of the icon
+    position: 'relative',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
@@ -99,7 +99,7 @@ const styles = {
     height: '40px',
   },
   textContent: {
-    paddingRight: '50px', // To avoid overlapping with the icon
+    paddingRight: '50px', 
   },
   featureTitle: {
     fontSize: '18px',

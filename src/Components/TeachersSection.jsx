@@ -1,6 +1,6 @@
 import React from "react";
 import mashariImage from "../Pages/images/Mashari.jpeg";
-import verifyIcon from "../Pages/images/verify.svg.svg"; // Add the verification icon
+import verifyIcon from "../Pages/images/verify.svg.svg";
 import { Link } from "react-router-dom";
 
 const TeachersSection = () => {
