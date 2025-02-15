@@ -3,6 +3,7 @@ import FeaturesSection from '../Components/FeaturesSection';
 import TeachersSection from '../Components/TeachersSection';
 import TestimonialsSection from "../Components/TestimonialsSection";
 import Footer from "../Components/Footer";
+import FAQSection from "../Components/FAQSection";
 
 
 
@@ -58,6 +59,8 @@ const LandingPage = () => {
             <TeachersSection />
             {/* The Testimonials Section */}
             <TestimonialsSection />
+            {/* The FAQ Section */}
+            <FAQSection />
             {/* The Footer */}
             <Footer />
         </div>
