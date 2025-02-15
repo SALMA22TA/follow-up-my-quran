@@ -2,6 +2,8 @@ import React from 'react';
 import FeaturesSection from '../Components/FeaturesSection';
 import TeachersSection from '../Components/TeachersSection';
 import TestimonialsSection from "../Components/TestimonialsSection";
+import Footer from "../Components/Footer";
+
 
 
 const LandingPage = () => {
@@ -56,6 +58,8 @@ const LandingPage = () => {
             <TeachersSection />
             {/* The Testimonials Section */}
             <TestimonialsSection />
+            {/* The Footer */}
+            <Footer />
         </div>
     );
 };
