@@ -9,6 +9,8 @@ import Privacy from './Pages/Privacy';
 import TeacherList from "./Components/TeacherList";
 import TeacherDetail from "./Components/TeacherDetail";
 import LandingPage from './Pages/LandingPage';
+import AddCoursePage from './Pages/AddCoursePage';
+import AddVideoPage from './Pages/AddVideoPage';
 
 
 
@@ -31,6 +33,8 @@ const App = () => {
         <Route path="/terms" element={<Terms />} />
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/landing-page" element={<LandingPage />}/>
+        <Route path="/add-course" element={<AddCoursePage/>} />
+        <Route path="/add-video" element={<AddVideoPage/>} />
         <Route path="/teacher-list" element={<TeacherList />} />
         <Route path="/teachers/:id" element={<TeacherDetail />} />
       </Routes>
