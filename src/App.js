@@ -11,6 +11,7 @@ import TeacherDetail from "./Components/TeacherDetail";
 import LandingPage from './Pages/LandingPage';
 import AddCoursePage from './Pages/AddCoursePage';
 import AddVideoPage from './Pages/AddVideoPage';
+import CourseDetailsPage from './Pages/CourseDetailsPage';
 
 
 
@@ -35,6 +36,7 @@ const App = () => {
         <Route path="/landing-page" element={<LandingPage />}/>
         <Route path="/add-course" element={<AddCoursePage/>} />
         <Route path="/add-video" element={<AddVideoPage/>} />
+        <Route path="/course-details" element={<CourseDetailsPage/>} />
         <Route path="/teacher-list" element={<TeacherList />} />
         <Route path="/teachers/:id" element={<TeacherDetail />} />
       </Routes>
