@@ -18,11 +18,11 @@ const Navbar = () => {
     direction: 'rtl', // ⭐ لدعم اللغة العربية
   };
 
-  const logoStyle = {
-    width: '50px',
-    // height: 'auto',
-    margin:'auto'
-  };
+  // const logoStyle = {
+  //   width: '50px',
+  //   // height: 'auto',
+  //   margin:'auto'
+  // };
 
   const profileStyle = {
     width: '45px',

@@ -12,6 +12,7 @@ import LandingPage from './Pages/LandingPage';
 import AddCoursePage from './Pages/AddCoursePage';
 import AddVideoPage from './Pages/AddVideoPage';
 import CourseDetailsPage from './Pages/CourseDetailsPage';
+import SheikhDashboard from './Pages/SheikhDashboard';
 
 
 
@@ -39,6 +40,7 @@ const App = () => {
         <Route path="/course-details" element={<CourseDetailsPage/>} />
         <Route path="/teacher-list" element={<TeacherList />} />
         <Route path="/teachers/:id" element={<TeacherDetail />} />
+        <Route path="/sheikh-dashboard" element={<SheikhDashboard />} />
       </Routes>
     </Router>
   );

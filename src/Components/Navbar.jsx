@@ -82,7 +82,7 @@ const Navbar = () => {
         {['الرئيسية', 'معلومات عنا', 'مميزاتنا', 'المعلمون', 'أراء الطلاب', 'الأسئلة الشائعة'].map((text, index) => (
           <li key={index}>
             <a
-              href="#"
+              href="www.facebook.com"
               style={linkStyle(hoveredLink === index)}
               onMouseEnter={() => setHoveredLink(index)}
               onMouseLeave={() => setHoveredLink(null)}

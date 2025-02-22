@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { Menu, Upload } from "lucide-react";
+// import { Link } from "react-router-dom";
+import { Upload } from "lucide-react";
+import Sidebar from "../Components/Sidebar";
 
 export default function UploadVideoPage() {
-    const [sidebarOpen, setSidebarOpen] = useState(true);
+    // const [sidebarOpen, setSidebarOpen] = useState(true);
     const [videoTitle, setVideoTitle] = useState("");
     const [videoDescription, setVideoDescription] = useState("");
     const [videoFile, setVideoFile] = useState(null);
@@ -26,17 +27,7 @@ export default function UploadVideoPage() {
     return (
         <div style={styles.container}>
             {/* Sidebar */}
-            <aside style={{ ...styles.sidebar, width: sidebarOpen ? "250px" : "60px" }}>
-                <button onClick={() => setSidebarOpen(!sidebarOpen)} style={styles.sidebarButton}>
-                    <Menu size={24} style={{ color: "#666" }} />
-                </button>
-                <nav style={styles.nav}>
-                    <Link to="/" style={styles.navLink}>الصفحة الرئيسية</Link>
-                    <Link to="/courses" style={styles.navLink}>الدورات</Link>
-                    <Link to="/schedule-requests" style={styles.navLink}>طلبات الجدولة</Link>
-                    <Link to="/chat" style={styles.navLink}>المحادثة</Link>
-                </nav>
-            </aside>
+            <Sidebar/>
 
             {/* Main Content */}
             <main style={styles.main}>
@@ -60,7 +51,7 @@ export default function UploadVideoPage() {
                     ></textarea>
 
                     <label style={styles.uploadBox}>
-                        <Upload size={50} style={{ color: "green", marginBottom: "10px" }} />
+                        <Upload size={50} style={{ color: "#1EC8A0", marginBottom: "10px" }} />
                         <span>{videoFile ? videoFile.name : "اضغط هنا لرفع الفيديو"}</span>
                         <input type="file" accept="video/*" style={styles.hiddenInput} onChange={handleUpload} />
                     </label>
@@ -76,36 +67,9 @@ const styles = {
     container: {
         display: "flex",
         height: "100vh",
-        backgroundColor: "#f5f5f5",
+        backgroundColor: '#fff',
         color: "#000",
         flexDirection: "row-reverse",
-        fontFamily: "Tajawal",
-    },
-    sidebar: {
-        backgroundColor: "#fff",
-        boxShadow: "2px 0 5px rgba(0,0,0,0.1)",
-        padding: "20px",
-        transition: "width 0.3s ease",
-        textAlign: "right",
-        fontFamily: "Tajawal",
-    },
-    sidebarButton: {
-        marginBottom: "20px",
-        background: "none",
-        border: "none",
-        cursor: "pointer",
-    },
-    nav: {
-        display: "flex",
-        flexDirection: "column",
-        gap: "15px",
-    },
-    navLink: {
-        textDecoration: "none",
-        color: "#333",
-        padding: "5px 0",
-        display: "block",
-        fontWeight: "700",
         fontFamily: "Tajawal",
     },
     main: {
@@ -124,7 +88,8 @@ const styles = {
         boxShadow: "0px 4px 10px rgba(0,0,0,0.1)",
         borderRadius: "12px",
         border: "1px solid #ddd",
-        backgroundColor: "#fff",
+        // backgroundColor: "#fff",
+        backgroundColor: '#D5E7E1',
         position: "relative",
     },
     decorative: {
@@ -133,7 +98,7 @@ const styles = {
         left: "0",
         width: "60px",
         height: "60px",
-        backgroundColor: "green",
+        backgroundColor: 'black',
         borderBottomRightRadius: "100%",
     },
     title: {
@@ -188,7 +153,8 @@ const styles = {
     },
     button: {
         width: "100%",
-        backgroundColor: "green",
+        // backgroundColor: "green",
+        backgroundColor: "#1EC8A0",
         color: "#fff",
         fontWeight: "bold",
         padding: "12px",
