@@ -4,12 +4,15 @@ import TeachersSection from '../Components/TeachersSection';
 import TestimonialsSection from "../Components/TestimonialsSection";
 import Footer from "../Components/Footer";
 import FAQSection from "../Components/FAQSection";
+import HeroSection from "../Components/HeroSection";
 
 
 
 const LandingPage = () => {
     return (
         <div>
+            {/* <Navbar /> */}
+            <HeroSection />
             <div style={styles.container}>
                 {/* Left Section */}
                 <div style={styles.leftSection}>
