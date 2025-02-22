@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import Sidebar from "../Components/Sidebar";
+import Navbar from "../Components/DashboardNavbar";
 
 export default function CourseDetailsPage() {
 
@@ -12,7 +13,7 @@ export default function CourseDetailsPage() {
       
 
     return (
-        <div style={styles.container}>
+        <><Navbar /><div style={styles.container}>
             {/* Sidebar */}
             <Sidebar/>
 
@@ -46,7 +47,7 @@ export default function CourseDetailsPage() {
                     </div>
                 </div>
             </main>
-        </div>
+        </div></>
     );
 }
 const styles = {

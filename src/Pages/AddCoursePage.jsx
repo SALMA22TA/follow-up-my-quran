@@ -2,26 +2,27 @@
 // import { Link } from "react-router-dom";
 import { PlusCircle } from "lucide-react";
 import Sidebar from '../Components/Sidebar';
+import Navbar from "../Components/DashboardNavbar";
 
 export default function AddCoursePage() {
   // const [sidebarOpen, setSidebarOpen] = useState(true);
 
   return (
-    <div style={styles.container}>
+    <><Navbar /><div style={styles.container}>
       {/* Sidebar */}
       <Sidebar />
       {/* Sidebar
-      <aside style={{ ...styles.sidebar, width: sidebarOpen ? "250px" : "60px" }}>
-        <button onClick={() => setSidebarOpen(!sidebarOpen)} style={styles.sidebarButton}>
-          <Menu size={24} style={{ color: "#666" }} />
-        </button>
-        <nav style={{ display: "flex", flexDirection: "column", gap: "15px" }}>
-          <Link to="/" style={styles.navLink}>الصفحة الرئيسية</Link>
-          <Link to="/courses" style={styles.navLink}>الدورات</Link>
-          <Link to="/requests" style={styles.navLink}>طلبات الجدولة</Link>
-          <Link to="/chat" style={styles.navLink}>المحادثة</Link>
-        </nav>
-      </aside> */}
+    <aside style={{ ...styles.sidebar, width: sidebarOpen ? "250px" : "60px" }}>
+      <button onClick={() => setSidebarOpen(!sidebarOpen)} style={styles.sidebarButton}>
+        <Menu size={24} style={{ color: "#666" }} />
+      </button>
+      <nav style={{ display: "flex", flexDirection: "column", gap: "15px" }}>
+        <Link to="/" style={styles.navLink}>الصفحة الرئيسية</Link>
+        <Link to="/courses" style={styles.navLink}>الدورات</Link>
+        <Link to="/requests" style={styles.navLink}>طلبات الجدولة</Link>
+        <Link to="/chat" style={styles.navLink}>المحادثة</Link>
+      </nav>
+    </aside> */}
 
       {/* Main Content */}
       <main style={styles.main}>
@@ -50,7 +51,7 @@ export default function AddCoursePage() {
           </div>
         </div>
       </main>
-    </div>
+    </div></>
   );
 }
 

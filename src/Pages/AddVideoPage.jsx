@@ -2,6 +2,7 @@ import { useState } from "react";
 // import { Link } from "react-router-dom";
 import { Upload } from "lucide-react";
 import Sidebar from "../Components/Sidebar";
+import Navbar from "../Components/DashboardNavbar";
 
 export default function UploadVideoPage() {
     // const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -25,7 +26,7 @@ export default function UploadVideoPage() {
     };
 
     return (
-        <div style={styles.container}>
+        <><Navbar /><div style={styles.container}>
             {/* Sidebar */}
             <Sidebar/>
 
@@ -59,7 +60,7 @@ export default function UploadVideoPage() {
                     <button style={styles.button} onClick={handleSubmit}>أضف الفيديو</button>
                 </div>
             </main>
-        </div>
+        </div></>
     );
 }
 
