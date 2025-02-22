@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import logo from '../assests/imgs/Logo.png';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   const [hoveredLink, setHoveredLink] = useState(null);
@@ -48,14 +49,14 @@ const Navbar = () => {
     borderRadius: '5px',
     cursor: 'pointer',
     border: 'none',
-    fontSize : '10px'
+    fontSize: '10px'
   };
 
   const langButtonStyle = {
     ...buttonStyle,
     backgroundColor: 'transparent',
     color: '#FFFFFF',
-    fontSize : '14px'
+    fontSize: '14px'
   };
 
   const loginButtonStyle = {
@@ -64,7 +65,7 @@ const Navbar = () => {
     color: '#1EC8A0',
     border: '2px solid  #1EC8A0',
     fontFamily: "'Tajawal', sans-serif"
-  
+
   };
 
   const signupButtonStyle = {
@@ -95,8 +96,13 @@ const Navbar = () => {
 
       <div style={actionContainerStyle}>
         <button style={langButtonStyle}>EN</button>
-        <button style={loginButtonStyle}>تسجيل الدخول</button>
-        <button style={signupButtonStyle}>إنشاء حساب جديد</button>
+        <Link to="/login" style={{ ...loginButtonStyle, textDecoration: 'none', display: 'inline-block', textAlign: 'center' }}>
+          تسجيل الدخول
+        </Link>
+
+        <Link to="/register" style={{ ...signupButtonStyle, textDecoration: 'none', display: 'inline-block', textAlign: 'center' }}>
+          إنشاء حساب جديد
+        </Link>
       </div>
     </nav>
   );
