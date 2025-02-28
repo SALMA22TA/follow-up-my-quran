@@ -5,9 +5,9 @@ import Navbar from "../Components/DashboardNavbar";
 export default function CourseDetailsPage() {
 
     const courses = [
-        { title: "الحياة البرية", description: "لمحة عن الحياة البرية" },
-        { title: "لمحة عن الطبيعة الأمريكية", description: "لمحة عن الطبيعة الأمريكية" },
-        { title: "الحياة الاسكتلندية", description: "لمحة عن الحياة الاسكتلندية" },
+        { title: "التجويد للمبتدئين – تلاوة صحيحة للقرآن", description: "ورة تعلمك كيفية نطق الحروف العربية بشكل سليم وفق أحكام التجويد، مع تطبيق عملي على سور قصيرة." },
+        { title: "فقه العبادات – كيف تعبد الله كما أمر؟", description: "دورة شاملة لشرح كيفية أداء العبادات (الصلاة، الصيام، الزكاة، الحج) وفقًا لأحكام الشريعة الإسلامية." },
+        { title: "لسيرة النبوية – حياة الرسول ﷺ", description: "دورة تتناول حياة النبي ﷺ من ولادته إلى وفاته، مع التركيز على الدروس والعبر من سيرته." },
     ];
 
       
@@ -27,16 +27,16 @@ export default function CourseDetailsPage() {
 
                     <div style={{ borderBottom: "2px solid black", paddingBottom: "5px", marginBottom: "15px" }}>
                         <h2 style={styles.sectionTitle}>:عنوان الفيديو</h2>
-                        <p style={{ fontSize: "30px", fontWeight: "bold", color: "#374151" }}>لمحة عن الدب القطبي</p>
+                        <p style={{ fontSize: "30px", fontWeight: "bold", color: "#374151" }}>تفسير القرآن الكريم – فهم معاني الآيات</p>
                     </div>
 
                     <div style={{ borderBottom: "2px solid black", paddingBottom: "15px", marginBottom: "15px" }}>
                         <h2 style={styles.sectionTitle}>:الوصف</h2>
-                        <p style={{ fontSize: "16px", color: "#374151" }}>الدُّبُّ القُطبيّ أو الدُّبّ الأبيض نوع من الدببة يتواجد في منطقة القطب الشمالي الممتدة عبر شمالي ألاسكا، كندا، روسيا، النرويج، وجرينلاند وما حولها</p>
+                        <p style={{ fontSize: "16px", color: "#374151" }}>دورة تشرح معاني آيات القرآن الكريم بأسلوب مبسط، مع ربطها بواقع الحياة وتوضيح الدروس المستفادة منها.</p>
                     </div>
 
                     {/* Video List */}
-                    <h2 style={{ textAlign: "center", fontSize: "18px", fontWeight: "bold", marginBottom: "10px" }}>الفيديوهات المتاحة</h2>
+                    <h2 style={{ textAlign: "center", fontSize: "18px", fontWeight: "bold", marginBottom: "10px" }}>الدورات المتاحة</h2>
                     <div style={styles.videoList}>
                         {courses.map((course, index) => (
                             <Link to={`/course-details/${course.title}`} key={index} style={{ ...styles.videoCard, textDecoration: "none" }}>
