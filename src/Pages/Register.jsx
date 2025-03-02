@@ -12,7 +12,6 @@ const Register = () => {
     password: "",
   });
   const [message, setMessage] = useState("");
-
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
