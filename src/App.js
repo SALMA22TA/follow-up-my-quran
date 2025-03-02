@@ -13,6 +13,9 @@ import AddCoursePage from './Pages/AddCoursePage';
 import AddVideoPage from './Pages/AddVideoPage';
 import CourseDetailsPage from './Pages/CourseDetailsPage';
 import SheikhDashboard from './Pages/SheikhDashboard';
+import ScheduleRequests from './Pages/ScheduleRequests';
+import Courses from './Pages/Courses';
+import ExamsPage from './Pages/ExamsPage';
 
 
 
@@ -41,6 +44,11 @@ const App = () => {
         <Route path="/teacher-list" element={<TeacherList />} />
         <Route path="/teachers/:id" element={<TeacherDetail />} />
         <Route path="/sheikh-dashboard" element={<SheikhDashboard />} />
+        <Route path="/schedule-requests" element={<ScheduleRequests />} /> 
+        <Route path="/courses" element={<Courses />} />
+        <Route path="/exams" element={<ExamsPage />} />
+
+ 
       </Routes>
     </Router>
   );
