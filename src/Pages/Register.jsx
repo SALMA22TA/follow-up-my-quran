@@ -1,58 +1,38 @@
-import React, { useState } from 'react';
+import { useState } from "react";
+import axios from "axios";
 import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 import quranImage from './images/q.png';
+import { Link } from 'react-router-dom';
 
 const Register = () => {
   const navigate = useNavigate();
-  const [registerData, setRegisterData] = useState({
-    username: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
+  const [formData, setFormData] = useState({
+    fullName: "",
+    email: "",
+    password: "",
   });
-  const [errorMessage, setErrorMessage] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
+  const [message, setMessage] = useState("");
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setRegisterData({ ...registerData, [name]: value });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Validation
-    if (!registerData.username || !registerData.email || !registerData.password || !registerData.confirmPassword) {
-      setErrorMessage('يرجى ملء جميع الحقول.');
-      setSuccessMessage('');
-      return;
+    setMessage('تم التسجيل بنجاح!');
+    try {
+      const response = await axios.post(
+        "https://graduation-main-0wwkv3.laravel.cloud/api/auth/register",
+        null,
+        {
+          params: formData,
+        }
+      );
+      setMessage(response.data.message);
+    } catch (error) {
+      setMessage("Registration failed. Please try again.");
+      console.error(error);
     }
-
-    if (registerData.password !== registerData.confirmPassword) {
-      setErrorMessage('كلمتا المرور غير متطابقتين.');
-      setSuccessMessage('');
-      return;
-    }
-
-    setErrorMessage('');
-    setSuccessMessage('تم التسجيل بنجاح!');
-
-    // Store registered user (mock storage)
-    const user = {
-      email: registerData.email,
-      password: registerData.password,
-    };
-    localStorage.setItem('registeredUser', JSON.stringify(user));
-
-    // Reset form data
-    setRegisterData({
-      username: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
-    });
-
     // Redirect to login page after success
     setTimeout(() => {
       navigate('/login');
@@ -74,51 +54,39 @@ const Register = () => {
           <span style={styles.orText}>أو</span>
           <div style={styles.line}></div>
         </div>
-
-        {errorMessage && <p style={styles.errorMessage}>{errorMessage}</p>}
-        {successMessage && <p style={styles.successMessage}>{successMessage}</p>}
+        {message && <p>{message}</p>}
 
         <form onSubmit={handleSubmit} style={styles.form}>
           <label style={styles.label}>اسم المستخدم</label>
           <input
             type="text"
-            name="username"
-            value={registerData.username}
+            name="fullName"
+            value={formData.fullName}
             onChange={handleChange}
-            placeholder="أدخل اسم المستخدم هنا"
+            placeholder="أدخل اسمك الكامل هنا"
             style={styles.input}
+            required
           />
-
           <label style={styles.label}>البريد الإلكتروني</label>
           <input
             type="email"
             name="email"
-            value={registerData.email}
-            onChange={handleChange}
             placeholder="أدخل بريدك الإلكتروني هنا"
+            value={formData.email}
+            onChange={handleChange}
             style={styles.input}
+            required
           />
-
           <label style={styles.label}>كلمة المرور</label>
           <input
             type="password"
             name="password"
-            value={registerData.password}
-            onChange={handleChange}
             placeholder="أدخل كلمة المرور هنا"
-            style={styles.input}
-          />
-
-          <label style={styles.label}>تأكيد كلمة المرور</label>
-          <input
-            type="password"
-            name="confirmPassword"
-            value={registerData.confirmPassword}
+            value={formData.password}
             onChange={handleChange}
-            placeholder="أعد إدخال كلمة المرور"
             style={styles.input}
+            required
           />
-
           <button type="submit" style={styles.registerButton}>إنشاء حساب جديد</button>
         </form>
 
