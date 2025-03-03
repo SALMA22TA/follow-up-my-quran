@@ -2,8 +2,10 @@ import { useState } from "react";
 import { PlusCircle } from "lucide-react";
 import Sidebar from '../Components/Sidebar';
 import Navbar from "../Components/DashboardNavbar";
+import { useNavigate } from "react-router-dom";
 
 export default function AddCoursePage() {
+  const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [loading, setLoading] = useState(false);
@@ -17,7 +19,7 @@ export default function AddCoursePage() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2dyYWR1YXRpb24tbWFpbi0wd3drdjMubGFyYXZlbC5jbG91ZC9hcGkvYXV0aC9sb2dpbiIsImlhdCI6MTc0MTAzMjQ0NiwiZXhwIjoxNzQxMDM2MDQ2LCJuYmYiOjE3NDEwMzI0NDYsImp0aSI6InpSYW1tYnlCWUNKYW85V1QiLCJzdWIiOiI5IiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.8XFDe4OMh__MenOS_0NQb0KhGSesBNCtwJkOnGKIKRk'
+          "Authorization": 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2dyYWR1YXRpb24tbWFpbi0wd3drdjMubGFyYXZlbC5jbG91ZC9hcGkvYXV0aC9sb2dpbiIsImlhdCI6MTc0MTA0NTIxMSwiZXhwIjoxNzQxMDQ4ODExLCJuYmYiOjE3NDEwNDUyMTEsImp0aSI6InNzTzNXUHNuWkJtWXEzOWgiLCJzdWIiOiI5IiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.AmgmNajuSFMk6yTFnJKo2r8vHENJsdnEawreeR-K3co',
         },
         body: JSON.stringify({ title, description })
       });
@@ -28,10 +30,14 @@ export default function AddCoursePage() {
         console.log("Response Data:", data);
         setTitle("");
         setDescription("");
+        setTimeout(() => {
+          navigate('/courses');
+        }, 1000);
       } else {
         setMessage(`❌ فشل الإضافة: ${data.message || "خطأ غير معروف"}`);
       }
     } catch (error) {
+      console.log("Error:", error);
       setMessage("❌ حدث خطأ أثناء الإرسال. حاول مرة أخرى.");
     }
     setLoading(false);
