@@ -1,59 +1,72 @@
-// import { useState } from "react";
-// import { Link } from "react-router-dom";
+import { useState } from "react";
 import { PlusCircle } from "lucide-react";
 import Sidebar from '../Components/Sidebar';
 import Navbar from "../Components/DashboardNavbar";
 
 export default function AddCoursePage() {
-  // const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+
+  const handleAddCourse = async () => {
+    setLoading(true);
+    setMessage("");
+    try {
+      const response = await fetch("https://graduation-main-0wwkv3.laravel.cloud/api/v1/teacher/create_course", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2dyYWR1YXRpb24tbWFpbi0wd3drdjMubGFyYXZlbC5jbG91ZC9hcGkvYXV0aC9sb2dpbiIsImlhdCI6MTc0MTAzMjQ0NiwiZXhwIjoxNzQxMDM2MDQ2LCJuYmYiOjE3NDEwMzI0NDYsImp0aSI6InpSYW1tYnlCWUNKYW85V1QiLCJzdWIiOiI5IiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.8XFDe4OMh__MenOS_0NQb0KhGSesBNCtwJkOnGKIKRk'
+        },
+        body: JSON.stringify({ title, description })
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        setMessage("✅ الدورة أضيفت بنجاح!");
+        setTitle("");
+        setDescription("");
+      } else {
+        setMessage(`❌ فشل الإضافة: ${data.message || "خطأ غير معروف"}`);
+      }
+    } catch (error) {
+      setMessage("❌ حدث خطأ أثناء الإرسال. حاول مرة أخرى.");
+    }
+    setLoading(false);
+  };
 
   return (
     <><Navbar /><div style={styles.container}>
-      {/* Sidebar */}
       <Sidebar />
-      {/* Sidebar
-    <aside style={{ ...styles.sidebar, width: sidebarOpen ? "250px" : "60px" }}>
-      <button onClick={() => setSidebarOpen(!sidebarOpen)} style={styles.sidebarButton}>
-        <Menu size={24} style={{ color: "#666" }} />
-      </button>
-      <nav style={{ display: "flex", flexDirection: "column", gap: "15px" }}>
-        <Link to="/" style={styles.navLink}>الصفحة الرئيسية</Link>
-        <Link to="/courses" style={styles.navLink}>الدورات</Link>
-        <Link to="/requests" style={styles.navLink}>طلبات الجدولة</Link>
-        <Link to="/chat" style={styles.navLink}>المحادثة</Link>
-      </nav>
-    </aside> */}
-
-      {/* Main Content */}
       <main style={styles.main}>
-        {/* Header */}
         <div style={styles.header}>
           <h1 style={{ fontSize: "24px", fontWeight: "bold" }}>إضافة دورة جديدة</h1>
         </div>
-
-        {/* Course Form */}
         <div style={styles.card}>
           <h2 style={styles.title}>
             إضافة دورة <PlusCircle style={{ marginLeft: "8px" }} />
           </h2>
-
-          {/* Input Fields */}
           <div style={styles.form}>
             <div>
               <label style={styles.label}>العنوان</label>
-              <input type="text" placeholder="أدخل عنوان الدورة" style={styles.input} />
+              <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="أدخل عنوان الدورة" style={styles.input} />
             </div>
             <div>
               <label style={styles.label}>الوصف</label>
-              <textarea placeholder="أدخل وصف الدورة" rows={4} style={styles.input}></textarea>
+              <textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="أدخل وصف الدورة" rows={4} style={styles.input}></textarea>
             </div>
-            <button style={styles.button}>إضافة الدورة</button>
+            <button onClick={handleAddCourse} style={styles.button} disabled={loading}>
+              {loading ? "جاري الإضافة..." : "إضافة الدورة"}
+            </button>
+            {message && <p style={{ textAlign: "center", color: message.includes("✅") ? "green" : "red" }}>{message}</p>}
           </div>
         </div>
       </main>
     </div></>
   );
 }
+
 
 const styles = {
   container: {
