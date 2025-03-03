@@ -25,6 +25,7 @@ export default function AddCoursePage() {
       const data = await response.json();
       if (response.ok) {
         setMessage("✅ الدورة أضيفت بنجاح!");
+        console.log("Response Data:", data);
         setTitle("");
         setDescription("");
       } else {
