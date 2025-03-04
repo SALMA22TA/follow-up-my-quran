@@ -19,7 +19,7 @@ export default function AddCoursePage() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2dyYWR1YXRpb24tbWFpbi0wd3drdjMubGFyYXZlbC5jbG91ZC9hcGkvYXV0aC9sb2dpbiIsImlhdCI6MTc0MTA0NTIxMSwiZXhwIjoxNzQxMDQ4ODExLCJuYmYiOjE3NDEwNDUyMTEsImp0aSI6InNzTzNXUHNuWkJtWXEzOWgiLCJzdWIiOiI5IiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.AmgmNajuSFMk6yTFnJKo2r8vHENJsdnEawreeR-K3co',
+          "Authorization": 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2dyYWR1YXRpb24tbWFpbi0wd3drdjMubGFyYXZlbC5jbG91ZC9hcGkvYXV0aC9sb2dpbiIsImlhdCI6MTc0MTA5ODEwMCwiZXhwIjoxNzQxMTAxNzAwLCJuYmYiOjE3NDEwOTgxMDAsImp0aSI6ImJXUXdkekU5VFJjUkJVdEkiLCJzdWIiOiI5IiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.ejJNkc3wpT5socKxcslEPV92uCBDw_L4lEi6ULCHZLw',
         },
         body: JSON.stringify({ title, description })
       });
