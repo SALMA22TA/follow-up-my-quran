@@ -1,71 +1,86 @@
-import { useState, useEffect } from "react"
-import Sidebar from "../Components/Sidebar"
-import Navbar from "../Components/DashboardNavbar"
-import { Link } from "react-router-dom"
+import React, { useState, useEffect } from "react";
+import Sidebar from "../Components/Sidebar";
+import Navbar from "../Components/DashboardNavbar";
+import { Link } from "react-router-dom";
+import { FaTrash } from "react-icons/fa";
 
 const Courses = () => {
-  const [courses, setCourses] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
-
-  const fetchCourses = async () => {
-    setLoading(true)
-    setError(null)
-
-    try {
-      const allCourses = []
-      for (let i = 1; i <= 15; i++) {
-        try {
-          const response = await fetch(`https://graduation-main-0wwkv3.laravel.cloud/api/v1/teacher/get_course/${i}`, {
-            headers: {
-              Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2dyYWR1YXRpb24tbWFpbi0wd3drdjMubGFyYXZlbC5jbG91ZC9hcGkvYXV0aC9sb2dpbiIsImlhdCI6MTc0MTA5ODEwMCwiZXhwIjoxNzQxMTAxNzAwLCJuYmYiOjE3NDEwOTgxMDAsImp0aSI6ImJXUXdkekU5VFJjUkJVdEkiLCJzdWIiOiI5IiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.ejJNkc3wpT5socKxcslEPV92uCBDw_L4lEi6ULCHZLw`,
-              Accept: "application/json",
-            },
-          })
-
-          if (response.ok) {
-            const data = await response.json()
-            if (data && data.data) {
-              allCourses.push(data.data)
-            }
-          }
-        } catch (error) {
-          console.log(`No course found with ID ${i}`)
-        }
-      }
-
-      if (allCourses.length > 0) {
-        setCourses(allCourses)
-        setError(null)
-      } else {
-        setError("لم يتم العثور على أي دورات")
-      }
-    } catch (error) {
-      console.error("Error fetching courses:", error)
-      setError("فشل في تحميل الدورات. الرجاء المحاولة مرة أخرى.")
-    } finally {
-      setLoading(false)
-    }
-  }
+  const [courses, setCourses] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetchCourses()
-  }, [])
+    const fetchCourses = async () => {
+      try {
+        const response = await fetch("https://graduation-main-0wwkv3.laravel.cloud/api/v1/teacher/get_courses", {
+          method: "GET",
+          headers: {
+            "Accept": "application/json",
+            "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2dyYWR1YXRpb24tbWFpbi0wd3drdjMubGFyYXZlbC5jbG91ZC9hcGkvYXV0aC9sb2dpbiIsImlhdCI6MTc0MTExMjAzNywiZXhwIjoxNzQxMTE1NjM3LCJuYmYiOjE3NDExMTIwMzcsImp0aSI6ImRqZVRzRDdTUWhUUzc4VnYiLCJzdWIiOiI5IiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.ZAFuFhIRconjUh9-we238qm_Ti_NT-app8vHHegAQsQ"
+          }
+        });
+        if (!response.ok) {
+          throw new Error("فشل في جلب البيانات");
+        }
+        const data = await response.json();
+        setCourses(data.data.data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const handlePublish = (id) => {
-    setCourses((prevCourses) =>
-      prevCourses.map((course) => (course.id === id ? { ...course, status: "منشور" } : course))
-    )
-  }
-  const handleDeleteCourse = (id) => {
-    setCourses(prevCourses => 
-      prevCourses.filter(course => course.id !== id)
-    );
+    fetchCourses();
+  }, []);
+  const handleDeleteCourse = async (id) => {
+    try {
+      const response = await fetch(`https://graduation-main-0wwkv3.laravel.cloud/api/v1/teacher/delete_course/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Accept": "application/json",
+          "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2dyYWR1YXRpb24tbWFpbi0wd3drdjMubGFyYXZlbC5jbG91ZC9hcGkvYXV0aC9sb2dpbiIsImlhdCI6MTc0MTExMzcwMywiZXhwIjoxNzQxMTE3MzAzLCJuYmYiOjE3NDExMTM3MDMsImp0aSI6IkV3Qno4TktYNmF1MW1lZnkiLCJzdWIiOiI5IiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.HzZfhXqS3EAVOXW2RwxmpvYNOuT1cTtnZgFe7_e-GRc",
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error("فشل في حذف الدورة");
+      }
+  
+      // تحديث قائمة الدورات بعد الحذف
+      setCourses(prevCourses => prevCourses.filter(course => course.id !== id));
+    } catch (err) {
+      setError(err.message);
+    }
   };
-
-  const handleRefresh = () => {
-    fetchCourses()
-  }
+  const handlePublishCourse = async (id) => {
+    try {
+      const response = await fetch(`https://graduation-main-0wwkv3.laravel.cloud/api/v1/teacher/publish_course/${id}`, {
+        method: "PUT",
+        headers: {
+          "Accept": "application/json",
+          "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2dyYWR1YXRpb24tbWFpbi0wd3drdjMubGFyYXZlbC5jbG91ZC9hcGkvYXV0aC9sb2dpbiIsImlhdCI6MTc0MTExMzcwMywiZXhwIjoxNzQxMTE3MzAzLCJuYmYiOjE3NDExMTM3MDMsImp0aSI6IkV3Qno4TktYNmF1MW1lZnkiLCJzdWIiOiI5IiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.HzZfhXqS3EAVOXW2RwxmpvYNOuT1cTtnZgFe7_e-GRc",
+        },
+      });
+  
+      const data = await response.json();
+      console.log("Response:", data);
+  
+      if (!response.ok) {
+        throw new Error(data.message || "فشل في نشر الدورة");
+      }
+  
+      // تحديث حالة الدورة في القائمة
+      setCourses(prevCourses => prevCourses.map(course =>
+        course.id === id ? { ...course, status: "published" } : course
+      ));
+    } catch (err) {
+      console.error("Error:", err);
+      setError(err.message);
+    }
+  };
+  
+  
 
   return (
     <>
@@ -74,605 +89,142 @@ const Courses = () => {
         <Sidebar />
         <div style={mainContent}>
           <h1>قائمة الدورات</h1>
-          
-          {error ? (
-            <div style={errorStyle}>
-              {error}
-              <button onClick={handleRefresh} style={retryButtonStyle}>
-                إعادة المحاولة
-              </button>
-            </div>
-          ) : loading ? (
-            <p>جارٍ تحميل البيانات...</p>
-          ) : (
-            <>
-              <div style={tableContainerStyle}>
-                <table style={tableStyle}>
-                  <thead>
-                    <tr style={tableHeaderRowStyle}>
-                      <th style={tableHeaderCellStyle}>العنوان</th>
-                      <th style={tableHeaderCellStyle}>الوصف</th>
-                      <th style={tableHeaderCellStyle}>الحالة</th>
-                      <th style={tableHeaderCellStyle}>نشر؟</th>
-                    </tr>
-                  </thead>
-                      <tbody>
-                        {courses.length > 0 ? (
-                          courses.map((course) => (
-                            <tr key={course.id || Math.random()} style={tableRowStyle}>
-                              <td style={tableCellStyle}>{course.title || "بدون عنوان"}</td>
-                              <td style={tableCellStyle}>{course.description || "بدون وصف"}</td>
-                              <td style={tableCellStyle}>{course.status || "غير منشور"}</td>
-                              <td style={tableCellStyle}>
-                                <div style={{ display: "flex", gap: "10px" }}>
-                                  <button
-                                    onClick={() => handlePublish(course.id)}
-                                    disabled={course.status === "منشور"}
-                                    style={{
-                                      ...publishButtonStyle,
-                                      backgroundColor: course.status === "منشور" ? "#ccc" : "#1EC8A0",
-                                      cursor: course.status === "منشور" ? "not-allowed" : "pointer",
-                                    }}
-                                  >
-                                    {course.status === "منشور" ? "نُشر" : "نشر"}
-                                  </button>
-                                  <button
-                                    onClick={() => handleDeleteCourse(course.id)}
-                                    style={{
-                                      ...publishButtonStyle,
-                                      backgroundColor: "#dc3545",
-                                      color: "#fff"
-                                    }}
-                                  >
-                                    حذف
-                                  </button>
-                                </div>
-                              </td>
-                            </tr>
-                          ))
-                        ) : (
-                          <tr>
-                            <td colSpan="4" style={{ ...tableCellStyle, textAlign: "center" }}>
-                              لا توجد دورات متاحة
-                            </td>
-                          </tr>
+          <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "15px" }}>
+            <Link to="/add-course" style={addButtonStyle}>
+              + إضافة دورة جديدة
+            </Link>
+          </div>
+
+          {loading && <p>جاري التحميل...</p>}
+          {error && <p style={{ color: "red" }}>{error}</p>}
+
+          {!loading && !error && (
+            <div style={tableContainerStyle}>
+              <table style={tableStyle}>
+                <thead>
+                  <tr style={tableHeaderRowStyle}>
+                    <th style={tableHeaderCellStyle}>العنوان</th>
+                    <th style={tableHeaderCellStyle}>الوصف</th>
+                    <th style={tableHeaderCellStyle}>الحالة</th>
+                    <th style={tableHeaderCellStyle}>نشر؟</th>
+                    <th style={tableHeaderCellStyle}>حذف؟</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {courses.map((course) => (
+                    <tr key={course.id} style={tableRowStyle}>
+                      <td style={tableCellStyle}>{course.title}</td>
+                      <td style={tableCellStyle}>{course.description}</td>
+                      <td style={tableCellStyle}>{course.status}</td>
+                      <td style={tableCellStyle}>
+                        {course.status === "draft" && (
+                          <button
+                            style={{ backgroundColor: "#1EC8A0", color: "#fff",
+                              border: "none",
+                              padding: "7px 15px",
+                              borderRadius: "5px",
+                              fontWeight: "bold",cursor: "pointer" }}
+                            onClick={() => handlePublishCourse(course.id)}
+                          >
+                            نشر
+                          </button>
                         )}
-
-                      </tbody>
-                </table>
-              </div>
-
-              <div style={{ display: "flex", gap: "10px", marginTop: "15px" }}>
-                <button onClick={handleRefresh} style={refreshButtonStyle} disabled={loading}>
-                  تحديث القائمة
-                </button>
-                <Link to="/add-course" style={addButtonStyle}>
-                  + إضافة دورة جديدة
-                </Link>
-              </div>
-            </>
+                      </td>
+                      <td style={tableCellStyle}>
+                        <button
+                          style={{ backgroundColor: "red", color:"white", border: "none",
+                            padding: "7px 15px",
+                            borderRadius: "5px",
+                            fontWeight: "bold", cursor: "pointer" }}
+                          onClick={() => handleDeleteCourse(course.id)}
+                        >
+                          <FaTrash /> حذف
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           )}
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-const dashboardContainer = {
-  display: "flex",
-  flexDirection: "row-reverse",
-  direction: "rtl",
-}
-
-const mainContent = {
-  marginRight: "220px",
-  padding: "20px",
-  width: "100%",
-  boxSizing: "border-box",
-}
-
+const dashboardContainer = { display: "flex", flexDirection: "row-reverse", direction: "rtl" };
+const mainContent = { marginRight: "220px", padding: "20px", width: "100%", boxSizing: "border-box" };
+const tableContainerStyle = { width: "100%", overflowX: "auto", backgroundColor: "#fff", borderRadius: "10px", boxShadow: "0 2px 10px rgba(0,0,0,0.1)", padding: "15px" };
+const tableStyle = { width: "100%", borderCollapse: "collapse", textAlign: "right" };
+const tableHeaderRowStyle = { backgroundColor: "#f8f9fa" };
+const tableHeaderCellStyle = { padding: "12px", textAlign: "right", fontWeight: "bold", borderBottom: "2px solid #ddd" };
+const tableRowStyle = { borderBottom: "1px solid #ddd" };
+const tableCellStyle = { padding: "12px" };
 const addButtonStyle = {
   backgroundColor: "#1EC8A0",
   color: "#fff",
   border: "none",
   padding: "10px 15px",
   borderRadius: "5px",
-  fontSize: "16px",
+  fontSize: "18px",
   cursor: "pointer",
-  textDecoration: "none",
-}
-
-const refreshButtonStyle = {
-  ...addButtonStyle,
-  backgroundColor: "#6c757d",
-}
-
-const retryButtonStyle = {
-  ...addButtonStyle,
-  marginTop: "10px",
-  fontSize: "14px",
-  padding: "8px 12px",
-}
-
-const errorStyle = {
-  backgroundColor: "#fff3f3",
-  color: "#dc3545",
-  padding: "15px",
-  borderRadius: "5px",
-  textAlign: "center",
-  marginBottom: "20px",
   display: "flex",
-  flexDirection: "column",
   alignItems: "center",
-}
+  textDecoration: "none",
+};
 
-const tableContainerStyle = {
-  width: "100%",
-  overflowX: "auto",
-  backgroundColor: "#fff",
-  borderRadius: "10px",
-  boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
-  padding: "15px",
-}
+export default Courses;
 
-const tableStyle = {
-  width: "100%",
-  borderCollapse: "collapse",
-  textAlign: "right",
-}
 
-const tableHeaderRowStyle = {
-  backgroundColor: "#f8f9fa",
-}
+/****************************************** */
+// import React, { useState, useEffect } from "react";
+// import Sidebar from "../Components/Sidebar";
+// import Navbar from "../Components/DashboardNavbar";
+// import { Link } from "react-router-dom";
+// import axios from 'axios';
+// import { FaTrash } from "react-icons/fa";
 
-const tableHeaderCellStyle = {
-  padding: "12px",
-  textAlign: "right",
-  fontWeight: "bold",
-  borderBottom: "2px solid #ddd",
-}
-
-const tableRowStyle = {
-  borderBottom: "1px solid #ddd",
-}
-
-const tableCellStyle = {
-  padding: "12px",
-}
-
-const publishButtonStyle = {
-  color: "#fff",
-  border: "none",
-  padding: "7px 15px",
-  borderRadius: "5px",
-  fontWeight: "bold",
-}
-
-export default Courses
-/************************************************************** */
-
-// import { useState } from "react"
-// import Sidebar from "../Components/Sidebar"
-// import Navbar from "../Components/DashboardNavbar"
-// import { Link } from "react-router-dom"
+// const api = axios.create({
+//   baseURL: 'https://graduation-main-0wwkv3.laravel.cloud/api/v1/teacher/',
+//   headers: {
+//     'Authorization': `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2dyYWR1YXRpb24tbWFpbi0wd3drdjMubGFyYXZlbC5jbG91ZC9hcGkvYXV0aC9sb2dpbiIsImlhdCI6MTc0MTExMTc3MywiZXhwIjoxNzQxMTE1MzczLCJuYmYiOjE3NDExMTE3NzMsImp0aSI6Ijl6NWlzZ0pTWGpkaTJuSnEiLCJzdWIiOiI5IiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.W9hzp5FfAHEXqiQwpHm7Q4LbMlp7KQLMBCOozHJiXh4`,
+//     'Accept': 'application/json',
+//     'Content-Type': 'application/json'
+//   }
+// });
 
 // const Courses = () => {
-//   const [courses, setCourses] = useState([])
-//   const [loading, setLoading] = useState(true)
-//   const [Error, setError] = useState(null)
-
-//   const fetchCourses = async () => {
-//   setLoading(true)
-//   setError(null)
-
-//   try {
-//     const response = await fetch('https://graduation-main-0wwkv3.laravel.cloud/api/v1/teacher/get_courses', {
-//       method: "GET",
-//       headers: {
-//         Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2dyYWR1YXRpb24tbWFpbi0wd3drdjMubGFyYXZlbC5jbG91ZC9hcGkvYXV0aC9sb2dpbiIsImlhdCI6MTc0MTA5ODEwMCwiZXhwIjoxNzQxMTAxNzAwLCJuYmYiOjE3NDEwOTgxMDAsImp0aSI6ImJXUXdkekU5VFJjUkJVdEkiLCJzdWIiOiI5IiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.ejJNkc3wpT5socKxcslEPV92uCBDw_L4lEi6ULCHZLw`,
-//         Accept: "application/json",
-//       },
-//     })
-
-//     if (!response.ok) {
-//       throw new Error(`HTTP error! status: ${response.status}`)
-//     }
-
-//     const data = await response.json()
-//     console.log('API response:', data)
-
-//     if (data && data.data) {
-//       setCourses(data.data)
-//     } else {
-//       setError("لم يتم العثور على أي دورات")
-//     }
-//   } catch (error) {
-//     console.error("Error fetching courses:", error)
-//     setError("فشل في تحميل الدورات. الرجاء المحاولة مرة أخرى.")
-//   } finally {
-//     setLoading(false)
-//   }
-// }
-//   const handlePublish = (id) => {
-//     setCourses((prevCourses) =>
-//       prevCourses.map((course) => (course.id === id ? { ...course, status: "منشور" } : course)),
-//     )
-//   }
-
-//   return (
-//     <>
-//       <Navbar />
-//       <div style={dashboardContainer}>
-//         <Sidebar />
-//         <div style={mainContent}>
-//           <h1>قائمة الدورات</h1>
-//           <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "15px" }}>
-//             <Link to="/add-course" style={addButtonStyle}>
-//               + إضافة دورة جديدة
-//             </Link>
-//             <button onClick={fetchCourses} style={addButtonStyle}>
-//               تحديث القائمة
-//             </button>
-//           </div>
-//           {loading ? (
-//             <p>جارٍ تحميل البيانات...</p>
-//           ) : (
-//             <div style={tableContainerStyle}>
-//               <table style={tableStyle}>
-//                 <thead>
-//                   <tr style={tableHeaderRowStyle}>
-//                     <th style={tableHeaderCellStyle}>العنوان</th>
-//                     <th style={tableHeaderCellStyle}>الوصف</th>
-//                     <th style={tableHeaderCellStyle}>الحالة</th>
-//                     <th style={tableHeaderCellStyle}>نشر؟</th>
-//                   </tr>
-//                 </thead>
-//                 <tbody>
-//                   {courses.length > 0 ? (
-//                     courses.map((course) => (
-//                       <tr key={course.id || Math.random()} style={tableRowStyle}>
-//                         <td style={tableCellStyle}>{course.title || "بدون عنوان"}</td>
-//                         <td style={tableCellStyle}>{course.description || "بدون وصف"}</td>
-//                         <td style={tableCellStyle}>{course.status || "غير منشور"}</td>
-//                         <td style={tableCellStyle}>
-//                           <button
-//                             onClick={() => handlePublish(course.id)}
-//                             disabled={course.status === "منشور"}
-//                             style={{
-//                               ...publishButtonStyle,
-//                               backgroundColor: course.status === "منشور" ? "#ccc" : "#1EC8A0",
-//                               cursor: course.status === "منشور" ? "not-allowed" : "pointer",
-//                             }}
-//                           >
-//                             {course.status === "منشور" ? "نُشر" : "نشر"}
-//                           </button>
-//                         </td>
-//                       </tr>
-//                     ))
-//                   ) : (
-//                     <tr>
-//                       <td colSpan="4" style={{ ...tableCellStyle, textAlign: "center" }}>
-//                         لا توجد دورات متاحة
-//                       </td>
-//                     </tr>
-//                   )}
-//                 </tbody>
-//               </table>
-//             </div>
-//           )}
-//         </div>
-//       </div>
-//     </>
-//   )
-// }
-
-// const dashboardContainer = {
-//   display: "flex",
-//   flexDirection: "row-reverse",
-//   direction: "rtl",
-// }
-
-// const mainContent = {
-//   marginRight: "220px",
-//   padding: "20px",
-//   width: "100%",
-//   boxSizing: "border-box",
-// }
-
-// const addButtonStyle = {
-//   backgroundColor: "#1EC8A0",
-//   color: "#fff",
-//   border: "none",
-//   padding: "10px 15px",
-//   borderRadius: "5px",
-//   fontSize: "18px",
-//   cursor: "pointer",
-//   textDecoration: "none",
-// }
-
-// const tableContainerStyle = {
-//   width: "100%",
-//   overflowX: "auto",
-//   backgroundColor: "#fff",
-//   borderRadius: "10px",
-//   boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
-//   padding: "15px",
-// }
-
-// const tableStyle = {
-//   width: "100%",
-//   borderCollapse: "collapse",
-//   textAlign: "right",
-// }
-
-// const tableHeaderRowStyle = {
-//   backgroundColor: "#f8f9fa",
-// }
-
-// const tableHeaderCellStyle = {
-//   padding: "12px",
-//   textAlign: "right",
-//   fontWeight: "bold",
-//   borderBottom: "2px solid #ddd",
-// }
-
-// const tableRowStyle = {
-//   borderBottom: "1px solid #ddd",
-// }
-
-// const tableCellStyle = {
-//   padding: "12px",
-// }
-
-// const publishButtonStyle = {
-//   color: "#fff",
-//   border: "none",
-//   padding: "7px 15px",
-//   borderRadius: "5px",
-//   fontWeight: "bold",
-// }
-
-// export default Courses
-
-/******************************************* */
-// import { useState } from "react"
-// import Sidebar from "../Components/Sidebar"
-// import Navbar from "../Components/DashboardNavbar"
-// import { Link } from "react-router-dom"
-
-// const Courses = () => {
-//   const [courses, setCourses] = useState([])
-//   const [loading, setLoading] = useState(true)
-//   const [Error, setError] = useState(null)
-
-//   const fetchCourses = async () => {
-//   setLoading(true)
-//   setError(null)
-
-//   try {
-//     const response = await fetch('https://graduation-main-0wwkv3.laravel.cloud/api/v1/teacher/get_courses', {
-//       headers: {
-//         Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2dyYWR1YXRpb24tbWFpbi0wd3drdjMubGFyYXZlbC5jbG91ZC9hcGkvYXV0aC9sb2dpbiIsImlhdCI6MTc0MTA5ODEwMCwiZXhwIjoxNzQxMTAxNzAwLCJuYmYiOjE3NDEwOTgxMDAsImp0aSI6ImJXUXdkekU5VFJjUkJVdEkiLCJzdWIiOiI5IiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.ejJNkc3wpT5socKxcslEPV92uCBDw_L4lEi6ULCHZLw`,
-//         Accept: "application/json",
-//       },
-//     })
-
-//     if (!response.ok) {
-//       throw new Error(`HTTP error! status: ${response.status}`)
-//     }
-
-//     const data = await response.json()
-//     console.log('API response:', data)
-
-//     if (data && data.data) {
-//       setCourses(data.data)
-//     } else {
-//       setError("لم يتم العثور على أي دورات")
-//     }
-//   } catch (error) {
-//     console.error("Error fetching courses:", error)
-//     setError("فشل في تحميل الدورات. الرجاء المحاولة مرة أخرى.")
-//   } finally {
-//     setLoading(false)
-//   }
-// }
-//   const handlePublish = (id) => {
-//     setCourses((prevCourses) =>
-//       prevCourses.map((course) => (course.id === id ? { ...course, status: "منشور" } : course)),
-//     )
-//   }
-
-//   return (
-//     <>
-//       <Navbar />
-//       <div style={dashboardContainer}>
-//         <Sidebar />
-//         <div style={mainContent}>
-//           <h1>قائمة الدورات</h1>
-//           <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "15px" }}>
-//             <Link to="/add-course" style={addButtonStyle}>
-//               + إضافة دورة جديدة
-//             </Link>
-//             <button onClick={fetchCourses} style={addButtonStyle}>
-//               تحديث القائمة
-//             </button>
-//           </div>
-//           {loading ? (
-//             <p>جارٍ تحميل البيانات...</p>
-//           ) : (
-//             <div style={tableContainerStyle}>
-//               <table style={tableStyle}>
-//                 <thead>
-//                   <tr style={tableHeaderRowStyle}>
-//                     <th style={tableHeaderCellStyle}>العنوان</th>
-//                     <th style={tableHeaderCellStyle}>الوصف</th>
-//                     <th style={tableHeaderCellStyle}>الحالة</th>
-//                     <th style={tableHeaderCellStyle}>نشر؟</th>
-//                   </tr>
-//                 </thead>
-//                 <tbody>
-//                   {courses.length > 0 ? (
-//                     courses.map((course) => (
-//                       <tr key={course.id || Math.random()} style={tableRowStyle}>
-//                         <td style={tableCellStyle}>{course.title || "بدون عنوان"}</td>
-//                         <td style={tableCellStyle}>{course.description || "بدون وصف"}</td>
-//                         <td style={tableCellStyle}>{course.status || "غير منشور"}</td>
-//                         <td style={tableCellStyle}>
-//                           <button
-//                             onClick={() => handlePublish(course.id)}
-//                             disabled={course.status === "منشور"}
-//                             style={{
-//                               ...publishButtonStyle,
-//                               backgroundColor: course.status === "منشور" ? "#ccc" : "#1EC8A0",
-//                               cursor: course.status === "منشور" ? "not-allowed" : "pointer",
-//                             }}
-//                           >
-//                             {course.status === "منشور" ? "نُشر" : "نشر"}
-//                           </button>
-//                         </td>
-//                       </tr>
-//                     ))
-//                   ) : (
-//                     <tr>
-//                       <td colSpan="4" style={{ ...tableCellStyle, textAlign: "center" }}>
-//                         لا توجد دورات متاحة
-//                       </td>
-//                     </tr>
-//                   )}
-//                 </tbody>
-//               </table>
-//             </div>
-//           )}
-//         </div>
-//       </div>
-//     </>
-//   )
-// }
-
-// const dashboardContainer = {
-//   display: "flex",
-//   flexDirection: "row-reverse",
-//   direction: "rtl",
-// }
-
-// const mainContent = {
-//   marginRight: "220px",
-//   padding: "20px",
-//   width: "100%",
-//   boxSizing: "border-box",
-// }
-
-// const addButtonStyle = {
-//   backgroundColor: "#1EC8A0",
-//   color: "#fff",
-//   border: "none",
-//   padding: "10px 15px",
-//   borderRadius: "5px",
-//   fontSize: "18px",
-//   cursor: "pointer",
-//   textDecoration: "none",
-// }
-
-// const tableContainerStyle = {
-//   width: "100%",
-//   overflowX: "auto",
-//   backgroundColor: "#fff",
-//   borderRadius: "10px",
-//   boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
-//   padding: "15px",
-// }
-
-// const tableStyle = {
-//   width: "100%",
-//   borderCollapse: "collapse",
-//   textAlign: "right",
-// }
-
-// const tableHeaderRowStyle = {
-//   backgroundColor: "#f8f9fa",
-// }
-
-// const tableHeaderCellStyle = {
-//   padding: "12px",
-//   textAlign: "right",
-//   fontWeight: "bold",
-//   borderBottom: "2px solid #ddd",
-// }
-
-// const tableRowStyle = {
-//   borderBottom: "1px solid #ddd",
-// }
-
-// const tableCellStyle = {
-//   padding: "12px",
-// }
-
-// const publishButtonStyle = {
-//   color: "#fff",
-//   border: "none",
-//   padding: "7px 15px",
-//   borderRadius: "5px",
-//   fontWeight: "bold",
-// }
-
-// export default Courses
-
-/************************************************** */
-// import { useState, useEffect } from "react"
-// import Sidebar from "../Components/Sidebar"
-// import Navbar from "../Components/DashboardNavbar"
-// import { Link } from "react-router-dom"
-
-// const Courses = () => {
-//   const [courses, setCourses] = useState([])
-//   const [loading, setLoading] = useState(true)
-//   const [error, setError] = useState(null)
-
-//   const fetchCourses = async () => {
-//     setLoading(true)
-//     setError(null)
-  
-//     try {
-//       const response = await fetch('https://graduation-main-0wwkv3.laravel.cloud/api/v1/teacher/get_courses', {
-//         headers: {
-//           Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2dyYWR1YXRpb24tbWFpbi0wd3drdjMubGFyYXZlbC5jbG91ZC9hcGkvYXV0aC9sb2dpbiIsImlhdCI6MTc0MTA5ODEwMCwiZXhwIjoxNzQxMTAxNzAwLCJuYmYiOjE3NDEwOTgxMDAsImp0aSI6ImJXUXdkekU5VFJjUkJVdEkiLCJzdWIiOiI5IiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.ejJNkc3wpT5socKxcslEPV92uCBDw_L4lEi6ULCHZLw`,
-//           Accept: "application/json",
-//         },
-//       })
-  
-//       if (!response.ok) {
-//         throw new Error(`HTTP error! status: ${response.status}`)
-//       }
-  
-//       const data = await response.json()
-//       console.log('API response:', data)
-  
-//       if (data && data.data) {
-//         setCourses(data.data)
-//       } else {
-//         setError("لم يتم العثور على أي دورات")
-//       }
-//     } catch (error) {
-//       console.error("Error fetching courses:", error)
-//       setError("فشل في تحميل الدورات. الرجاء المحاولة مرة أخرى.")
-//     } finally {
-//       setLoading(false)
-//     }
-//   }
+//   const [courses, setCourses] = useState([]);
+//   const [loading, setLoading] = useState(true);
+//   const [error, setError] = useState(null);
+//   const [deleteError, setDeleteError] = useState(null);
 
 //   useEffect(() => {
-//     fetchCourses()
-//   }, [])
+//     const fetchCourses = async () => {
+//       try {
+//         setLoading(true);
+//         setError(null);
+//         const response = await api.get('get_courses');
+//         setCourses(response.data.data);
+//       } catch (err) {
+//         setError(err.response?.data.message || 'فشل في جلب البيانات');
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
 
-//   const handlePublish = (id) => {
-//     setCourses((prevCourses) =>
-//       prevCourses.map((course) => (course.id === id ? { ...course, status: "منشور" } : course))
-//     )
-//   }
-
-//   const handleRefresh = () => {
-//     fetchCourses()
-//   }
+//     fetchCourses();
+//   }, []);
+//   const handleDelete = async (id) => {
+//     try {
+//       await api.delete(`delete_course/${id}`);
+//       setCourses(prevCourses => prevCourses.filter(course => course.id !== id));
+//       setDeleteError(null);
+//     } catch (err) {
+//       setDeleteError(err.response?.data.message || 'حدث خطأ أثناء حذف الدورة');
+//     }
+//   };
 
 //   return (
 //     <>
@@ -681,165 +233,235 @@ export default Courses
 //         <Sidebar />
 //         <div style={mainContent}>
 //           <h1>قائمة الدورات</h1>
-          
-//           {error ? (
-//             <div style={errorStyle}>
-//               {error}
-//               <button onClick={handleRefresh} style={retryButtonStyle}>
-//                 إعادة المحاولة
-//               </button>
-//             </div>
-//           ) : loading ? (
-//             <p>جارٍ تحميل البيانات...</p>
-//           ) : (
-//             <>
-//               <div style={tableContainerStyle}>
-//                 <table style={tableStyle}>
-//                   <thead>
-//                     <tr style={tableHeaderRowStyle}>
-//                       <th style={tableHeaderCellStyle}>العنوان</th>
-//                       <th style={tableHeaderCellStyle}>الوصف</th>
-//                       <th style={tableHeaderCellStyle}>الحالة</th>
-//                       <th style={tableHeaderCellStyle}>نشر؟</th>
-//                     </tr>
-//                   </thead>
-//                   <tbody>
-//                     {courses.length > 0 ? (
-//                       courses.map((course) => (
-//                         <tr key={course.id || Math.random()} style={tableRowStyle}>
-//                           <td style={tableCellStyle}>{course.title || "بدون عنوان"}</td>
-//                           <td style={tableCellStyle}>{course.description || "بدون وصف"}</td>
-//                           <td style={tableCellStyle}>{course.status || "غير منشور"}</td>
-//                           <td style={tableCellStyle}>
-//                             <button
-//                               onClick={() => handlePublish(course.id)}
-//                               disabled={course.status === "منشور"}
-//                               style={{
-//                                 ...publishButtonStyle,
-//                                 backgroundColor: course.status === "منشور" ? "#ccc" : "#1EC8A0",
-//                                 cursor: course.status === "منشور" ? "not-allowed" : "pointer",
-//                               }}
-//                             >
-//                               {course.status === "منشور" ? "نُشر" : "نشر"}
-//                             </button>
-//                           </td>
-//                         </tr>
-//                       ))
-//                     ) : (
-//                       <tr>
-//                         <td colSpan="4" style={{ ...tableCellStyle, textAlign: "center" }}>
-//                           لا توجد دورات متاحة
-//                         </td>
-//                       </tr>
-//                     )}
-//                   </tbody>
-//                 </table>
-//               </div>
+//           <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "15px" }}>
+//             <Link to="/add-course" style={addButtonStyle}>
+//               + إضافة دورة جديدة
+//             </Link>
+//           </div>
 
-//               <div style={{ display: "flex", gap: "10px", marginTop: "15px" }}>
-//                 <button onClick={handleRefresh} style={refreshButtonStyle} disabled={loading}>
-//                   تحديث القائمة
-//                 </button>
-//                 <Link to="/add-course" style={addButtonStyle}>
-//                   + إضافة دورة جديدة
-//                 </Link>
-//               </div>
-//             </>
+//           {loading && <p>جاري التحميل...</p>}
+//           {error && <p style={{ color: "red" }}>{error}</p>}
+//           {deleteError && (
+//             <div style={{ color: "red", marginBottom: "10px" }}>{deleteError}</div>
+//           )}
+          
+
+//           {!loading && !error && (
+//             <div style={tableContainerStyle}>
+//               <table style={tableStyle}>
+//                 <thead>
+//                   <tr style={tableHeaderRowStyle}>
+//                     <th style={tableHeaderCellStyle}>العنوان</th>
+//                     <th style={tableHeaderCellStyle}>الوصف</th>
+//                     <th style={tableHeaderCellStyle}>الحالة</th>
+//                   </tr>
+//                 </thead>
+//                 <tbody>
+//                   {courses.map((course) => (
+//                     <tr key={course.id} style={tableRowStyle}>
+//                       <td style={tableCellStyle}>{course.title}</td>
+//                       <td style={tableCellStyle}>{course.description}</td>
+//                       <td style={tableCellStyle}>{course.status}</td>
+//                       <td style={tableCellStyle}>
+//                         <button
+//                           style={deleteButtonStyle}
+//                           onClick={() => handleDelete(course.id)}
+//                         >
+//                           <FaTrash /> حذف
+//                         </button>
+//                       </td>
+//                     </tr>
+//                   ))}
+//                 </tbody>
+//               </table>
+//             </div>
 //           )}
 //         </div>
 //       </div>
 //     </>
-//   )
-// }
+//   );
+// };
 
-// const dashboardContainer = {
-//   display: "flex",
-//   flexDirection: "row-reverse",
-//   direction: "rtl",
-// }
-
-// const mainContent = {
-//   marginRight: "220px",
-//   padding: "20px",
-//   width: "100%",
-//   boxSizing: "border-box",
-// }
-
+// const dashboardContainer = { display: "flex", flexDirection: "row-reverse", direction: "rtl" };
+// const mainContent = { marginRight: "220px", padding: "20px", width: "100%", boxSizing: "border-box" };
+// const tableContainerStyle = { width: "100%", overflowX: "auto", backgroundColor: "#fff", borderRadius: "10px", boxShadow: "0 2px 10px rgba(0,0,0,0.1)", padding: "15px" };
+// const tableStyle = { width: "100%", borderCollapse: "collapse", textAlign: "right" };
+// const tableHeaderRowStyle = { backgroundColor: "#f8f9fa" };
+// const tableHeaderCellStyle = { padding: "12px", textAlign: "right", fontWeight: "bold", borderBottom: "2px solid #ddd" };
+// const tableRowStyle = { borderBottom: "1px solid #ddd" };
+// const tableCellStyle = { padding: "12px" };
 // const addButtonStyle = {
 //   backgroundColor: "#1EC8A0",
 //   color: "#fff",
 //   border: "none",
 //   padding: "10px 15px",
 //   borderRadius: "5px",
-//   fontSize: "16px",
+//   fontSize: "18px",
 //   cursor: "pointer",
-//   textDecoration: "none",
-// }
-
-// const refreshButtonStyle = {
-//   ...addButtonStyle,
-//   backgroundColor: "#6c757d",
-// }
-
-// const retryButtonStyle = {
-//   ...addButtonStyle,
-//   marginTop: "10px",
-//   fontSize: "14px",
-//   padding: "8px 12px",
-// }
-
-// const errorStyle = {
-//   backgroundColor: "#fff3f3",
-//   color: "#dc3545",
-//   padding: "15px",
-//   borderRadius: "5px",
-//   textAlign: "center",
-//   marginBottom: "20px",
 //   display: "flex",
-//   flexDirection: "column",
 //   alignItems: "center",
-// }
+//   textDecoration: "none",
+// };
+// const deleteButtonStyle = { backgroundColor: "transparent", color: "#dc3545", border: "2px solid #dc3545", padding: "10px 15px", borderRadius: "7px", cursor: "pointer", display: "flex", alignItems: "center", gap: "5px", fontSize: "18px" };
 
-// const tableContainerStyle = {
-//   width: "100%",
-//   overflowX: "auto",
-//   backgroundColor: "#fff",
-//   borderRadius: "10px",
-//   boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
-//   padding: "15px",
-// }
+// export default Courses;
+/*************************************************************** */
+// import React, { useState, useEffect } from "react";
+// import Sidebar from "../Components/Sidebar";
+// import Navbar from "../Components/DashboardNavbar";
+// import { Link } from "react-router-dom";
+// import axios from 'axios';
+// import { FaTrash } from "react-icons/fa";
 
-// const tableStyle = {
-//   width: "100%",
-//   borderCollapse: "collapse",
-//   textAlign: "right",
-// }
+// const api = axios.create({
+//   baseURL: 'https://graduation-main-0wwkv3.laravel.cloud/api/v1/teacher/',
+//   headers: {
+//     'Authorization': `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2dyYWR1YXRpb24tbWFpbi0wd3drdjMubGFyYXZlbC5jbG91ZC9hcGkvYXV0aC9sb2dpbiIsImlhdCI6MTc0MTExMTc3MywiZXhwIjoxNzQxMTE1MzczLCJuYmYiOjE3NDExMTE3NzMsImp0aSI6Ijl6NWlzZ0pTWGpkaTJuSnEiLCJzdWIiOiI5IiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.W9hzp5FfAHEXqiQwpHm7Q4LbMlp7KQLMBCOozHJiXh4`,
+//     'Accept': 'application/json',
+//     'Content-Type': 'application/json'
+//   }
+// });
 
-// const tableHeaderRowStyle = {
-//   backgroundColor: "#f8f9fa",
-// }
+// const Courses = () => {
+//   const [courses, setCourses] = useState([]);
+//   const [loading, setLoading] = useState(true);
+//   const [error, setError] = useState(null);
+//   const [deleteError, setDeleteError] = useState(null);
 
-// const tableHeaderCellStyle = {
-//   padding: "12px",
-//   textAlign: "right",
-//   fontWeight: "bold",
-//   borderBottom: "2px solid #ddd",
-// }
+//   useEffect(() => {
+//     const fetchCourses = async () => {
+//       try {
+//         setLoading(true);
+//         setError(null);
+        
+//         // Add timeout for better UX
+//         const timeoutPromise = new Promise((_, reject) => 
+//           setTimeout(() => reject(new Error('فشل في جلب البيانات بسبب انتهاء وقت الانتظار')), 15000)
+//         );
 
-// const tableRowStyle = {
-//   borderBottom: "1px solid #ddd",
-// }
+//         const response = await Promise.race([
+//           api.get('get_courses'),
+//           timeoutPromise
+//         ]);
 
-// const tableCellStyle = {
-//   padding: "12px",
-// }
+//         // Validate response structure
+//         if (!response.data?.data || !Array.isArray(response.data.data)) {
+//           throw new Error('بيانات غير صالحة من الخادم');
+//         }
 
-// const publishButtonStyle = {
+//         setCourses(response.data.data);
+//       } catch (err) {
+//         setError(err.response?.data.message || err.message || 'فشل في جلب البيانات');
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
+
+//     fetchCourses();
+//   }, []);
+
+//   const handleDelete = async (id) => {
+//     try {
+//       await api.delete(`delete_course/${id}`);
+      
+//       // Use functional update to ensure we're working with latest courses array
+//       setCourses(prevCourses => 
+//         prevCourses.filter(course => course.id !== id)
+//       );
+//       setDeleteError(null);
+//     } catch (err) {
+//       setDeleteError(err.response?.data.message || err.message || 'حدث خطأ أثناء حذف الدورة');
+//     }
+//   };
+
+//   return (
+//     <>
+//       <Navbar />
+//       <div style={dashboardContainer}>
+//         <Sidebar />
+//         <div style={mainContent}>
+//           <h1>قائمة الدورات</h1>
+//           <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "15px" }}>
+//             <Link to="/add-course" style={addButtonStyle}>
+//               + إضافة دورة جديدة
+//             </Link>
+//           </div>
+          
+//           {/* Add loading skeleton */}
+//           {loading && (
+//             <div style={{ padding: '20px', textAlign: 'center' }}>
+//               جاري التحميل...
+//             </div>
+//           )}
+
+//           {/* Display errors */}
+//           {error && (
+//             <div style={{ color: "red", padding: '10px', marginBottom: '10px' }}>
+//               {error}
+//             </div>
+//           )}
+          
+//           {deleteError && (
+//             <div style={{ color: "red", marginBottom: "10px" }}>
+//               {deleteError}
+//             </div>
+//           )}
+
+//           {!loading && !error && (
+//             <div style={tableContainerStyle}>
+//               <table style={tableStyle}>
+//                 <thead>
+//                   <tr style={tableHeaderRowStyle}>
+//                     <th style={tableHeaderCellStyle}>العنوان</th>
+//                     <th style={tableHeaderCellStyle}>الوصف</th>
+//                     <th style={tableHeaderCellStyle}>الحالة</th>
+//                   </tr>
+//                 </thead>
+//                 <tbody>
+//                   {courses.map((course) => (
+//                     <tr key={course.id} style={tableRowStyle}>
+//                       <td style={tableCellStyle}>{course.title}</td>
+//                       <td style={tableCellStyle}>{course.description}</td>
+//                       <td style={tableCellStyle}>{course.status}</td>
+//                       <td style={tableCellStyle}>
+//                         <button
+//                           style={deleteButtonStyle}
+//                           onClick={() => handleDelete(course.id)}
+//                         >
+//                           <FaTrash /> حذف
+//                         </button>
+//                       </td>
+//                     </tr>
+//                   ))}
+//                 </tbody>
+//               </table>
+//             </div>
+//           )}
+//         </div>
+//       </div>
+//     </>
+//   );
+// };
+
+// const dashboardContainer = { display: "flex", flexDirection: "row-reverse", direction: "rtl" };
+// const mainContent = { marginRight: "220px", padding: "20px", width: "100%", boxSizing: "border-box" };
+// const tableContainerStyle = { width: "100%", overflowX: "auto", backgroundColor: "#fff", borderRadius: "10px", boxShadow: "0 2px 10px rgba(0,0,0,0.1)", padding: "15px" };
+// const tableStyle = { width: "100%", borderCollapse: "collapse", textAlign: "right" };
+// const tableHeaderRowStyle = { backgroundColor: "#f8f9fa" };
+// const tableHeaderCellStyle = { padding: "12px", textAlign: "right", fontWeight: "bold", borderBottom: "2px solid #ddd" };
+// const tableRowStyle = { borderBottom: "1px solid #ddd" };
+// const tableCellStyle = { padding: "12px" };
+// const addButtonStyle = {
+//   backgroundColor: "#1EC8A0",
 //   color: "#fff",
 //   border: "none",
-//   padding: "7px 15px",
+//   padding: "10px 15px",
 //   borderRadius: "5px",
-//   fontWeight: "bold",
-// }
-
-// export default Courses
+//   fontSize: "18px",
+//   cursor: "pointer",
+//   display: "flex",
+//   alignItems: "center",
+//   textDecoration: "none",
+// };
+// const deleteButtonStyle = { backgroundColor: "transparent", color: "#dc3545", border: "2px solid #dc3545", padding: "10px 15px", borderRadius: "7px", cursor: "pointer", display: "flex", alignItems: "center", gap: "5px", fontSize: "18px" };
+// export default Courses;
