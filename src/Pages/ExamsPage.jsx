@@ -5,7 +5,7 @@ import Navbar from "../Components/DashboardNavbar";
 import { FaEdit, FaTrash, FaTimes } from "react-icons/fa";
 
 const API_URL = 'https://graduation-main-0wwkv3.laravel.cloud/api/v1/teacher/';
-const BEARER_TOKEN = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2dyYWR1YXRpb24tbWFpbi0wd3drdjMubGFyYXZlbC5jbG91ZC9hcGkvYXV0aC9sb2dpbiIsImlhdCI6MTc0MTEwNDUxNywiZXhwIjoxNzQxMTA4MTE3LCJuYmYiOjE3NDExMDQ1MTcsImp0aSI6ImRXRTJCOXFzSjlhTDljM00iLCJzdWIiOiI5IiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.ypUDldTK9iKMITrXIVvgd-HqhxgKAZM4vx_Gs2Xh8F8';
+const BEARER_TOKEN = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2dyYWR1YXRpb24tbWFpbi0wd3drdjMubGFyYXZlbC5jbG91ZC9hcGkvYXV0aC9sb2dpbiIsImlhdCI6MTc0MTE5NzYwMywiZXhwIjoxNzQxMjAxMjAzLCJuYmYiOjE3NDExOTc2MDMsImp0aSI6IlRKbk8zbXV5Sk5MWUtTM2UiLCJzdWIiOiI5IiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.nylBicij7P_XbdcW3zd712M3BpfUfPjUaTBj9qL0f2w';
 
 const api = axios.create({
   baseURL: API_URL,
