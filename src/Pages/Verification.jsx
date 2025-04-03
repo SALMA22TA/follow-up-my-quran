@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import './Verification.css';
+import '../styles/Verification.css';
 
 const Verification = () => {
   // State for the 6-digit code
@@ -52,7 +52,7 @@ const Verification = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:8000/api/auth/verify', {
+      const response = await axios.post('https://graduation-main-0wwkv3.laravel.cloud/api/auth/verify', {
         user_id: userId,
         verification_code: verificationCode,
       });
@@ -73,9 +73,9 @@ const Verification = () => {
       <div className="verification-card">
         <h2>OTP 6-Digit Verification Code</h2>
         <p>Enter the 6-digit verification code received on your email</p>
-        <a href="/change-email" className="change-email">
+        {/* <a href="/change-email" className="change-email">
           (Change)
-        </a>
+        </a> */}
 
         <form onSubmit={handleSubmit}>
           <div className="code-inputs">

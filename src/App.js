@@ -16,6 +16,7 @@ import SheikhDashboard from './Pages/SheikhDashboard';
 import ScheduleRequests from './Pages/ScheduleRequests';
 import Courses from './Pages/Courses';
 import ExamsPage from './Pages/ExamsPage';
+import Verification from './Pages/Verification';
 
 
 
@@ -47,6 +48,7 @@ const App = () => {
         <Route path="/schedule-requests" element={<ScheduleRequests />} /> 
         <Route path="/courses" element={<Courses />} />
         <Route path="/exams" element={<ExamsPage />} />
+        <Route path="/verify" element={<Verification />} />
 
  
       </Routes>
