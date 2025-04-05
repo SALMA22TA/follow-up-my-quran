@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/Verification.css';
+// import { useLocation } from 'react-router-dom';
+
 
 const Verification = () => {
   // State for the 6-digit code
@@ -13,6 +15,7 @@ const Verification = () => {
   // For navigation and getting user_id from registration
   const navigate = useNavigate();
   const location = useLocation();
+
 
   // Get user_id from the registration response (passed via state)
   useEffect(() => {
@@ -38,7 +41,7 @@ const Verification = () => {
     }
   };
 
-  // Handle form submission
+  // Verification.jsx (relevant part)
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -52,17 +55,23 @@ const Verification = () => {
     }
 
     try {
-      const response = await axios.post('https://graduation-main-0wwkv3.laravel.cloud/api/auth/verify', {
+      const response = await axios.post('http://localhost:8000/api/auth/verify', {
         user_id: userId,
         verification_code: verificationCode,
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
       });
 
       if (response.status === 200) {
-        // On success, redirect to login page
         navigate('/login', { state: { message: 'Email verified successfully!' } });
       }
     } catch (err) {
-      setError('Verification failed. Please check your code and try again.');
+      const errorMessage = err.response?.data?.message || 'Verification failed. Please check your code and try again.';
+      setError(errorMessage);
+      console.error('Verification error:', err.response?.data || err);
     } finally {
       setLoading(false);
     }

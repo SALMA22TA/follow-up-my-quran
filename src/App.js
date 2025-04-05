@@ -17,6 +17,7 @@ import ScheduleRequests from './Pages/ScheduleRequests';
 import Courses from './Pages/Courses';
 import ExamsPage from './Pages/ExamsPage';
 import Verification from './Pages/Verification';
+import ProtectedRoute from './Components/ProtectedRoute';
 
 
 
@@ -44,7 +45,15 @@ const App = () => {
         <Route path="/course-details" element={<CourseDetailsPage/>} />
         <Route path="/teacher-list" element={<TeacherList />} />
         <Route path="/teachers/:id" element={<TeacherDetail />} />
-        <Route path="/sheikh-dashboard" element={<SheikhDashboard />} />
+        {/* <Route path="/sheikh-dashboard" element={<SheikhDashboard />} /> */}
+        <Route
+          path="/sheikh-dashboard"
+          element={
+            <ProtectedRoute>
+              <SheikhDashboard />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/schedule-requests" element={<ScheduleRequests />} /> 
         <Route path="/courses" element={<Courses />} />
         <Route path="/exams" element={<ExamsPage />} />

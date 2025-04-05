@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import quranImage from './images/q.png';
 import { Link } from 'react-router-dom';
+// import Verification from "./Verification";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -16,27 +17,50 @@ const Register = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   setMessage('تم التسجيل بنجاح!');
+  //   try {
+  //     const response = await axios.post(
+  //       "http://localhost:8000/api/auth/register",
+  //       null,
+  //       {
+  //         params: formData,
+  //       }
+  //     );
+  //     setMessage(response.data.message);
+  //   } catch (error) {
+  //     setMessage("Registration failed. Please try again.");
+  //     console.error(error);
+  //   }
+  //   // Redirect to login page after success
+  //   setTimeout(() => {
+  //     navigate('/verify');
+  //   }, 1000);
+  // };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setMessage('تم التسجيل بنجاح!');
+    setMessage("");
+  
     try {
       const response = await axios.post(
-        "https://graduation-main-0wwkv3.laravel.cloud/api/auth/register",
-        null,
-        {
-          params: formData,
-        }
+        "http://localhost:8000/api/auth/register",
+        formData // هنا بدل null و params
       );
+  
       setMessage(response.data.message);
+  
+      // انتقلي لصفحة التحقق بعد نجاح التسجيل
+      setTimeout(() => {
+        navigate('/verify', { state: { userId: response.data.user_id } });
+      },);
+  
     } catch (error) {
-      setMessage("Registration failed. Please try again.");
+      setMessage("فشل في التسجيل. يرجى المحاولة مرة أخرى.");
       console.error(error);
     }
-    // Redirect to login page after success
-    setTimeout(() => {
-      navigate('/login');
-    }, 1000);
   };
+  
 
   return (
     <div style={styles.mainContainer}>
