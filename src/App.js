@@ -19,7 +19,9 @@ import ExamsPage from './Pages/ExamsPage';
 import Verification from './Pages/Verification';
 // import ProtectedRoute from './Components/ProtectedRoute';
 import TodaysSessions from './Components/TodaysSessions';
-import ExamDetailsPage from "./Pages/ExamDetails";
+// import ExamDetailsPage from "./Pages/ExamDetails";
+import ExamQuestions from "./Pages/ExamQuestions"; 
+import ExamAnswers from "./Pages/ExamAnswers"; 
 
 
 const ProtectedRoute = ({ children }) => {
@@ -104,11 +106,27 @@ const App = () => {
           </ProtectedRoute>
         }
       />
-      <Route
+      {/* <Route
         path="/exam/:id" 
         element={
           <ProtectedRoute>
             <ExamDetailsPage />
+          </ProtectedRoute>
+        }
+      /> */}
+      <Route
+        path="/exam/:examId/questions" 
+        element={
+          <ProtectedRoute>
+            <ExamQuestions />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/exam-answers/:questionId" 
+        element={
+          <ProtectedRoute>
+            <ExamAnswers />
           </ProtectedRoute>
         }
       />
