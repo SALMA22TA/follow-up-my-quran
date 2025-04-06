@@ -77,8 +77,7 @@ const Exams = () => {
       const api = getApiInstance();
       const response = await api.post('create_exam', { title: newExamTitle });
       console.log("Create exam response:", response.data); // Debug
-      // بدل ما نضيف الاختبار يدويًا في الـ state، هنعمل fetch جديد
-      await fetchExams(); // جيبي الاختبارات من الـ backend بعد الإضافة
+      await fetchExams(); 
       closeModal();
       setError(null);
     } catch (err) {
@@ -100,7 +99,7 @@ const Exams = () => {
       const api = getApiInstance();
       const response = await api.delete(`delete_exam/${id}`);
       console.log("Delete exam response:", response.data); // Debug
-      await fetchExams(); // جيبي الاختبارات من الـ backend بعد الحذف
+      await fetchExams(); 
       setError(null);
     } catch (err) {
       if (err.response?.status === 401) {
@@ -134,7 +133,7 @@ const Exams = () => {
         title: newExamTitle,
       });
       console.log("Update exam response:", response.data); // Debug
-      await fetchExams(); // جيبي الاختبارات من الـ backend بعد التعديل
+      await fetchExams(); 
       closeModal();
       setError(null);
     } catch (err) {
