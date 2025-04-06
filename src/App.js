@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Register from './Pages/Register';
 import Login from './Pages/Login';
 import Dashboard from './Pages/Dashboard';
@@ -17,10 +17,17 @@ import ScheduleRequests from './Pages/ScheduleRequests';
 import Courses from './Pages/Courses';
 import ExamsPage from './Pages/ExamsPage';
 import Verification from './Pages/Verification';
-import ProtectedRoute from './Components/ProtectedRoute';
+// import ProtectedRoute from './Components/ProtectedRoute';
 
 
-
+const ProtectedRoute = ({ children }) => {
+  const token = localStorage.getItem("access_token");
+  console.log("ProtectedRoute token:", token);
+  if (!token) {
+    return <Navigate to="/login" replace />;
+  }
+  return children;
+};
 const App = () => {
   // Define dummy data for now (we are going to replace with actual data later)
   const currentUser = { id: '123' }; 
@@ -40,8 +47,24 @@ const App = () => {
         <Route path="/terms" element={<Terms />} />
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/landing-page" element={<LandingPage />}/>
-        <Route path="/add-course" element={<AddCoursePage/>} />
-        <Route path="/add-video" element={<AddVideoPage/>} />
+        {/* <Route path="/add-course" element={<AddCoursePage/>} /> */}
+        <Route
+        path="/add-course"
+        element={
+          <ProtectedRoute>
+            <AddCoursePage />
+          </ProtectedRoute>
+        }
+      />
+        {/* <Route path="/add-video" element={<AddVideoPage/>} /> */}
+        <Route
+          path="/add-video/:courseId" 
+          element={
+            <ProtectedRoute>
+              <AddVideoPage />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/course-details" element={<CourseDetailsPage/>} />
         <Route path="/teacher-list" element={<TeacherList />} />
         <Route path="/teachers/:id" element={<TeacherDetail />} />
@@ -55,8 +78,23 @@ const App = () => {
           }
         />
         <Route path="/schedule-requests" element={<ScheduleRequests />} /> 
-        <Route path="/courses" element={<Courses />} />
-        <Route path="/exams" element={<ExamsPage />} />
+        {/* <Route path="/courses" element={<Courses />} /> */}
+        <Route
+        path="/courses"
+        element={
+          <ProtectedRoute>
+            <Courses />
+          </ProtectedRoute>
+        }
+      />
+        <Route
+        path="/exams" 
+        element={
+          <ProtectedRoute>
+            <ExamsPage />
+          </ProtectedRoute>
+        }
+      />
         <Route path="/verify" element={<Verification />} />
 
  

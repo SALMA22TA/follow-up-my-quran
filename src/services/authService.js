@@ -1,3 +1,54 @@
+import axios from 'axios';
+
+// Ensure the base URL ends with a slash
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000/api/auth/';
+
+const login = async (email, password) => {
+  try {
+    const response = await axios.post(`${API_URL}login`, {
+      email,
+      password,
+    }, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+    });
+    console.log('Login response:', response.data); // Debug the response
+    localStorage.setItem('access_token', response.data.access_token); // أضيفي السطر ده
+    console.log("Token stored in authService:", localStorage.getItem("access_token")); // أضيفي السطر ده
+    return response.data;
+  } catch (error) {
+    console.error('Login error:', error.response?.data || error);
+    throw error.response?.data || error;
+  }
+};
+
+const logout = () => {
+  localStorage.removeItem('access_token'); // عدلي من 'token' لـ 'access_token'
+};
+
+const refreshToken = async () => {
+  try {
+    const response = await axios.post(`${API_URL}refresh`, {}, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('access_token')}`, // عدلي من 'token' لـ 'access_token'
+      },
+    });
+    localStorage.setItem('access_token', response.data.access_token); // عدلي من 'token' لـ 'access_token'
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || error;
+  }
+};
+
+const getAccessToken = () => {
+  return localStorage.getItem('access_token'); // عدلي من 'token' لـ 'access_token'
+};
+
+export { login, logout, refreshToken, getAccessToken };
+
+
 // // // authService.js
 // // // import axios from "axios";
 
@@ -137,55 +188,57 @@
 // // Export all functions in a single export statement
 // export { login, logout, refreshToken, getAccessToken };
 
-// authService.js
-import axios from 'axios';
 
-// Ensure the base URL ends with a slash
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000/api/auth/';
+/*************************This****************************/
+// // authService.js
+// import axios from 'axios';
 
-const login = async (email, password) => {
-  try {
-    const response = await axios.post(`${API_URL}login`, {
-      email,
-      password,
-    }, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
-    });
-    console.log('Login response:', response.data); // Debug the response
-    return response.data;
-  } catch (error) {
-    console.error('Login error:', error.response?.data || error);
-    throw error.response?.data || error;
-  }
-};
+// // Ensure the base URL ends with a slash
+// const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000/api/auth/';
 
-// Other functions remain unchanged
-const logout = () => {
-  localStorage.removeItem('token');
-};
+// const login = async (email, password) => {
+//   try {
+//     const response = await axios.post(`${API_URL}login`, {
+//       email,
+//       password,
+//     }, {
+//       headers: {
+//         'Content-Type': 'application/json',
+//         'Accept': 'application/json',
+//       },
+//     });
+//     console.log('Login response:', response.data); // Debug the response
+//     return response.data;
+//   } catch (error) {
+//     console.error('Login error:', error.response?.data || error);
+//     throw error.response?.data || error;
+//   }
+// };
 
-const refreshToken = async () => {
-  try {
-    const response = await axios.post(`${API_URL}refresh`, {}, {
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('token')}`,
-      },
-    });
-    localStorage.setItem('token', response.data.access_token);
-    return response.data;
-  } catch (error) {
-    throw error.response?.data || error;
-  }
-};
+// // Other functions remain unchanged
+// const logout = () => {
+//   localStorage.removeItem('token');
+// };
 
-const getAccessToken = () => {
-  return localStorage.getItem('token');
-};
+// const refreshToken = async () => {
+//   try {
+//     const response = await axios.post(`${API_URL}refresh`, {}, {
+//       headers: {
+//         'Authorization': `Bearer ${localStorage.getItem('token')}`,
+//       },
+//     });
+//     localStorage.setItem('token', response.data.access_token);
+//     return response.data;
+//   } catch (error) {
+//     throw error.response?.data || error;
+//   }
+// };
 
-export { login, logout, refreshToken, getAccessToken };
+// const getAccessToken = () => {
+//   return localStorage.getItem('token');
+// };
+
+// export { login, logout, refreshToken, getAccessToken };
 
 
 

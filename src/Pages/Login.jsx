@@ -126,7 +126,8 @@ const Login = () => {
       localStorage.setItem('token', response.access_token);
       setMessage("تم تسجيل الدخول بنجاح!");
       setTimeout(() => {
-        navigate("/sheikh-dashboard");
+        // navigate("/sheikh-dashboard");
+        navigate("/add-course");
       }, 1000);
     } catch (error) {
       console.error("Login error:", error);

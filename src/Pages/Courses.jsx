@@ -1,29 +1,50 @@
 import React, { useState, useEffect } from "react";
 import Sidebar from "../Components/Sidebar";
 import Navbar from "../Components/DashboardNavbar";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; // أضيفي useNavigate
 import { FaTrash } from "react-icons/fa";
 
 const Courses = () => {
+  const navigate = useNavigate(); // أضيفي navigate عشان الـ redirect
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchCourses = async () => {
+      const token = localStorage.getItem("access_token"); // جيبي الـ token من localStorage
+      if (!token) {
+        setError("الرجاء تسجيل الدخول أولاً");
+        setTimeout(() => {
+          navigate("/login");
+        }, 1000);
+        return;
+      }
+
       try {
-        const response = await fetch("https://graduation-main-0wwkv3.laravel.cloud/api/v1/teacher/get_courses", {
+        const response = await fetch("http://localhost:8000/api/v1/teacher/get_courses", {
           method: "GET",
           headers: {
             "Accept": "application/json",
-            "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2dyYWR1YXRpb24tbWFpbi0wd3drdjMubGFyYXZlbC5jbG91ZC9hcGkvYXV0aC9sb2dpbiIsImlhdCI6MTc0MTE5NzYwMywiZXhwIjoxNzQxMjAxMjAzLCJuYmYiOjE3NDExOTc2MDMsImp0aSI6IlRKbk8zbXV5Sk5MWUtTM2UiLCJzdWIiOiI5IiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.nylBicij7P_XbdcW3zd712M3BpfUfPjUaTBj9qL0f2w"
-          }
+            "Authorization": `Bearer ${token}`, // استخدمي الـ token من localStorage
+          },
         });
+
         if (!response.ok) {
+          if (response.status === 401) {
+            localStorage.removeItem("access_token");
+            setError("انتهت جلسة تسجيل الدخول. الرجاء تسجيل الدخول مرة أخرى.");
+            setTimeout(() => {
+              navigate("/login");
+            }, 1000);
+            return;
+          }
           throw new Error("فشل في جلب البيانات");
         }
+
         const data = await response.json();
-        setCourses(data.data.data);
+        console.log("Courses data:", data); // Debug
+        setCourses(data.data.data); // تأكدي إن المسار هنا صح بناءً على الـ response
       } catch (err) {
         setError(err.message);
       } finally {
@@ -32,55 +53,91 @@ const Courses = () => {
     };
 
     fetchCourses();
-  }, []);
+  }, [navigate]);
+
   const handleDeleteCourse = async (id) => {
+    const token = localStorage.getItem("access_token");
+    if (!token) {
+      setError("الرجاء تسجيل الدخول أولاً");
+      setTimeout(() => {
+        navigate("/login");
+      }, 1000);
+      return;
+    }
+
     try {
-      const response = await fetch(`https://graduation-main-0wwkv3.laravel.cloud/api/v1/teacher/delete_course/${id}`, {
+      const response = await fetch(`http://localhost:8000/api/v1/teacher/delete_course/${id}`, {
         method: "DELETE",
         headers: {
           "Accept": "application/json",
-          "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2dyYWR1YXRpb24tbWFpbi0wd3drdjMubGFyYXZlbC5jbG91ZC9hcGkvYXV0aC9sb2dpbiIsImlhdCI6MTc0MTExMzcwMywiZXhwIjoxNzQxMTE3MzAzLCJuYmYiOjE3NDExMTM3MDMsImp0aSI6IkV3Qno4TktYNmF1MW1lZnkiLCJzdWIiOiI5IiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.HzZfhXqS3EAVOXW2RwxmpvYNOuT1cTtnZgFe7_e-GRc",
+          "Authorization": `Bearer ${token}`,
         },
       });
-  
+
       if (!response.ok) {
+        if (response.status === 401) {
+          localStorage.removeItem("access_token");
+          setError("انتهت جلسة تسجيل الدخول. الرجاء تسجيل الدخول مرة أخرى.");
+          setTimeout(() => {
+            navigate("/login");
+          }, 1000);
+          return;
+        }
         throw new Error("فشل في حذف الدورة");
       }
-  
-      // تحديث قائمة الدورات بعد الحذف
+
       setCourses(prevCourses => prevCourses.filter(course => course.id !== id));
+      setError(null); // امسحي أي error قديم
     } catch (err) {
       setError(err.message);
     }
   };
+
   const handlePublishCourse = async (id) => {
+    const token = localStorage.getItem("access_token");
+    if (!token) {
+      setError("الرجاء تسجيل الدخول أولاً");
+      setTimeout(() => {
+        navigate("/login");
+      }, 1000);
+      return;
+    }
+
     try {
-      const response = await fetch(`https://graduation-main-0wwkv3.laravel.cloud/api/v1/teacher/publish_course/${id}`, {
+      const response = await fetch(`http://localhost:8000/api/v1/teacher/publish_course/${id}`, {
         method: "PUT",
         headers: {
           "Accept": "application/json",
-          "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2dyYWR1YXRpb24tbWFpbi0wd3drdjMubGFyYXZlbC5jbG91ZC9hcGkvYXV0aC9sb2dpbiIsImlhdCI6MTc0MTExMzcwMywiZXhwIjoxNzQxMTE3MzAzLCJuYmYiOjE3NDExMTM3MDMsImp0aSI6IkV3Qno4TktYNmF1MW1lZnkiLCJzdWIiOiI5IiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.HzZfhXqS3EAVOXW2RwxmpvYNOuT1cTtnZgFe7_e-GRc",
+          "Authorization": `Bearer ${token}`,
         },
       });
-  
+
       const data = await response.json();
-      console.log("Response:", data);
-  
+      console.log("Publish response:", data);
+
       if (!response.ok) {
+        if (response.status === 401) {
+          localStorage.removeItem("access_token");
+          setError("انتهت جلسة تسجيل الدخول. الرجاء تسجيل الدخول مرة أخرى.");
+          setTimeout(() => {
+            navigate("/login");
+          }, 1000);
+          return;
+        }
         throw new Error(data.message || "فشل في نشر الدورة");
       }
-  
-      // تحديث حالة الدورة في القائمة
-      setCourses(prevCourses => prevCourses.map(course =>
-        course.id === id ? { ...course, status: "published" } : course
-      ));
+
+      setCourses(prevCourses =>
+        prevCourses.map(course =>
+          course.id === id ? { ...course, status: "published" } : course
+        )
+      );
+      setError(null);
     } catch (err) {
       console.error("Error:", err);
       setError(err.message);
     }
   };
-  
-  
 
   return (
     <>
@@ -106,6 +163,76 @@ const Courses = () => {
                     <th style={tableHeaderCellStyle}>العنوان</th>
                     <th style={tableHeaderCellStyle}>الوصف</th>
                     <th style={tableHeaderCellStyle}>الحالة</th>
+                    <th style={tableHeaderCellStyle}>إضافة فيديو</th> {/* أضيفي العمود ده */}
+                    <th style={tableHeaderCellStyle}>نشر؟</th>
+                    <th style={tableHeaderCellStyle}>حذف؟</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {courses.map((course) => (
+                    <tr key={course.id} style={tableRowStyle}>
+                      <td style={tableCellStyle}>{course.title}</td>
+                      <td style={tableCellStyle}>{course.description}</td>
+                      <td style={tableCellStyle}>{course.status}</td>
+                      <td style={tableCellStyle}>
+                        <Link
+                          to={`/add-video/${course.id}`} // الرابط بياخد الـ course ID
+                          style={{
+                            backgroundColor: "#1EC8A0",
+                            color: "#fff",
+                            border: "none",
+                            padding: "7px 15px",
+                            borderRadius: "5px",
+                            fontWeight: "bold",
+                            cursor: "pointer",
+                            textDecoration: "none",
+                          }}
+                        >
+                          إضافة فيديو
+                        </Link>
+                      </td>
+                      <td style={tableCellStyle}>
+                        {course.status === "draft" && (
+                          <button
+                            style={{
+                              backgroundColor: "#1EC8A0",
+                              color: "#fff",
+                              border: "none",
+                              padding: "7px 15px",
+                              borderRadius: "5px",
+                              fontWeight: "bold",
+                              cursor: "pointer",
+                            }}
+                            onClick={() => handlePublishCourse(course.id)}
+                          >
+                            نشر
+                          </button>
+                        )}
+                      </td>
+                      <td style={tableCellStyle}>
+                        <button
+                          style={{
+                            backgroundColor: "red",
+                            color: "white",
+                            border: "none",
+                            padding: "7px 15px",
+                            borderRadius: "5px",
+                            fontWeight: "bold",
+                            cursor: "pointer",
+                          }}
+                          onClick={() => handleDeleteCourse(course.id)}
+                        >
+                          <FaTrash /> حذف
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+                {/* <thead>
+                  <tr style={tableHeaderRowStyle}>
+                    <th style={tableHeaderCellStyle}>العنوان</th>
+                    <th style={tableHeaderCellStyle}>الوصف</th>
+                    <th style={tableHeaderCellStyle}>الحالة</th>
                     <th style={tableHeaderCellStyle}>نشر؟</th>
                     <th style={tableHeaderCellStyle}>حذف؟</th>
                   </tr>
@@ -119,11 +246,15 @@ const Courses = () => {
                       <td style={tableCellStyle}>
                         {course.status === "draft" && (
                           <button
-                            style={{ backgroundColor: "#1EC8A0", color: "#fff",
+                            style={{
+                              backgroundColor: "#1EC8A0",
+                              color: "#fff",
                               border: "none",
                               padding: "7px 15px",
                               borderRadius: "5px",
-                              fontWeight: "bold",cursor: "pointer" }}
+                              fontWeight: "bold",
+                              cursor: "pointer",
+                            }}
                             onClick={() => handlePublishCourse(course.id)}
                           >
                             نشر
@@ -132,10 +263,15 @@ const Courses = () => {
                       </td>
                       <td style={tableCellStyle}>
                         <button
-                          style={{ backgroundColor: "red", color:"white", border: "none",
+                          style={{
+                            backgroundColor: "red",
+                            color: "white",
+                            border: "none",
                             padding: "7px 15px",
                             borderRadius: "5px",
-                            fontWeight: "bold", cursor: "pointer" }}
+                            fontWeight: "bold",
+                            cursor: "pointer",
+                          }}
                           onClick={() => handleDeleteCourse(course.id)}
                         >
                           <FaTrash /> حذف
@@ -143,7 +279,8 @@ const Courses = () => {
                       </td>
                     </tr>
                   ))}
-                </tbody>
+                </tbody> */}
+
               </table>
             </div>
           )}
@@ -186,7 +323,7 @@ export default Courses;
 // import { FaTrash } from "react-icons/fa";
 
 // const api = axios.create({
-//   baseURL: 'https://graduation-main-0wwkv3.laravel.cloud/api/v1/teacher/',
+//   baseURL: 'http://localhost:8000/api/v1/teacher/',
 //   headers: {
 //     'Authorization': `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2dyYWR1YXRpb24tbWFpbi0wd3drdjMubGFyYXZlbC5jbG91ZC9hcGkvYXV0aC9sb2dpbiIsImlhdCI6MTc0MTExMTc3MywiZXhwIjoxNzQxMTE1MzczLCJuYmYiOjE3NDExMTE3NzMsImp0aSI6Ijl6NWlzZ0pTWGpkaTJuSnEiLCJzdWIiOiI5IiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.W9hzp5FfAHEXqiQwpHm7Q4LbMlp7KQLMBCOozHJiXh4`,
 //     'Accept': 'application/json',
@@ -314,7 +451,7 @@ export default Courses;
 // import { FaTrash } from "react-icons/fa";
 
 // const api = axios.create({
-//   baseURL: 'https://graduation-main-0wwkv3.laravel.cloud/api/v1/teacher/',
+//   baseURL: 'http://localhost:8000/api/v1/teacher/',
 //   headers: {
 //     'Authorization': `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2dyYWR1YXRpb24tbWFpbi0wd3drdjMubGFyYXZlbC5jbG91ZC9hcGkvYXV0aC9sb2dpbiIsImlhdCI6MTc0MTExMTc3MywiZXhwIjoxNzQxMTE1MzczLCJuYmYiOjE3NDExMTE3NzMsImp0aSI6Ijl6NWlzZ0pTWGpkaTJuSnEiLCJzdWIiOiI5IiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.W9hzp5FfAHEXqiQwpHm7Q4LbMlp7KQLMBCOozHJiXh4`,
 //     'Accept': 'application/json',

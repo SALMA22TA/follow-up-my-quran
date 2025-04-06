@@ -3,87 +3,150 @@ import axios from 'axios';
 import Sidebar from "../Components/Sidebar";
 import Navbar from "../Components/DashboardNavbar";
 import { FaEdit, FaTrash, FaTimes } from "react-icons/fa";
+import { useNavigate } from "react-router-dom"; 
 
-const API_URL = 'https://graduation-main-0wwkv3.laravel.cloud/api/v1/teacher/';
-const BEARER_TOKEN = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2dyYWR1YXRpb24tbWFpbi0wd3drdjMubGFyYXZlbC5jbG91ZC9hcGkvYXV0aC9sb2dpbiIsImlhdCI6MTc0MTE5NzYwMywiZXhwIjoxNzQxMjAxMjAzLCJuYmYiOjE3NDExOTc2MDMsImp0aSI6IlRKbk8zbXV5Sk5MWUtTM2UiLCJzdWIiOiI5IiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.nylBicij7P_XbdcW3zd712M3BpfUfPjUaTBj9qL0f2w';
-
-const api = axios.create({
-  baseURL: API_URL,
-  headers: {
-    'Authorization': `Bearer ${BEARER_TOKEN}`,
-    'Accept': 'application/json',
-    'Content-Type': 'application/json'
-  }
-});
+const API_URL = 'http://localhost:8000/api/v1/teacher/'; 
 
 const Exams = () => {
+  const navigate = useNavigate(); 
   const [exams, setExams] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newExamTitle, setNewExamTitle] = useState("");
   const [editingExamId, setEditingExamId] = useState(null);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [examToDelete, setExamToDelete] = useState(null);
+
+  const getApiInstance = () => {
+    const token = localStorage.getItem("access_token");
+    return axios.create({
+      baseURL: API_URL,
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+    });
+  };
+
+  const fetchExams = async () => {
+    const token = localStorage.getItem("access_token");
+    if (!token) {
+      setError("❌ الرجاء تسجيل الدخول أولاً");
+      setTimeout(() => {
+        navigate("/login");
+      }, 1000);
+      return;
+    }
+
+    try {
+      setLoading(true);
+      setError(null);
+      const api = getApiInstance();
+      const response = await api.get('get_all_exams');
+      console.log("Exams response:", response.data); // Debug
+      setExams(response.data.data.data); 
+    } catch (err) {
+      if (err.response?.status === 401) {
+        localStorage.removeItem("access_token");
+        setError("❌ انتهت جلسة تسجيل الدخول. الرجاء تسجيل الدخول مرة أخرى.");
+        setTimeout(() => {
+          navigate("/login");
+        }, 1000);
+        return;
+      }
+      setError(err.response?.data.message || '❌ حدث خطأ أثناء جلب الاختبارات');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchExams = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-        const response = await api.get('get_all_exams');
-        setExams(response.data.data.data);
-      } catch (err) {
-        setError(err.response?.data.message || 'Error fetching exams');
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchExams();
-  }, []);
+  }, [navigate]);
 
   // Create new exam
   const handleAddExam = async () => {
-    if (newExamTitle.trim() === "") return;
+    if (newExamTitle.trim() === "") {
+      setError("❌ يرجى إدخال عنوان الاختبار");
+      return;
+    }
 
     try {
+      const api = getApiInstance();
       const response = await api.post('create_exam', { title: newExamTitle });
-      setExams(prevExams => [...prevExams, response.data.data]);
+      console.log("Create exam response:", response.data); // Debug
+      // بدل ما نضيف الاختبار يدويًا في الـ state، هنعمل fetch جديد
+      await fetchExams(); // جيبي الاختبارات من الـ backend بعد الإضافة
       closeModal();
+      setError(null);
     } catch (err) {
-      setError(err.response?.data.message || 'حدث خطأ أثناء إنشاء الاختبار');
+      if (err.response?.status === 401) {
+        localStorage.removeItem("access_token");
+        setError("❌ انتهت جلسة تسجيل الدخول. الرجاء تسجيل الدخول مرة أخرى.");
+        setTimeout(() => {
+          navigate("/login");
+        }, 1000);
+        return;
+      }
+      setError(err.response?.data.message || '❌ حدث خطأ أثناء إنشاء الاختبار');
     }
   };
 
-  // delete an existing exam
+  // Delete an existing exam
   const handleDelete = async (id) => {
     try {
-      await api.delete(`delete_exam/${id}`);
-      setExams(prevExams => prevExams.filter(exam => exam.id !== id));
+      const api = getApiInstance();
+      const response = await api.delete(`delete_exam/${id}`);
+      console.log("Delete exam response:", response.data); // Debug
+      await fetchExams(); // جيبي الاختبارات من الـ backend بعد الحذف
+      setError(null);
     } catch (err) {
-      setError(err.response?.data.message || 'حدث خطأ أثناء حذف الاختبار');
+      if (err.response?.status === 401) {
+        localStorage.removeItem("access_token");
+        setError("❌ انتهت جلسة تسجيل الدخول. الرجاء تسجيل الدخول مرة أخرى.");
+        setTimeout(() => {
+          navigate("/login");
+        }, 1000);
+        return;
+      }
+      setError(err.response?.data.message || '❌ حدث خطأ أثناء حذف الاختبار');
     }
   };
+
+  // Edit an existing exam
   const handleEdit = (id, title) => {
     setEditingExamId(id);
     setNewExamTitle(title);
     setIsModalOpen(true);
   };
+
   const handleUpdateExam = async () => {
-    if (newExamTitle.trim() === "") return;
-    
+    if (newExamTitle.trim() === "") {
+      setError("❌ يرجى إدخال عنوان الاختبار");
+      return;
+    }
+
     try {
+      const api = getApiInstance();
       const response = await api.put(`update_exam/${editingExamId}`, {
-        title: newExamTitle
+        title: newExamTitle,
       });
-      
-      setExams(prevExams => prevExams.map(exam => 
-        exam.id === editingExamId 
-          ? { ...exam, title: newExamTitle }
-          : exam
-      ));
-      
+      console.log("Update exam response:", response.data); // Debug
+      await fetchExams(); // جيبي الاختبارات من الـ backend بعد التعديل
       closeModal();
+      setError(null);
     } catch (err) {
-      setError(err.response?.data.message || 'حدث خطأ أثناء تحديث الاختبار');
+      if (err.response?.status === 401) {
+        localStorage.removeItem("access_token");
+        setError("❌ انتهت جلسة تسجيل الدخول. الرجاء تسجيل الدخول مرة أخرى.");
+        setTimeout(() => {
+          navigate("/login");
+        }, 1000);
+        return;
+      }
+      setError(err.response?.data.message || '❌ حدث خطأ أثناء تحديث الاختبار');
     }
   };
 
@@ -91,6 +154,7 @@ const Exams = () => {
   const closeModal = () => {
     setIsModalOpen(false);
     setNewExamTitle("");
+    setEditingExamId(null);
     setError(null);
   };
 
@@ -110,30 +174,40 @@ const Exams = () => {
             <button style={createButtonStyle} onClick={openModal}>+ إنشاء</button>
           </div>
 
-          {/* Exams list*/}
+          {/* Exams list */}
           {loading ? (
             <div style={{ textAlign: 'center' }}>جاري التحميل...</div>
           ) : (
             <>
               <h2 style={headerStyle}>قائمة الاختبارات</h2>
               <div>
-                {exams.map((exam) => (
-                  <div key={exam.id} style={rowStyle}>
-                    <span style={circleStyle}>{exam.id}</span>
-                    <span style={examTitleStyle}>{exam.title}</span>
-                    <div style={buttonContainerStyle}>
-                      <button
-                        style={editButtonStyle}
-                        onClick={() => handleEdit(exam.id, exam.title)}
-                      >
-                        <FaEdit /> تعديل
-                      </button>
-                      <button style={deleteButtonStyle} onClick={() => handleDelete(exam.id)}>
-                        <FaTrash /> حذف
-                      </button>
-                    </div>
+                {exams.length === 0 ? (
+                  <div style={{ textAlign: 'center', color: '#666' }}>
+                    لا توجد اختبارات حاليًا
                   </div>
-                ))}
+                ) : (
+                  exams.map((exam) => (
+                    <div key={exam.id} style={rowStyle}>
+                      <span style={circleStyle}>{exam.id}</span>
+                      <span style={examTitleStyle}>{exam.title}</span>
+                      <div style={buttonContainerStyle}>
+                        <button
+                          style={editButtonStyle}
+                          onClick={() => handleEdit(exam.id, exam.title)}
+                        >
+                          <FaEdit /> تعديل
+                        </button>
+                        <button style={deleteButtonStyle} onClick={() => {
+                          setExamToDelete(exam.id);
+                          setShowDeleteConfirm(true);
+                        }}>
+                          <FaTrash /> حذف
+                        </button>
+
+                      </div>
+                    </div>
+                  ))
+                )}
               </div>
             </>
           )}
@@ -172,9 +246,38 @@ const Exams = () => {
           </div>
         </div>
       )}
+      {showDeleteConfirm && (
+        <div style={overlayStyle}>
+          <div style={modalStyle}>
+            <button onClick={() => setShowDeleteConfirm(false)} style={closeButtonStyle}>
+              <FaTimes />
+            </button>
+            <h2 style={modalTitle}>هل أنت متأكد أنك تريد حذف هذا الاختبار؟</h2>
+            <div style={buttonContainer}>
+              <button
+                onClick={() => {
+                  handleDelete(examToDelete);
+                  setShowDeleteConfirm(false);
+                }}
+                style={{ ...addButtonStyle, backgroundColor: "#dc3545" }}
+              >
+                نعم
+              </button>
+              <button
+                onClick={() => setShowDeleteConfirm(false)}
+                style={cancelButtonStyle}
+              >
+                لا
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </>
   );
 };
+
 // Styles
 const dashboardContainer = { display: "flex", flexDirection: "row-reverse", direction: "rtl" };
 const mainContent = { marginRight: "250px", padding: "30px", width: "calc(100% - 250px)" };
@@ -198,4 +301,5 @@ const inputStyle = { width: "97%", padding: "10px", border: "1px solid #1EC8A0",
 const buttonContainer = { display: "flex", justifyContent: "space-between", marginTop: "15px" };
 const cancelButtonStyle = { backgroundColor: "#ccc", padding: "10px 15px", borderRadius: "5px", cursor: "pointer", border: "none" };
 const addButtonStyle = { backgroundColor: "#1EC8A0", color: "#fff", padding: "10px 15px", borderRadius: "5px", cursor: "pointer", border: "none" };
+
 export default Exams;
