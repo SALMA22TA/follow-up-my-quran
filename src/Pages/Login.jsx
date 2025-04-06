@@ -127,7 +127,7 @@ const Login = () => {
       setMessage("تم تسجيل الدخول بنجاح!");
       setTimeout(() => {
         // navigate("/sheikh-dashboard");
-        navigate("/add-course");
+        navigate("/sheikh-dashboard");
       }, 1000);
     } catch (error) {
       console.error("Login error:", error);

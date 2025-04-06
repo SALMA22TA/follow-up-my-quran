@@ -18,6 +18,8 @@ import Courses from './Pages/Courses';
 import ExamsPage from './Pages/ExamsPage';
 import Verification from './Pages/Verification';
 // import ProtectedRoute from './Components/ProtectedRoute';
+import TodaysSessions from './Components/TodaysSessions';
+import ExamDetailsPage from "./Pages/ExamDetails";
 
 
 const ProtectedRoute = ({ children }) => {
@@ -77,8 +79,15 @@ const App = () => {
             </ProtectedRoute>
           }
         />
-        <Route path="/schedule-requests" element={<ScheduleRequests />} /> 
-        {/* <Route path="/courses" element={<Courses />} /> */}
+        <Route
+          path="/schedule-requests"
+          element={
+            <ProtectedRoute>
+              <ScheduleRequests />
+            </ProtectedRoute>
+          }
+        />
+
         <Route
         path="/courses"
         element={
@@ -95,7 +104,24 @@ const App = () => {
           </ProtectedRoute>
         }
       />
+      <Route
+        path="/exam/:id" 
+        element={
+          <ProtectedRoute>
+            <ExamDetailsPage />
+          </ProtectedRoute>
+        }
+      />
         <Route path="/verify" element={<Verification />} />
+
+        <Route
+        path="/today-sessions" 
+        element={
+          <ProtectedRoute>
+            <TodaysSessions />
+          </ProtectedRoute>
+        }
+      />
 
  
       </Routes>
