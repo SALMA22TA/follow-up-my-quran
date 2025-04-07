@@ -11,7 +11,7 @@ import TeacherDetail from "./Components/TeacherDetail";
 import LandingPage from './Pages/LandingPage';
 import AddCoursePage from './Pages/AddCoursePage';
 import AddVideoPage from './Pages/AddVideoPage';
-import CourseDetailsPage from './Pages/CourseDetailsPage';
+// import CourseDetailsPage from './Pages/CourseDetailsPage';
 import SheikhDashboard from './Pages/SheikhDashboard';
 import ScheduleRequests from './Pages/ScheduleRequests';
 import Courses from './Pages/Courses';
@@ -22,6 +22,7 @@ import TodaysSessions from './Components/TodaysSessions';
 // import ExamDetailsPage from "./Pages/ExamDetails";
 import ExamQuestions from "./Pages/ExamQuestions"; 
 import ExamAnswers from "./Pages/ExamAnswers"; 
+import CourseDetails from "./Pages/CourseDetails";
 
 
 const ProtectedRoute = ({ children }) => {
@@ -69,7 +70,7 @@ const App = () => {
             </ProtectedRoute>
           }
         />
-        <Route path="/course-details" element={<CourseDetailsPage/>} />
+        {/* <Route path="/course-details" element={<CourseDetailsPage/>} /> */}
         <Route path="/teacher-list" element={<TeacherList />} />
         <Route path="/teachers/:id" element={<TeacherDetail />} />
         {/* <Route path="/sheikh-dashboard" element={<SheikhDashboard />} /> */}
@@ -140,8 +141,15 @@ const App = () => {
           </ProtectedRoute>
         }
       />
-
- 
+      <Route 
+      path="/course/:id" 
+      element={
+        <ProtectedRoute>
+          <CourseDetails />
+        </ProtectedRoute>
+      } 
+      />
+      
       </Routes>
     </Router>
   );
