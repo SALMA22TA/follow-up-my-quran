@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from 'axios';
 import Sidebar from "../Components/Sidebar";
 import Navbar from "../Components/DashboardNavbar";
-import { FaEdit, FaPlus, FaTimes, FaTrash } from "react-icons/fa";
+import { FaEdit, /*FaPlus,*/ FaTimes, /*FaTrash*/ } from "react-icons/fa";
 import { Trash2 } from "lucide-react";
 
 const API_URL = 'http://localhost:8000/api/v1/teacher/';
