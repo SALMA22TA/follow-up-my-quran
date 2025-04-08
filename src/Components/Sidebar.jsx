@@ -1,3 +1,46 @@
+import React, { useState } from 'react';
+import { NavLink } from 'react-router-dom';
+import '../styles/Sidebar.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHouse, faBookOpen, faCommentDots } from '@fortawesome/free-solid-svg-icons';
+import { faFileLines, faClipboard } from '@fortawesome/free-regular-svg-icons';
+
+const Sidebar = () => {
+  const [isOpen, setIsOpen] = useState(true);
+
+  return (
+    <>
+      <button className="toggle-btn" onClick={() => setIsOpen(!isOpen)}>
+        ☰
+      </button>
+      {isOpen && (
+        <div className="sidebar" style={{ right: 0, left: 'auto', position: 'fixed' }}>
+          <ul>
+            <li>
+              <NavLink to="/sheikh-dashboard" end className={({ isActive }) => isActive ? "active" : ""}> <FontAwesomeIcon icon={faHouse} /> الرئيسية</NavLink>
+            </li>
+            <li>
+              <NavLink to="/courses" className={({ isActive }) => isActive ? "active" : ""}> <FontAwesomeIcon icon={faBookOpen} /> الدورات</NavLink>
+            </li>
+            <li>
+              <NavLink to="/schedule-requests" className={({ isActive }) => isActive ? "active" : ""}> <FontAwesomeIcon icon={faClipboard} /> طلبات الجدولة</NavLink>
+            </li>
+            <li>
+              <NavLink to="/discussions" className={({ isActive }) => isActive ? "active" : ""}> <FontAwesomeIcon icon={faCommentDots} /> المحادثات</NavLink>
+            </li>
+            <li>
+              <NavLink to="/exams" className={({ isActive }) => isActive ? "active" : ""}> <FontAwesomeIcon icon={faFileLines} /> الاختبارات</NavLink>
+            </li>
+          </ul>
+        </div>
+      )}
+    </>
+  );
+};
+
+export default Sidebar;
+
+
 // import React, { useState } from 'react';
 // import { Link } from 'react-router-dom';
 
@@ -96,42 +139,3 @@
 // };
 
 // export default Sidebar;
-
-import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
-import '../styles/Sidebar.css'; // Custom CSS for styling
-
-const Sidebar = () => {
-  const [isOpen, setIsOpen] = useState(true);
-
-  return (
-    <>
-      <button className="toggle-btn" onClick={() => setIsOpen(!isOpen)}>
-        ☰
-      </button>
-      {isOpen && (
-        <div className="sidebar" style={{ right: 0, left: 'auto', position: 'fixed' }}>
-          <ul>
-            <li>
-              <NavLink to="/" exact activeClassName="active">الرئيسية</NavLink>
-            </li>
-            <li>
-              <NavLink to="/courses" activeClassName="active">الدورات</NavLink>
-            </li>
-            <li>
-              <NavLink to="/schedule-requests" activeClassName="active">طلبات الجدولة</NavLink>
-            </li>
-            <li>
-              <NavLink to="/discussions" activeClassName="active">المحادثات</NavLink>
-            </li>
-            <li>
-              <NavLink to="/exams" activeClassName="active">الاختبارات</NavLink>
-            </li>
-          </ul>
-        </div>
-      )}
-    </>
-  );
-};
-
-export default Sidebar;
