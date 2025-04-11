@@ -352,44 +352,158 @@ const CourseDetails = () => {
   );
 };
 
-const dashboardContainer = { display: "flex", flexDirection: "row-reverse", direction: "rtl" };
-const mainContent = { marginRight: "220px", padding: "20px", width: "100%", boxSizing: "border-box" };
-const pageTitle = { textAlign: "right", fontSize: "30px", marginBottom: "20px" };
-const courseDetailsContainer = { backgroundColor: "#fff", padding: "20px", borderRadius: "10px", boxShadow: "0 2px 10px rgba(0,0,0,0.1)" };
-const courseTitle = { fontSize: "24px", textAlign: "right", marginBottom: "10px" };
-const courseDescription = { fontSize: "16px", textAlign: "right", color: "#666", marginBottom: "20px" };
-const sectionTitle = { fontSize: "20px", textAlign: "right", margin: "20px 0 10px" };
-const buttonContainer = { display: "flex", justifyContent: "flex-end", gap: "10px", marginBottom: "20px" };
+// CourseDetails.js (مع التعديلات للـ Responsiveness)
+
+const dashboardContainer = {
+  display: "flex",
+  flexDirection: "row-reverse",
+  direction: "rtl",
+  width: "100%",
+  minHeight: "100vh",
+};
+
+const mainContent = {
+  padding: "20px",
+  width: "100%",
+  boxSizing: "border-box",
+  marginRight: "220px", // الافتراضي للشاشات الكبيرة
+  "@media (max-width: 768px)": {
+    marginRight: "0", // إزالة الهامش على الشاشات الصغيرة
+  },
+};
+
+const pageTitle = {
+  textAlign: "right",
+  fontSize: "1.8rem", // استخدام rem بدلاً من px
+  marginBottom: "20px",
+  "@media (max-width: 768px)": {
+    fontSize: "1.5rem",
+  },
+};
+
+const courseDetailsContainer = {
+  backgroundColor: "#fff",
+  padding: "20px",
+  borderRadius: "10px",
+  boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
+  width: "100%",
+  maxWidth: "1200px",
+  margin: "0 auto",
+};
+
+const courseTitle = {
+  fontSize: "1.5rem",
+  textAlign: "right",
+  marginBottom: "10px",
+  "@media (max-width: 768px)": {
+    fontSize: "1.2rem",
+  },
+};
+
+const courseDescription = {
+  fontSize: "1rem",
+  textAlign: "right",
+  color: "#666",
+  marginBottom: "20px",
+  "@media (max-width: 768px)": {
+    fontSize: "0.9rem",
+  },
+};
+
+const sectionTitle = {
+  fontSize: "1.25rem",
+  textAlign: "right",
+  margin: "20px 0 10px",
+  "@media (max-width: 768px)": {
+    fontSize: "1.1rem",
+  },
+};
+
+const buttonContainer = {
+  display: "flex",
+  justifyContent: "flex-end",
+  gap: "10px",
+  marginBottom: "20px",
+  flexWrap: "wrap", // السماح للأزرار بالانتقال إلى السطر التالي على الشاشات الصغيرة
+};
+
 const addButtonStyle = {
   backgroundColor: "#1EC8A0",
   color: "#fff",
   border: "none",
   padding: "10px 15px",
   borderRadius: "5px",
-  fontSize: "18px",
+  fontSize: "1rem",
   cursor: "pointer",
-  display: "flex",
+  display: "inline-flex",
   alignItems: "center",
   textDecoration: "none",
+  "@media (max-width: 768px)": {
+    fontSize: "0.9rem",
+    padding: "8px 12px",
+  },
 };
+
 const backButtonStyle = {
   backgroundColor: "#ccc",
   color: "#fff",
   border: "none",
   padding: "10px 15px",
   borderRadius: "5px",
-  fontSize: "18px",
+  fontSize: "1rem",
   cursor: "pointer",
-  display: "flex",
+  display: "inline-flex",
   alignItems: "center",
   textDecoration: "none",
+  "@media (max-width: 768px)": {
+    fontSize: "0.9rem",
+    padding: "8px 12px",
+  },
 };
-const tableContainerStyle = { width: "100%", overflowX: "auto", backgroundColor: "#fff", borderRadius: "10px", boxShadow: "0 2px 10px rgba(0,0,0,0.1)", padding: "15px" };
-const tableStyle = { width: "100%", borderCollapse: "collapse", textAlign: "right" };
-const tableHeaderRowStyle = { backgroundColor: "#f8f9fa" };
-const tableHeaderCellStyle = { padding: "12px", textAlign: "right", fontWeight: "bold", borderBottom: "2px solid #ddd" };
-const tableRowStyle = { borderBottom: "1px solid #ddd" };
-const tableCellStyle = { padding: "12px" };
+
+const tableContainerStyle = {
+  width: "100%",
+  overflowX: "auto", // السماح بالتمرير الأفقي على الشاشات الصغيرة
+  backgroundColor: "#fff",
+  borderRadius: "10px",
+  boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
+  padding: "15px",
+};
+
+const tableStyle = {
+  width: "100%",
+  borderCollapse: "collapse",
+  textAlign: "right",
+  minWidth: "600px", // ضمان أن الجدول لا يصبح صغيرًا جدًا
+};
+
+const tableHeaderRowStyle = {
+  backgroundColor: "#f8f9fa",
+};
+
+const tableHeaderCellStyle = {
+  padding: "12px",
+  textAlign: "right",
+  fontWeight: "bold",
+  borderBottom: "2px solid #ddd",
+  "@media (max-width: 768px)": {
+    padding: "8px",
+    fontSize: "0.9rem",
+  },
+};
+
+const tableRowStyle = {
+  borderBottom: "1px solid #ddd",
+};
+
+const tableCellStyle = {
+  padding: "12px",
+  "@media (max-width: 768px)": {
+    padding: "8px",
+    fontSize: "0.9rem",
+  },
+};
+
 const playButtonStyle = {
   backgroundColor: "#1EC8A0",
   color: "#fff",
@@ -397,12 +511,17 @@ const playButtonStyle = {
   padding: "7px 15px",
   borderRadius: "5px",
   cursor: "pointer",
-  display: "flex",
+  display: "inline-flex",
   alignItems: "center",
   gap: "5px",
-  fontSize: "16px",
+  fontSize: "1rem",
   textDecoration: "none",
+  "@media (max-width: 768px)": {
+    fontSize: "0.9rem",
+    padding: "6px 12px",
+  },
 };
+
 const editButtonStyle = {
   backgroundColor: "transparent",
   color: "#1EC8A0",
@@ -410,11 +529,16 @@ const editButtonStyle = {
   padding: "7px 15px",
   borderRadius: "5px",
   cursor: "pointer",
-  display: "flex",
+  display: "inline-flex",
   alignItems: "center",
   gap: "5px",
-  fontSize: "16px",
+  fontSize: "1rem",
+  "@media (max-width: 768px)": {
+    fontSize: "0.9rem",
+    padding: "6px 12px",
+  },
 };
+
 const deleteButtonStyle = {
   backgroundColor: "transparent",
   color: "#dc3545",
@@ -422,11 +546,16 @@ const deleteButtonStyle = {
   padding: "7px 15px",
   borderRadius: "5px",
   cursor: "pointer",
-  display: "flex",
+  display: "inline-flex",
   alignItems: "center",
   gap: "5px",
-  fontSize: "16px",
+  fontSize: "1rem",
+  "@media (max-width: 768px)": {
+    fontSize: "0.9rem",
+    padding: "6px 12px",
+  },
 };
+
 const modalOverlayStyle = {
   position: "fixed",
   top: 0,
@@ -439,14 +568,21 @@ const modalOverlayStyle = {
   alignItems: "center",
   zIndex: 1000,
 };
+
 const modalStyle = {
   backgroundColor: "#fff",
-  padding: "30px",
+  padding: "20px",
   borderRadius: "10px",
   boxShadow: "0 5px 15px rgba(0, 0, 0, 0.3)",
   textAlign: "center",
-  minWidth: "300px",
+  width: "90%",
+  maxWidth: "400px",
+  "@media (max-width: 768px)": {
+    padding: "15px",
+    maxWidth: "90%",
+  },
 };
+
 const yesButtonStyle = {
   backgroundColor: "#1EC8A0",
   color: "#fff",
@@ -455,7 +591,12 @@ const yesButtonStyle = {
   borderRadius: "5px",
   fontWeight: "bold",
   cursor: "pointer",
+  "@media (max-width: 768px)": {
+    padding: "8px 15px",
+    fontSize: "0.9rem",
+  },
 };
+
 const noButtonStyle = {
   backgroundColor: "#ccc",
   color: "#000",
@@ -464,12 +605,199 @@ const noButtonStyle = {
   borderRadius: "5px",
   fontWeight: "bold",
   cursor: "pointer",
+  "@media (max-width: 768px)": {
+    padding: "8px 15px",
+    fontSize: "0.9rem",
+  },
 };
-const closeButtonStyle = { background: "transparent", border: "none", fontSize: "20px", cursor: "pointer", float: "left" };
-const modalTitleStyle = { textAlign: "right", fontSize: "22px", marginBottom: "10px" };
-const inputStyle = { width: "100%", padding: "10px", border: "1px solid #1EC8A0", borderRadius: "5px", textAlign: "right", fontSize: "16px", marginBottom: "15px" };
-const modalButtonContainerStyle = { display: "flex", justifyContent: "space-between", marginTop: "10px" };
-const submitButtonStyle = { backgroundColor: "#1EC8A0", color: "#fff", padding: "10px", borderRadius: "5px", border: "none", cursor: "pointer" };
-const cancelButtonStyle = { backgroundColor: "#ccc", color: "#fff", padding: "10px", borderRadius: "5px", border: "none", cursor: "pointer" };
+
+const closeButtonStyle = {
+  background: "transparent",
+  border: "none",
+  fontSize: "1.2rem",
+  cursor: "pointer",
+  float: "left",
+  "@media (max-width: 768px)": {
+    fontSize: "1rem",
+  },
+};
+
+const modalTitleStyle = {
+  textAlign: "right",
+  fontSize: "1.4rem",
+  marginBottom: "10px",
+  "@media (max-width: 768px)": {
+    fontSize: "1.2rem",
+  },
+};
+
+const inputStyle = {
+  width: "100%",
+  padding: "10px",
+  border: "1px solid #1EC8A0",
+  borderRadius: "5px",
+  textAlign: "right",
+  fontSize: "1rem",
+  marginBottom: "15px",
+  "@media (max-width: 768px)": {
+    fontSize: "0.9rem",
+    padding: "8px",
+  },
+};
+
+const modalButtonContainerStyle = {
+  display: "flex",
+  justifyContent: "space-between",
+  marginTop: "10px",
+  "@media (max-width: 768px)": {
+    flexDirection: "column",
+    gap: "10px",
+  },
+};
+
+const submitButtonStyle = {
+  backgroundColor: "#1EC8A0",
+  color: "#fff",
+  padding: "10px",
+  borderRadius: "5px",
+  border: "none",
+  cursor: "pointer",
+  "@media (max-width: 768px)": {
+    padding: "8px",
+    fontSize: "0.9rem",
+  },
+};
+
+const cancelButtonStyle = {
+  backgroundColor: "#ccc",
+  color: "#fff",
+  padding: "10px",
+  borderRadius: "5px",
+  border: "none",
+  cursor: "pointer",
+  "@media (max-width: 768px)": {
+    padding: "8px",
+    fontSize: "0.9rem",
+  },
+};
+// const dashboardContainer = { display: "flex", flexDirection: "row-reverse", direction: "rtl" };
+// const mainContent = { marginRight: "220px", padding: "20px", width: "100%", boxSizing: "border-box" };
+// const pageTitle = { textAlign: "right", fontSize: "30px", marginBottom: "20px" };
+// const courseDetailsContainer = { backgroundColor: "#fff", padding: "20px", borderRadius: "10px", boxShadow: "0 2px 10px rgba(0,0,0,0.1)" };
+// const courseTitle = { fontSize: "24px", textAlign: "right", marginBottom: "10px" };
+// const courseDescription = { fontSize: "16px", textAlign: "right", color: "#666", marginBottom: "20px" };
+// const sectionTitle = { fontSize: "20px", textAlign: "right", margin: "20px 0 10px" };
+// const buttonContainer = { display: "flex", justifyContent: "flex-end", gap: "10px", marginBottom: "20px" };
+// const addButtonStyle = {
+//   backgroundColor: "#1EC8A0",
+//   color: "#fff",
+//   border: "none",
+//   padding: "10px 15px",
+//   borderRadius: "5px",
+//   fontSize: "18px",
+//   cursor: "pointer",
+//   display: "flex",
+//   alignItems: "center",
+//   textDecoration: "none",
+// };
+// const backButtonStyle = {
+//   backgroundColor: "#ccc",
+//   color: "#fff",
+//   border: "none",
+//   padding: "10px 15px",
+//   borderRadius: "5px",
+//   fontSize: "18px",
+//   cursor: "pointer",
+//   display: "flex",
+//   alignItems: "center",
+//   textDecoration: "none",
+// };
+// const tableContainerStyle = { width: "100%", overflowX: "auto", backgroundColor: "#fff", borderRadius: "10px", boxShadow: "0 2px 10px rgba(0,0,0,0.1)", padding: "15px" };
+// const tableStyle = { width: "100%", borderCollapse: "collapse", textAlign: "right" };
+// const tableHeaderRowStyle = { backgroundColor: "#f8f9fa" };
+// const tableHeaderCellStyle = { padding: "12px", textAlign: "right", fontWeight: "bold", borderBottom: "2px solid #ddd" };
+// const tableRowStyle = { borderBottom: "1px solid #ddd" };
+// const tableCellStyle = { padding: "12px" };
+// const playButtonStyle = {
+//   backgroundColor: "#1EC8A0",
+//   color: "#fff",
+//   border: "none",
+//   padding: "7px 15px",
+//   borderRadius: "5px",
+//   cursor: "pointer",
+//   display: "flex",
+//   alignItems: "center",
+//   gap: "5px",
+//   fontSize: "16px",
+//   textDecoration: "none",
+// };
+// const editButtonStyle = {
+//   backgroundColor: "transparent",
+//   color: "#1EC8A0",
+//   border: "2px solid #1EC8A0",
+//   padding: "7px 15px",
+//   borderRadius: "5px",
+//   cursor: "pointer",
+//   display: "flex",
+//   alignItems: "center",
+//   gap: "5px",
+//   fontSize: "16px",
+// };
+// const deleteButtonStyle = {
+//   backgroundColor: "transparent",
+//   color: "#dc3545",
+//   border: "2px solid #dc3545",
+//   padding: "7px 15px",
+//   borderRadius: "5px",
+//   cursor: "pointer",
+//   display: "flex",
+//   alignItems: "center",
+//   gap: "5px",
+//   fontSize: "16px",
+// };
+// const modalOverlayStyle = {
+//   position: "fixed",
+//   top: 0,
+//   left: 0,
+//   width: "100vw",
+//   height: "100vh",
+//   backgroundColor: "rgba(0, 0, 0, 0.5)",
+//   display: "flex",
+//   justifyContent: "center",
+//   alignItems: "center",
+//   zIndex: 1000,
+// };
+// const modalStyle = {
+//   backgroundColor: "#fff",
+//   padding: "30px",
+//   borderRadius: "10px",
+//   boxShadow: "0 5px 15px rgba(0, 0, 0, 0.3)",
+//   textAlign: "center",
+//   minWidth: "300px",
+// };
+// const yesButtonStyle = {
+//   backgroundColor: "#1EC8A0",
+//   color: "#fff",
+//   border: "none",
+//   padding: "10px 20px",
+//   borderRadius: "5px",
+//   fontWeight: "bold",
+//   cursor: "pointer",
+// };
+// const noButtonStyle = {
+//   backgroundColor: "#ccc",
+//   color: "#000",
+//   border: "none",
+//   padding: "10px 20px",
+//   borderRadius: "5px",
+//   fontWeight: "bold",
+//   cursor: "pointer",
+// };
+// const closeButtonStyle = { background: "transparent", border: "none", fontSize: "20px", cursor: "pointer", float: "left" };
+// const modalTitleStyle = { textAlign: "right", fontSize: "22px", marginBottom: "10px" };
+// const inputStyle = { width: "100%", padding: "10px", border: "1px solid #1EC8A0", borderRadius: "5px", textAlign: "right", fontSize: "16px", marginBottom: "15px" };
+// const modalButtonContainerStyle = { display: "flex", justifyContent: "space-between", marginTop: "10px" };
+// const submitButtonStyle = { backgroundColor: "#1EC8A0", color: "#fff", padding: "10px", borderRadius: "5px", border: "none", cursor: "pointer" };
+// const cancelButtonStyle = { backgroundColor: "#ccc", color: "#fff", padding: "10px", borderRadius: "5px", border: "none", cursor: "pointer" };
 
 export default CourseDetails;

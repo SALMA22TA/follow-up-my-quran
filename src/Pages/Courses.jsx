@@ -288,27 +288,86 @@ const Courses = () => {
     </>
   );
 };
+// Courses.js (مع التعديلات للـ Responsiveness)
 
-const dashboardContainer = { display: "flex", flexDirection: "row-reverse", direction: "rtl" };
-const mainContent = { marginRight: "220px", padding: "20px", width: "100%", boxSizing: "border-box" };
-const tableContainerStyle = { width: "100%", overflowX: "auto", backgroundColor: "#fff", borderRadius: "10px", boxShadow: "0 2px 10px rgba(0,0,0,0.1)", padding: "15px" };
-const tableStyle = { width: "100%", borderCollapse: "collapse", textAlign: "right" };
-const tableHeaderRowStyle = { backgroundColor: "#f8f9fa" };
-const tableHeaderCellStyle = { padding: "12px", textAlign: "right", fontWeight: "bold", borderBottom: "2px solid #ddd" };
-const tableRowStyle = { borderBottom: "1px solid #ddd" };
-const tableCellStyle = { padding: "12px" };
+const dashboardContainer = {
+  display: "flex",
+  flexDirection: "row-reverse",
+  direction: "rtl",
+  width: "100%",
+  minHeight: "100vh",
+};
+
+const mainContent = {
+  padding: "20px",
+  width: "100%",
+  boxSizing: "border-box",
+  marginRight: "220px",
+  "@media (max-width: 768px)": {
+    marginRight: "0",
+  },
+};
+
+const tableContainerStyle = {
+  width: "100%",
+  overflowX: "auto",
+  backgroundColor: "#fff",
+  borderRadius: "10px",
+  boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
+  padding: "15px",
+};
+
+const tableStyle = {
+  width: "100%",
+  borderCollapse: "collapse",
+  textAlign: "right",
+  minWidth: "600px",
+};
+
+const tableHeaderRowStyle = {
+  backgroundColor: "#f8f9fa",
+};
+
+const tableHeaderCellStyle = {
+  padding: "12px",
+  textAlign: "right",
+  fontWeight: "bold",
+  borderBottom: "2px solid #ddd",
+  "@media (max-width: 768px)": {
+    padding: "8px",
+    fontSize: "0.9rem",
+  },
+};
+
+const tableRowStyle = {
+  borderBottom: "1px solid #ddd",
+};
+
+const tableCellStyle = {
+  padding: "12px",
+  "@media (max-width: 768px)": {
+    padding: "8px",
+    fontSize: "0.9rem",
+  },
+};
+
 const addButtonStyle = {
   backgroundColor: "#1EC8A0",
   color: "#fff",
   border: "none",
   padding: "10px 15px",
   borderRadius: "5px",
-  fontSize: "18px",
+  fontSize: "1rem",
   cursor: "pointer",
-  display: "flex",
+  display: "inline-flex",
   alignItems: "center",
   textDecoration: "none",
+  "@media (max-width: 768px)": {
+    fontSize: "0.9rem",
+    padding: "8px 12px",
+  },
 };
+
 const modalOverlayStyle = {
   position: "fixed",
   top: 0,
@@ -324,11 +383,16 @@ const modalOverlayStyle = {
 
 const modalStyle = {
   backgroundColor: "#fff",
-  padding: "30px",
+  padding: "20px",
   borderRadius: "10px",
   boxShadow: "0 5px 15px rgba(0, 0, 0, 0.3)",
   textAlign: "center",
-  minWidth: "300px",
+  width: "90%",
+  maxWidth: "400px",
+  "@media (max-width: 768px)": {
+    padding: "15px",
+    maxWidth: "90%",
+  },
 };
 
 const yesButtonStyle = {
@@ -339,6 +403,10 @@ const yesButtonStyle = {
   borderRadius: "5px",
   fontWeight: "bold",
   cursor: "pointer",
+  "@media (max-width: 768px)": {
+    padding: "8px 15px",
+    fontSize: "0.9rem",
+  },
 };
 
 const noButtonStyle = {
@@ -349,10 +417,76 @@ const noButtonStyle = {
   borderRadius: "5px",
   fontWeight: "bold",
   cursor: "pointer",
+  "@media (max-width: 768px)": {
+    padding: "8px 15px",
+    fontSize: "0.9rem",
+  },
 };
 
-export default Courses;
+// const dashboardContainer = { display: "flex", flexDirection: "row-reverse", direction: "rtl" };
+// const mainContent = { marginRight: "220px", padding: "20px", width: "100%", boxSizing: "border-box" };
+// const tableContainerStyle = { width: "100%", overflowX: "auto", backgroundColor: "#fff", borderRadius: "10px", boxShadow: "0 2px 10px rgba(0,0,0,0.1)", padding: "15px" };
+// const tableStyle = { width: "100%", borderCollapse: "collapse", textAlign: "right" };
+// const tableHeaderRowStyle = { backgroundColor: "#f8f9fa" };
+// const tableHeaderCellStyle = { padding: "12px", textAlign: "right", fontWeight: "bold", borderBottom: "2px solid #ddd" };
+// const tableRowStyle = { borderBottom: "1px solid #ddd" };
+// const tableCellStyle = { padding: "12px" };
+// const addButtonStyle = {
+//   backgroundColor: "#1EC8A0",
+//   color: "#fff",
+//   border: "none",
+//   padding: "10px 15px",
+//   borderRadius: "5px",
+//   fontSize: "18px",
+//   cursor: "pointer",
+//   display: "flex",
+//   alignItems: "center",
+//   textDecoration: "none",
+// };
+// const modalOverlayStyle = {
+//   position: "fixed",
+//   top: 0,
+//   left: 0,
+//   width: "100vw",
+//   height: "100vh",
+//   backgroundColor: "rgba(0, 0, 0, 0.5)",
+//   display: "flex",
+//   justifyContent: "center",
+//   alignItems: "center",
+//   zIndex: 1000,
+// };
 
+// const modalStyle = {
+//   backgroundColor: "#fff",
+//   padding: "30px",
+//   borderRadius: "10px",
+//   boxShadow: "0 5px 15px rgba(0, 0, 0, 0.3)",
+//   textAlign: "center",
+//   minWidth: "300px",
+// };
+
+// const yesButtonStyle = {
+//   backgroundColor: "#1EC8A0",
+//   color: "#fff",
+//   border: "none",
+//   padding: "10px 20px",
+//   borderRadius: "5px",
+//   fontWeight: "bold",
+//   cursor: "pointer",
+// };
+
+// const noButtonStyle = {
+//   backgroundColor: "#ccc",
+//   color: "#000",
+//   border: "none",
+//   padding: "10px 20px",
+//   borderRadius: "5px",
+//   fontWeight: "bold",
+//   cursor: "pointer",
+// };
+
+export default Courses;
+/*************************************************************************** */
 // import React, { useState, useEffect } from "react";
 // import Sidebar from "../Components/Sidebar";
 // import Navbar from "../Components/DashboardNavbar";

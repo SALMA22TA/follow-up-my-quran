@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+// import axios from 'axios';
 import '../styles/Verification.css';
 // import { useLocation } from 'react-router-dom';
+import { verify } from '../services/authService';
 
 
 const Verification = () => {
@@ -40,8 +41,43 @@ const Verification = () => {
       }
     }
   };
-
+/*********************************************************** */
   // Verification.jsx (relevant part)
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   setError('');
+  //   setLoading(true);
+
+  //   const verificationCode = code.join('');
+  //   if (verificationCode.length !== 6) {
+  //     setError('Please enter a 6-digit code.');
+  //     setLoading(false);
+  //     return;
+  //   }
+
+  //   try {
+  //     const response = await axios.post('http://localhost:8000/api/auth/verify', {
+  //       user_id: userId,
+  //       verification_code: verificationCode,
+  //     }, {
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         'Accept': 'application/json',
+  //       },
+  //     });
+
+  //     if (response.status === 200) {
+  //       navigate('/login', { state: { message: 'Email verified successfully!' } });
+  //     }
+  //   } catch (err) {
+  //     const errorMessage = err.response?.data?.message || 'Verification failed. Please check your code and try again.';
+  //     setError(errorMessage);
+  //     console.error('Verification error:', err.response?.data || err);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+/*********************************************************** */
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -55,23 +91,12 @@ const Verification = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:8000/api/auth/verify', {
-        user_id: userId,
-        verification_code: verificationCode,
-      }, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
-      });
-
-      if (response.status === 200) {
-        navigate('/login', { state: { message: 'Email verified successfully!' } });
-      }
+      await verify(userId, verificationCode);
+      navigate('/login', { state: { message: 'Email verified successfully!' } });
     } catch (err) {
-      const errorMessage = err.response?.data?.message || 'Verification failed. Please check your code and try again.';
+      const errorMessage = err.message || 'Verification failed. Please check your code and try again.';
       setError(errorMessage);
-      console.error('Verification error:', err.response?.data || err);
+      console.error('Verification error:', err);
     } finally {
       setLoading(false);
     }

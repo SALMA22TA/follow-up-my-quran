@@ -1,8 +1,21 @@
 import React, { useState } from 'react';
-// import logo from '../assests/imgs/BellLogo.svg.png'; // ✅ تأكد من أن المسار صحيح
+import { useNavigate } from 'react-router-dom';
+import { logout } from '../services/authService'; 
 
 const Navbar = () => {
   const [showDropdown, setShowDropdown] = useState(false);
+  const [loading, setLoading] = useState(false); 
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    setLoading(true); 
+    logout();
+    setShowDropdown(false);
+    setTimeout(() => {
+      setLoading(false);
+      navigate('/login', { state: { message: 'تم تسجيل الخروج بنجاح!' } });
+    }, 500); 
+  };
 
   const navbarStyle = {
     height: '70px',
@@ -15,14 +28,8 @@ const Navbar = () => {
     position: 'absolute',
     top: 20,
     zIndex: 100,
-    direction: 'rtl', // ⭐ لدعم اللغة العربية
+    direction: 'rtl',
   };
-
-  // const logoStyle = {
-  //   width: '50px',
-  //   // height: 'auto',
-  //   margin:'auto'
-  // };
 
   const profileStyle = {
     width: '45px',
@@ -36,20 +43,18 @@ const Navbar = () => {
   const dropdownStyle = {
     position: 'absolute',
     top: '55px',
-    left: 0, // ⭐ تم التعديل ليتناسب مع الاتجاه من اليمين لليسار
+    left: 0,
     backgroundColor: '#FFFFFF',
     border: '1px solid #E6E6E6',
     borderRadius: '5px',
     boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
     padding: '10px',
     zIndex: 10,
-    textAlign: 'right', // ⭐ النص محاذي لليمين
+    textAlign: 'right',
   };
 
   return (
     <nav style={navbarStyle}>
-      {/* <img src={logo} alt="الشعار" style={logoStyle} /> */}
-      
       <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
         <i className="fa fa-bell" style={{ fontSize: '20px', cursor: 'pointer' }}></i>
         <div
@@ -59,7 +64,12 @@ const Navbar = () => {
           {showDropdown && (
             <div style={dropdownStyle}>
               <p style={{ margin: '0 0 10px', cursor: 'pointer' }}>الملف الشخصي</p>
-              <p style={{ margin: 0, cursor: 'pointer' }}>تسجيل الخروج</p>
+              <p
+                style={{ margin: 0, cursor: 'pointer' }}
+                onClick={handleLogout}
+              >
+                {loading ? 'جاري تسجيل الخروج...' : 'تسجيل الخروج'}
+              </p>
             </div>
           )}
         </div>
@@ -69,4 +79,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-

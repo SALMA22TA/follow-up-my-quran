@@ -1,52 +1,136 @@
 import axios from 'axios';
 
-// Ensure the base URL ends with a slash
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000/api/auth/';
+
+// Create an Axios instance
+const axiosInstance = axios.create({
+  baseURL: API_URL,
+  headers: {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+  },
+});
+
+// Add a request interceptor to attach the token
+axiosInstance.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('access_token');
+    if (token) {
+      config.headers['Authorization'] = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
+// Add a response interceptor to handle 401 errors
+axiosInstance.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      console.log("Unauthorized: Token expired or invalid, redirecting to login");
+      localStorage.removeItem('access_token');
+      window.location.href = '/login'; // Redirect to login
+    }
+    return Promise.reject(error);
+  }
+);
 
 const login = async (email, password) => {
   try {
-    const response = await axios.post(`${API_URL}login`, {
-      email,
-      password,
-    }, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
-    });
-    console.log('Login response:', response.data); // Debug the response
-    localStorage.setItem('access_token', response.data.access_token); // أضيفي السطر ده
-    console.log("Token stored in authService:", localStorage.getItem("access_token")); // أضيفي السطر ده
+    const response = await axiosInstance.post('login', { email, password });
+    console.log('Login response:', response.data);
+    localStorage.setItem('access_token', response.data.access_token);
+    console.log("Token stored in authService:", localStorage.getItem("access_token"));
     return response.data;
   } catch (error) {
     console.error('Login error:', error.response?.data || error);
     throw error.response?.data || error;
   }
 };
-
-const logout = () => {
-  localStorage.removeItem('access_token'); // عدلي من 'token' لـ 'access_token'
-};
-
-const refreshToken = async () => {
+const register = async (formData) => {
   try {
-    const response = await axios.post(`${API_URL}refresh`, {}, {
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('access_token')}`, // عدلي من 'token' لـ 'access_token'
-      },
-    });
-    localStorage.setItem('access_token', response.data.access_token); // عدلي من 'token' لـ 'access_token'
+    const response = await axiosInstance.post('register', formData);
     return response.data;
   } catch (error) {
+    console.error('Registration error:', error.response?.data || error);
     throw error.response?.data || error;
   }
 };
 
-const getAccessToken = () => {
-  return localStorage.getItem('access_token'); // عدلي من 'token' لـ 'access_token'
+const verify = async (userId, verificationCode) => {
+  try {
+    const response = await axiosInstance.post('verify', {
+      user_id: userId,
+      verification_code: verificationCode,
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Verification error:', error.response?.data || error);
+    throw error.response?.data || error;
+  }
 };
 
-export { login, logout, refreshToken, getAccessToken };
+const logout = () => {
+  localStorage.removeItem('access_token');
+};
+
+const getAccessToken = () => {
+  return localStorage.getItem('access_token');
+};
+
+export { login, logout, getAccessToken, register, verify, axiosInstance };
+/****************************************************************************** */
+
+// import axios from 'axios';
+
+// // Ensure the base URL ends with a slash
+// const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000/api/auth/';
+
+// const login = async (email, password) => {
+//   try {
+//     const response = await axios.post(`${API_URL}login`, {
+//       email,
+//       password,
+//     }, {
+//       headers: {
+//         'Content-Type': 'application/json',
+//         'Accept': 'application/json',
+//       },
+//     });
+//     console.log('Login response:', response.data); // Debug the response
+//     localStorage.setItem('access_token', response.data.access_token); // أضيفي السطر ده
+//     console.log("Token stored in authService:", localStorage.getItem("access_token")); // أضيفي السطر ده
+//     return response.data;
+//   } catch (error) {
+//     console.error('Login error:', error.response?.data || error);
+//     throw error.response?.data || error;
+//   }
+// };
+
+// const logout = () => {
+//   localStorage.removeItem('access_token'); // عدلي من 'token' لـ 'access_token'
+// };
+
+// const refreshToken = async () => {
+//   try {
+//     const response = await axios.post(`${API_URL}refresh`, {}, {
+//       headers: {
+//         'Authorization': `Bearer ${localStorage.getItem('access_token')}`, // عدلي من 'token' لـ 'access_token'
+//       },
+//     });
+//     localStorage.setItem('access_token', response.data.access_token); // عدلي من 'token' لـ 'access_token'
+//     return response.data;
+//   } catch (error) {
+//     throw error.response?.data || error;
+//   }
+// };
+
+// const getAccessToken = () => {
+//   return localStorage.getItem('access_token'); // عدلي من 'token' لـ 'access_token'
+// };
+
+// export { login, logout, refreshToken, getAccessToken };
 
 
 // // // authService.js

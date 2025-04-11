@@ -1,9 +1,10 @@
 import { useState } from "react";
-import axios from "axios";
+// import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import quranImage from './images/q.png';
 import { Link } from 'react-router-dom';
 // import Verification from "./Verification";
+import { register } from '../services/authService';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -38,29 +39,44 @@ const Register = () => {
   //     navigate('/verify');
   //   }, 1000);
   // };
+  /****************************************** */
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   setMessage("");
+  
+  //   try {
+  //     const response = await axios.post(
+  //       "http://localhost:8000/api/auth/register",
+  //       formData // هنا بدل null و params
+  //     );
+  
+  //     setMessage(response.data.message);
+  
+  //     // انتقلي لصفحة التحقق بعد نجاح التسجيل
+  //     setTimeout(() => {
+  //       navigate('/verify', { state: { userId: response.data.user_id } });
+  //     },);
+  
+  //   } catch (error) {
+  //     setMessage("فشل في التسجيل. يرجى المحاولة مرة أخرى.");
+  //     console.error(error);
+  //   }
+  // };
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage("");
-  
     try {
-      const response = await axios.post(
-        "http://localhost:8000/api/auth/register",
-        formData // هنا بدل null و params
-      );
-  
-      setMessage(response.data.message);
-  
-      // انتقلي لصفحة التحقق بعد نجاح التسجيل
+      const response = await register(formData);
+      setMessage(response.message);
       setTimeout(() => {
-        navigate('/verify', { state: { userId: response.data.user_id } });
-      },);
-  
+        navigate('/verify', { state: { userId: response.user_id } });
+      }, 1000);
     } catch (error) {
       setMessage("فشل في التسجيل. يرجى المحاولة مرة أخرى.");
       console.error(error);
     }
   };
-  
 
   return (
     <div style={styles.mainContainer}>

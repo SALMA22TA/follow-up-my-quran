@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { PlusCircle } from "lucide-react";
-import Sidebar from '../Components/Sidebar';
+import Sidebar from "../Components/Sidebar";
 import Navbar from "../Components/DashboardNavbar";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";

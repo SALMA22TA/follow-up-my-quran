@@ -7,6 +7,7 @@ import quranImage from './images/l.png';
 // import authService from './services/authService';
 // import authService from '../services/authService';
 import { login } from '../services/authService';
+import { useLocation } from 'react-router-dom';
 
 
 const Login = () => {
@@ -56,7 +57,7 @@ const Login = () => {
     email: "",
     password: "",
   });
-  const [message, setMessage] = useState("");
+
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -110,29 +111,61 @@ const Login = () => {
   //     setMessage("فشل تسجيل الدخول. تحقق من البيانات.");
   //   }
   // };
-
+/****************************************************** */
   // Login.jsx (relevant part)
+  // const handleLoginSubmit = async (e) => {
+  //   e.preventDefault();
+  //   setMessage("");
+
+  //   if (!formData.email || !formData.password) {
+  //     setMessage("يرجى ملء كلا الحقلين.");
+  //     return;
+  //   }
+
+  //   try {
+  //     const response = await login(formData.email, formData.password);
+  //     localStorage.setItem('token', response.access_token);
+  //     setMessage("تم تسجيل الدخول بنجاح!");
+  //     setTimeout(() => {
+  //       // navigate("/sheikh-dashboard");
+  //       navigate("/sheikh-dashboard");
+  //     }, 1000);
+  //   } catch (error) {
+  //     console.error("Login error:", error);
+  //     const errorMessage = error.message || "فشل تسجيل الدخول. تحقق من البيانات.";
+  //     setMessage(errorMessage);
+  //   }
+  // };
+  /**************************************************** */
+
+  const [loading, setLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const location = useLocation();
+  const [message, setMessage] = useState(location.state?.message || "");
+
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     setMessage("");
-
+    setIsError(false);
     if (!formData.email || !formData.password) {
       setMessage("يرجى ملء كلا الحقلين.");
+      setIsError(true);
       return;
     }
-
+    setLoading(true);
     try {
-      const response = await login(formData.email, formData.password);
-      localStorage.setItem('token', response.access_token);
+      await login(formData.email, formData.password);
       setMessage("تم تسجيل الدخول بنجاح!");
       setTimeout(() => {
-        // navigate("/sheikh-dashboard");
         navigate("/sheikh-dashboard");
       }, 1000);
     } catch (error) {
       console.error("Login error:", error);
       const errorMessage = error.message || "فشل تسجيل الدخول. تحقق من البيانات.";
       setMessage(errorMessage);
+      setIsError(true);
+    } finally {
+      setLoading(false);
     }
   };
   return (
@@ -156,7 +189,8 @@ const Login = () => {
         </div>
 
         <form onSubmit={handleLoginSubmit} style={styles.form}>
-          {message && <p style={styles.message}>{message}</p>}
+        {message && <p style={{ ...styles.message, color: isError ? 'red' : 'green' }}>{message}</p>}
+          {/* {message && <p style={styles.message}>{message}</p>} */}
           {/* {successMessage && <p style={styles.successMessage}>{successMessage}</p>} //Display success message */}
           <label style={styles.label}>اسم المستخدم</label>
           <input
@@ -191,9 +225,12 @@ const Login = () => {
           {/* <Link to="/sheikh-dashboard" style={styles.loginButton}>
             تسجيل الدخول
           </Link> */}
-          <button type="submit" style={styles.loginButton}>
-            تسجيل الدخول
+          <button type="submit" style={styles.loginButton} disabled={loading}>
+            {loading ? 'جاري تسجيل الدخول...' : 'تسجيل الدخول'}
           </button>
+          {/* <button type="submit" style={styles.loginButton}>
+            تسجيل الدخول
+          </button> */}
         </form>
 
         <p style={styles.registerText}>
