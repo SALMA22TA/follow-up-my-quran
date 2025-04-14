@@ -21,6 +21,7 @@ import TodaysSessions from './Components/TodaysSessions';
 import ExamQuestions from './Pages/ExamQuestions';
 import ExamAnswers from './Pages/ExamAnswers';
 import CourseDetails from './Pages/CourseDetails';
+import GenerateSessions from './Pages/GenerateSessions';
 import { getAccessToken } from './services/authService';
 import { jwtDecode } from 'jwt-decode';
 import MainLayout from './Components/MainLayout'; 
@@ -183,6 +184,16 @@ const App = () => {
           <ProtectedRoute>
             <MainLayout>
               <CourseDetails />
+            </MainLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/generate-sessions"
+        element={
+          <ProtectedRoute>
+            <MainLayout>
+              <GenerateSessions />
             </MainLayout>
           </ProtectedRoute>
         }

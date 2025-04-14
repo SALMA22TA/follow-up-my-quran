@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import '../styles/Sidebar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHouse, faBookOpen, faCommentDots } from '@fortawesome/free-solid-svg-icons';
+import { faHouse, faBookOpen, faCommentDots, faUsersLine } from '@fortawesome/free-solid-svg-icons';
 import { faFileLines, faClipboard } from '@fortawesome/free-regular-svg-icons';
 
 const Sidebar = () => {
@@ -30,6 +30,9 @@ const Sidebar = () => {
             </li>
             <li>
               <NavLink to="/exams" className={({ isActive }) => isActive ? "active" : ""}> <FontAwesomeIcon icon={faFileLines} /> الاختبارات</NavLink>
+            </li>
+            <li>
+              <NavLink to="/generate-sessions" className={({ isActive }) => isActive ? "active" : ""}> <FontAwesomeIcon icon={faUsersLine} /> الجلسات</NavLink>
             </li>
           </ul>
         </div>
