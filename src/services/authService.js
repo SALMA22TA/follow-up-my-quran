@@ -2,7 +2,6 @@ import axios from 'axios';
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000/api/auth/';
 
-// Create an Axios instance
 const axiosInstance = axios.create({
   baseURL: API_URL,
   headers: {
@@ -11,7 +10,6 @@ const axiosInstance = axios.create({
   },
 });
 
-// Add a request interceptor to attach the token
 axiosInstance.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('access_token');
@@ -23,14 +21,14 @@ axiosInstance.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Add a response interceptor to handle 401 errors
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
       console.log("Unauthorized: Token expired or invalid, redirecting to login");
       localStorage.removeItem('access_token');
-      window.location.href = '/login'; // Redirect to login
+      localStorage.removeItem('user_role');
+      window.location.href = '/login';
     }
     return Promise.reject(error);
   }
@@ -41,13 +39,16 @@ const login = async (email, password) => {
     const response = await axiosInstance.post('login', { email, password });
     console.log('Login response:', response.data);
     localStorage.setItem('access_token', response.data.access_token);
-    console.log("Token stored in authService:", localStorage.getItem("access_token"));
+    localStorage.setItem('user_role', response.data.user.role); // Changed to response.data.user.role
+    console.log("Token stored:", localStorage.getItem("access_token"));
+    console.log("Role stored:", localStorage.getItem("user_role"));
     return response.data;
   } catch (error) {
     console.error('Login error:', error.response?.data || error);
     throw error.response?.data || error;
   }
 };
+
 const register = async (formData) => {
   try {
     const response = await axiosInstance.post('register', formData);
@@ -73,13 +74,101 @@ const verify = async (userId, verificationCode) => {
 
 const logout = () => {
   localStorage.removeItem('access_token');
+  localStorage.removeItem('user_role');
 };
 
 const getAccessToken = () => {
   return localStorage.getItem('access_token');
 };
 
-export { login, logout, getAccessToken, register, verify, axiosInstance };
+const getUserRole = () => {
+  return localStorage.getItem('user_role');
+};
+
+export { login, logout, getAccessToken, register, verify, axiosInstance, getUserRole };
+/************************************ Latest *************************************** */
+// import axios from 'axios';
+
+// const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000/api/auth/';
+
+// // Create an Axios instance
+// const axiosInstance = axios.create({
+//   baseURL: API_URL,
+//   headers: {
+//     'Content-Type': 'application/json',
+//     'Accept': 'application/json',
+//   },
+// });
+
+// // Add a request interceptor to attach the token
+// axiosInstance.interceptors.request.use(
+//   (config) => {
+//     const token = localStorage.getItem('access_token');
+//     if (token) {
+//       config.headers['Authorization'] = `Bearer ${token}`;
+//     }
+//     return config;
+//   },
+//   (error) => Promise.reject(error)
+// );
+
+// // Add a response interceptor to handle 401 errors
+// axiosInstance.interceptors.response.use(
+//   (response) => response,
+//   (error) => {
+//     if (error.response?.status === 401) {
+//       console.log("Unauthorized: Token expired or invalid, redirecting to login");
+//       localStorage.removeItem('access_token');
+//       window.location.href = '/login'; // Redirect to login
+//     }
+//     return Promise.reject(error);
+//   }
+// );
+
+// const login = async (email, password) => {
+//   try {
+//     const response = await axiosInstance.post('login', { email, password });
+//     console.log('Login response:', response.data);
+//     localStorage.setItem('access_token', response.data.access_token);
+//     console.log("Token stored in authService:", localStorage.getItem("access_token"));
+//     return response.data;
+//   } catch (error) {
+//     console.error('Login error:', error.response?.data || error);
+//     throw error.response?.data || error;
+//   }
+// };
+// const register = async (formData) => {
+//   try {
+//     const response = await axiosInstance.post('register', formData);
+//     return response.data;
+//   } catch (error) {
+//     console.error('Registration error:', error.response?.data || error);
+//     throw error.response?.data || error;
+//   }
+// };
+
+// const verify = async (userId, verificationCode) => {
+//   try {
+//     const response = await axiosInstance.post('verify', {
+//       user_id: userId,
+//       verification_code: verificationCode,
+//     });
+//     return response.data;
+//   } catch (error) {
+//     console.error('Verification error:', error.response?.data || error);
+//     throw error.response?.data || error;
+//   }
+// };
+
+// const logout = () => {
+//   localStorage.removeItem('access_token');
+// };
+
+// const getAccessToken = () => {
+//   return localStorage.getItem('access_token');
+// };
+
+// export { login, logout, getAccessToken, register, verify, axiosInstance };
 /****************************************************************************** */
 
 // import axios from 'axios';
