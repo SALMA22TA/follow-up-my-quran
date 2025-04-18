@@ -106,7 +106,7 @@ const styles = {
   header: {
     fontSize: '2.5rem',
     textAlign: 'center',
-    color: '#4caf50',
+    color: "rgb(30, 200, 160)",
     marginBottom: '1.5rem',
   },
   subHeader: {

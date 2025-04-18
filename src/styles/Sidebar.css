@@ -1,0 +1,72 @@
+.toggle-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 1000;
+    padding: 5px;
+}
+
+/* Sidebar container */
+.sidebar {
+    width: 200px;
+    background-color: #f8f9fa;
+    padding: 15px;
+    text-align: right;
+    transition: transform 0.3s ease-in-out;
+    position: fixed;
+    height: 100vh;
+    top: 0;
+    right: 0; /* Ensures it appears from the right */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align items properly */
+    direction: rtl;
+}
+
+/* Sidebar closed state */
+.sidebar.closed {
+    transform: translateX(100%);
+}
+
+/* Sidebar menu list */
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    width: 100%;
+    margin-top: 50px; /* ✅ Push links lower */
+}
+
+/* Sidebar list items */
+.sidebar li {
+    margin: 10px 0;
+}
+
+/* Sidebar links */
+.sidebar a {
+    text-decoration: none;
+    color: black;
+    display: block;
+    padding: 12px 15px;
+    border-radius: 5px;
+    font-size: 18px;
+    transition: background 0.3s;
+}
+
+/* Active link styling */
+.sidebar a.active {
+    background-color:  #1EC8A0;
+    color: white;
+}
+
+/* Ensure spacing between toggle button and links */
+.sidebar ul {
+    margin-top: 60px; /* ✅ Increases space between toggle button and menu */
+}
+.sidebar a:hover {
+    background-color: #1EC8A0;
+    color: white;
+}

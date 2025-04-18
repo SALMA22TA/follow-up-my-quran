@@ -1,11 +1,18 @@
 import React from 'react';
 import FeaturesSection from '../Components/FeaturesSection';
 import TeachersSection from '../Components/TeachersSection';
+import TestimonialsSection from "../Components/TestimonialsSection";
+import Footer from "../Components/Footer";
+import FAQSection from "../Components/FAQSection";
+import HeroSection from "../Components/HeroSection";
+
+
 
 const LandingPage = () => {
     return (
         <div>
-            {/* Existing Sections */}
+            {/* <Navbar /> */}
+            <HeroSection />
             <div style={styles.container}>
                 {/* Left Section */}
                 <div style={styles.leftSection}>
@@ -53,6 +60,12 @@ const LandingPage = () => {
             <FeaturesSection />
             {/* The Teachers Section */}
             <TeachersSection />
+            {/* The Testimonials Section */}
+            <TestimonialsSection />
+            {/* The FAQ Section */}
+            <FAQSection />
+            {/* The Footer */}
+            <Footer />
         </div>
     );
 };
@@ -119,7 +132,7 @@ const styles = {
     },
     checkIcon: {
         marginLeft: '8px',
-        flexShrink: 0, // Ensures the icon does not get resized
+        flexShrink: 0,
     },
     rightSection: {
         flex: 1,

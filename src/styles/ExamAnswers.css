@@ -1,0 +1,58 @@
+/* ExamAnswers.css */
+.exam-answers-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 20px;
+}
+
+.exam-answers-form {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    width: 80%;
+    max-width: 900px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    direction: rtl;
+}
+
+.exam-answers-form h2 {
+    background: linear-gradient(to right, #16a085, #1abc9c);
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.question-input,
+.answer-option {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.correct-answer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.save-button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background: #16a085;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.save-button:hover {
+    background: #1abc9c;
+}

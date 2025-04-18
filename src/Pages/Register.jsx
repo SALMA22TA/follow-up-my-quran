@@ -1,62 +1,81 @@
-import React, { useState } from 'react';
+import { useState } from "react";
+// import axios from "axios";
 import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 import quranImage from './images/q.png';
+import { Link } from 'react-router-dom';
+// import Verification from "./Verification";
+import { register } from '../services/authService';
 
 const Register = () => {
   const navigate = useNavigate();
-  const [registerData, setRegisterData] = useState({
-    username: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
+  const [formData, setFormData] = useState({
+    fullName: "",
+    email: "",
+    password: "",
   });
-  const [errorMessage, setErrorMessage] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
-
+  const [message, setMessage] = useState("");
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setRegisterData({ ...registerData, [name]: value });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   setMessage('تم التسجيل بنجاح!');
+  //   try {
+  //     const response = await axios.post(
+  //       "http://localhost:8000/api/auth/register",
+  //       null,
+  //       {
+  //         params: formData,
+  //       }
+  //     );
+  //     setMessage(response.data.message);
+  //   } catch (error) {
+  //     setMessage("Registration failed. Please try again.");
+  //     console.error(error);
+  //   }
+  //   // Redirect to login page after success
+  //   setTimeout(() => {
+  //     navigate('/verify');
+  //   }, 1000);
+  // };
+  /****************************************** */
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   setMessage("");
+  
+  //   try {
+  //     const response = await axios.post(
+  //       "http://localhost:8000/api/auth/register",
+  //       formData // هنا بدل null و params
+  //     );
+  
+  //     setMessage(response.data.message);
+  
+  //     // انتقلي لصفحة التحقق بعد نجاح التسجيل
+  //     setTimeout(() => {
+  //       navigate('/verify', { state: { userId: response.data.user_id } });
+  //     },);
+  
+  //   } catch (error) {
+  //     setMessage("فشل في التسجيل. يرجى المحاولة مرة أخرى.");
+  //     console.error(error);
+  //   }
+  // };
+  
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Validation
-    if (!registerData.username || !registerData.email || !registerData.password || !registerData.confirmPassword) {
-      setErrorMessage('يرجى ملء جميع الحقول.');
-      setSuccessMessage('');
-      return;
+    setMessage("");
+    try {
+      const response = await register(formData);
+      setMessage(response.message);
+      setTimeout(() => {
+        navigate('/verify', { state: { userId: response.user_id } });
+      }, 1000);
+    } catch (error) {
+      setMessage("فشل في التسجيل. يرجى المحاولة مرة أخرى.");
+      console.error(error);
     }
-
-    if (registerData.password !== registerData.confirmPassword) {
-      setErrorMessage('كلمتا المرور غير متطابقتين.');
-      setSuccessMessage('');
-      return;
-    }
-
-    setErrorMessage('');
-    setSuccessMessage('تم التسجيل بنجاح!');
-
-    // Store registered user (mock storage)
-    const user = {
-      email: registerData.email,
-      password: registerData.password,
-    };
-    localStorage.setItem('registeredUser', JSON.stringify(user));
-
-    // Reset form data
-    setRegisterData({
-      username: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
-    });
-
-    // Redirect to login page after success
-    setTimeout(() => {
-      navigate('/login');
-    }, 1000);
   };
 
   return (
@@ -74,51 +93,39 @@ const Register = () => {
           <span style={styles.orText}>أو</span>
           <div style={styles.line}></div>
         </div>
-
-        {errorMessage && <p style={styles.errorMessage}>{errorMessage}</p>}
-        {successMessage && <p style={styles.successMessage}>{successMessage}</p>}
+        {message && <p>{message}</p>}
 
         <form onSubmit={handleSubmit} style={styles.form}>
           <label style={styles.label}>اسم المستخدم</label>
           <input
             type="text"
-            name="username"
-            value={registerData.username}
+            name="fullName"
+            value={formData.fullName}
             onChange={handleChange}
-            placeholder="أدخل اسم المستخدم هنا"
+            placeholder="أدخل اسمك الكامل هنا"
             style={styles.input}
+            required
           />
-
           <label style={styles.label}>البريد الإلكتروني</label>
           <input
             type="email"
             name="email"
-            value={registerData.email}
-            onChange={handleChange}
             placeholder="أدخل بريدك الإلكتروني هنا"
+            value={formData.email}
+            onChange={handleChange}
             style={styles.input}
+            required
           />
-
           <label style={styles.label}>كلمة المرور</label>
           <input
             type="password"
             name="password"
-            value={registerData.password}
-            onChange={handleChange}
             placeholder="أدخل كلمة المرور هنا"
-            style={styles.input}
-          />
-
-          <label style={styles.label}>تأكيد كلمة المرور</label>
-          <input
-            type="password"
-            name="confirmPassword"
-            value={registerData.confirmPassword}
+            value={formData.password}
             onChange={handleChange}
-            placeholder="أعد إدخال كلمة المرور"
             style={styles.input}
+            required
           />
-
           <button type="submit" style={styles.registerButton}>إنشاء حساب جديد</button>
         </form>
 
@@ -260,7 +267,7 @@ const styles = {
     borderRadius: '8px',
     fontSize: '1rem',
     textAlign: 'right',
-    direction: 'rtl', // Arabic text alignment
+    direction: 'rtl', 
   },
   registerButton: {
     fontFamily: '"Tajawal", sans-serif',

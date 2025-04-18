@@ -99,7 +99,7 @@ const styles = {
   },
   header: {
     fontSize: '3rem',
-    color: '#4caf50',
+    color: "rgb(30, 200, 160)",
     marginBottom: '0.5rem',
     fontWeight: 'bold',
   },
