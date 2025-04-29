@@ -16,17 +16,17 @@ const Login = () => {
   const [isError, setIsError] = useState(location.state?.isError || false);
   const [message, setMessage] = useState(location.state?.message || searchParams.get('message') || "");
 
-  // 30 seconds for error messages, 3 for others
   useEffect(() => {
-    if (!message || !isError) return; // لو ما فيش رسالة خطأ ما تعملش حاجة
+    if (!message) return;
   
     const timer = setTimeout(() => {
       setMessage("");
       setIsError(false);
-    }, 30000); // فقط امسح رسالة الخطأ بعد 30 ثانية
+    }, isError ? 4000 : 3000); // 4 seconds for error message, 3 seconds for others
   
     return () => clearTimeout(timer);
-  }, [message, isError]);  
+  }, [message, isError]);
+  
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
