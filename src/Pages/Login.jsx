@@ -16,16 +16,17 @@ const Login = () => {
   const [isError, setIsError] = useState(location.state?.isError || false);
   const [message, setMessage] = useState(location.state?.message || searchParams.get('message') || "");
 
-  // Clear message after 3 seconds
+  // 30 seconds for error messages, 3 for others
   useEffect(() => {
-    if (message) {
-      const timer = setTimeout(() => {
-        setMessage("");
-        setIsError(false);
-      }, 3000);
-      return () => clearTimeout(timer);
-    }
-  }, [message]);
+    if (!message || !isError) return; // لو ما فيش رسالة خطأ ما تعملش حاجة
+  
+    const timer = setTimeout(() => {
+      setMessage("");
+      setIsError(false);
+    }, 30000); // فقط امسح رسالة الخطأ بعد 30 ثانية
+  
+    return () => clearTimeout(timer);
+  }, [message, isError]);  
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -43,27 +44,37 @@ const Login = () => {
     setLoading(true);
     try {
       const response = await login(formData.email, formData.password);
-      setMessage("تم تسجيل الدخول بنجاح!");
-      setIsError(false); // Success message should not be red
-      setTimeout(() => {
-        const role = Number(response.user.role);
-        if (role === 0) {
+      const role = Number(response.user.role);
+    
+      if (role === 0) {
+        setMessage("تم تسجيل الدخول بنجاح!");
+        setIsError(false);
+        setTimeout(() => {
           navigate("/student-dashboard");
-        } else if (role === 1) {
+        }, 1000);
+      } else if (role === 1) {
+        setMessage("تم تسجيل الدخول بنجاح!");
+        setIsError(false);
+        setTimeout(() => {
           navigate("/admin-dashboard");
-        } else if (role === 2) {
+        }, 1000);
+      } else if (role === 2) {
+        setMessage("تم تسجيل الدخول بنجاح!");
+        setIsError(false);
+        setTimeout(() => {
           navigate("/sheikh-dashboard");
-        } else {
-          setMessage("دور المستخدم غير معروف.");
-          setIsError(true);
-        }
-      }, 1000);
+        }, 1000);
+      } else {
+        setMessage("دور المستخدم غير معروف.");
+        setIsError(true);
+      }
     } catch (error) {
       console.error("Login error:", error);
       const errorMessage = error.message || "فشل تسجيل الدخول. تحقق من البيانات.";
       setMessage(errorMessage);
       setIsError(true);
-    } finally {
+    }
+    finally {
       setLoading(false);
     }
   };

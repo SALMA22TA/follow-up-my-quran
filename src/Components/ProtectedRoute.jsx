@@ -90,6 +90,21 @@ const ProtectedRoute = ({ children }) => {
       localStorage.removeItem('user_role');
       return <Navigate to="/login" state={{ message: "غير مصرح لك بالوصول لهذه الصفحة.", isError: true }} replace />;
     }
+    if (location.pathname === '/select-verse' && role !== '0') {
+      localStorage.removeItem('access_token');
+      localStorage.removeItem('user_role');
+      return <Navigate to="/login" state={{ message: "غير مصرح لك بالوصول لهذه الصفحة.", isError: true }} replace />;
+    }
+    if (location.pathname === '/recitation' && role !== '0') {
+      localStorage.removeItem('access_token');
+      localStorage.removeItem('user_role');
+      return <Navigate to="/login" state={{ message: "غير مصرح لك بالوصول لهذه الصفحة.", isError: true }} replace />;
+    }
+    if (location.pathname === '/recitation-feedback' && role !== '0') {
+      localStorage.removeItem('access_token');
+      localStorage.removeItem('user_role');
+      return <Navigate to="/login" state={{ message: "غير مصرح لك بالوصول لهذه الصفحة.", isError: true }} replace />;
+    }
 
     return children;
   } catch (error) {

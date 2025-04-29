@@ -1,0 +1,135 @@
+/* Main container */
+.recitation-container {
+    min-height: 100vh;
+    background-color: #f5f9f8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  
+  /* Card container */
+  .recitation-card {
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    width: 100%;
+    max-width: 28rem;
+    border: 1px solid #e0f0ed;
+  }
+  
+  /* Title */
+  .recitation-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #333;
+  }
+  
+  /* Description text */
+  .recitation-description {
+    text-align: center;
+    color: #555;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+  }
+  
+  /* Start recording button */
+  .start-button {
+    width: 100%;
+    background-color: #20c997;
+    color: white;
+    padding: 1rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1.125rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .start-button:hover {
+    background-color: #1db386;
+  }
+  
+  /* Recording container */
+  .recording-container {
+    text-align: center;
+  }
+  
+  /* Timer text */
+  .timer-text {
+    color: #555;
+    margin-bottom: 1rem;
+    font-weight: 500;
+  }
+  
+  /* Stop recording button */
+  .stop-button {
+    width: 100%;
+    background-color: #ff6b6b;
+    color: white;
+    padding: 1rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1.125rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .stop-button:hover {
+    background-color: #fa5252;
+  }
+  
+  /* Pulsing animation for recording indicator */
+  @keyframes pulse {
+    0% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.6;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  
+  .recording-container .timer-text::before {
+    content: "●";
+    color: #ff6b6b;
+    display: inline-block;
+    margin-left: 0.5rem;
+    animation: pulse 1.5s infinite;
+  }
+  
+  /* RTL specific adjustments */
+  [dir="rtl"] .recitation-card {
+    text-align: right;
+  }
+  
+  /* Focus styles for accessibility */
+  button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(32, 201, 151, 0.3);
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 640px) {
+    .recitation-card {
+      padding: 1.5rem;
+    }
+  
+    .recitation-title {
+      font-size: 1.25rem;
+    }
+  
+    .start-button,
+    .stop-button {
+      padding: 0.75rem;
+    }
+  }
+  

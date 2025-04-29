@@ -27,6 +27,9 @@ import { getAccessToken } from './services/authService';
 import { jwtDecode } from 'jwt-decode';
 import MainLayout from './Components/MainLayout';
 import NotFound from './Pages/NotFound';
+import SelectVerse from './Pages/SelectVerse';
+import Recitation from './Pages/Recitation';
+import RecitationFeedback from './Pages/RecitationFeedback';
 
 const App = () => {
   const navigate = useNavigate();
@@ -207,6 +210,31 @@ const App = () => {
           </ProtectedRoute>
         }
       />
+      <Route
+          path="/select-verse"
+          element={
+            <ProtectedRoute allowedRoles={[0]}>
+              <SelectVerse />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/recitation"
+          element={
+            <ProtectedRoute allowedRoles={[0]}>
+              <Recitation />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/recitation-feedback"
+          element={
+            <ProtectedRoute allowedRoles={[0]}>
+              <RecitationFeedback />
+            </ProtectedRoute>
+          }
+        />
+
       {/* Wildcard route for invalid paths */}
       <Route path="*" element={<NotFound />} />
     </Routes>

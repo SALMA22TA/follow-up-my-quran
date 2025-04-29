@@ -1,0 +1,47 @@
+import { useLocation, useNavigate } from "react-router-dom"
+import Navbar from "../Components/DashboardNavbar"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faComment} from '@fortawesome/free-solid-svg-icons';
+import "../styles/recitation-feedback.css"
+
+const RecitationFeedback = () => {
+  const { state } = useLocation()
+  const { feedback, surahName, verseNumber } = state || {}
+  const navigate = useNavigate()
+
+  const { actualVerse, studentRead, correct } = feedback || {}
+
+  return (
+    <><Navbar /><div dir="rtl" className="feedback-container">
+      <div className="feedback-card">
+        <h1 className="feedback-title"> <FontAwesomeIcon icon={faComment} /> ملاحظات حول التلاوة </h1>
+
+        <div className="notification-box">
+          <p className="notification-text">تم حفظ التسجيل. راجع الملاحظات أدناه.</p>
+        </div>
+
+        <div className="verse-section">
+          <h2 className="section-title">النص الأصلي</h2>
+          <p className="verse-text">{actualVerse}</p>
+          <p className="verse-info">
+            {surahName}، آية {verseNumber}
+          </p>
+        </div>
+
+        <div className="verse-section">
+          <h2 className="section-title">تسميع الطالب</h2>
+          <p className={`verse-text ${correct ? "correct" : "incorrect"}`}>{studentRead}</p>
+          <p className="verse-info">
+            {surahName}، آية {verseNumber}
+          </p>
+        </div>
+
+        <button onClick={() => navigate("/select-verse")} className="action-button">
+          اختر آية جديدة
+        </button>
+      </div>
+    </div></>
+  )
+}
+
+export default RecitationFeedback
