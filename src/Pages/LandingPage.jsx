@@ -13,7 +13,7 @@ const LandingPage = () => {
         <div>
             {/* <Navbar /> */}
             <HeroSection />
-            <div style={styles.container}>
+            <div id="about" style={styles.container}>
                 {/* Left Section */}
                 <div style={styles.leftSection}>
                     <p style={styles.subheading}>نبذة عن المنصة</p>

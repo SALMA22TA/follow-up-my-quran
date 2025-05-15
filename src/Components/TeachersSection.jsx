@@ -32,7 +32,7 @@ const TeachersSection = () => {
     ];
 
     return (
-        <div style={styles.container}>
+        <div id="teachers" style={styles.container}>
             <p style={styles.subheading}>المعلمون</p>
             <h2 style={styles.heading}>إليكم معلمو منصة هدى القرآن</h2>
 

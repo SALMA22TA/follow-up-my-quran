@@ -36,7 +36,7 @@ const FAQSection = () => {
   };
 
   return (
-    <div style={styles.container}>
+    <div id="faq" style={styles.container}>
       <p style={styles.subheading}>الأسئلة الشائعة</p>
       <h2 style={styles.heading}>أشياء من المحتمل أن تكون فضوليًا بشأنها</h2>
       <div style={styles.faqList}>

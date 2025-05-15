@@ -1,4 +1,6 @@
-import React from "react";
+// import React from "react";
+import Ye from "../Pages/images/Ye.jpg";
+import Ya from "../Pages/images/Ya.jpg";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
 import "swiper/css";
@@ -7,13 +9,13 @@ import "swiper/css/pagination";
 const reviews = [
     {
         name: "أحمد بن علي",
-        image: "https://s3-alpha-sig.figma.com/img/66a2/9425/6ca868e9cc46a331425c1a963638361c?Expires=1740355200&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=PXCAFnEGslzEBzSx8QOhFmvTJFjX4UoOuJdVYfzNdy0q7LB~BaWf8halUaWq8Z48kI~NMvxgXbXtuIb~hCPfdlkWaz~e4v0-6foyEKrNEqDuFv4VOO8aBjvtrIhcgW5vc3eAH13qqdLkPw79yQLwvQSyePR7EFYtFbXdf9fTK5nqIwSCBQj6-Q9nZyJGeWnBoHmujP2cAEXAtpmAAZIqGOtJ8NMAKe3aKmjJz-XELkZYb8p22-MrXlIu4egSOC8zSpbrIwEeDa8YqSM1KbGD1Hsa13OPMSWoS3fpz1J1IXqLIvg7KCeQcXvuH~3B0bzQD1OMuXJR5mZ-300dJYsvQg__",
+        image: Ya,
         text: "التجربة كانت ممتازة جدًا، وجدت فيها ما كنت أبحث عنه، متابعة مستمرة وتفاعل رائع، شكرًا لكل القائمين على المنصة.",
         highlight: false,
     },
     {
         name: "ياسر بن حمد",
-        image: "https://s3-alpha-sig.figma.com/img/c811/729f/e6f490f94258901f8336686f0d69626e?Expires=1740355200&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=pJ~4c0n7tNaTvVN4j955mdje4VRwGZ~wBYTMHzT~KcPbL-dKqJtCeDWh6qe4LKBMay2Y2ra2d0O2GythTSwKh1gZ5bneof~zTXCT-DutWqebtMI2BcnmUI0DnyXX8TbDsOeM83LP5L18cGjbfu-3OYZ96wrIqKjpp79LZF0ztV4DvgfNru0YhjUZhpVX7v73gSQeCtpePSGGm0rONazhaxz2jqUDjD7Blg0KgxRi3~mN4mmSjMIXByPJklmDn0cE87bevdMC29-QRy8FhwFuF0IyXqSGNUKO3twvSkMQqIa1LnRx18wS7vV-SUNQ4M9CHJQAJ8mHkDZ3R9q~z2jlow__",
+        image: Ye,
         text: "منصة رائعة وسهلة الاستخدام، تتيح لك تعلم القرآن الكريم مع معلمين متميزين، أنصح الجميع بالانضمام والاستفادة منها.",
         highlight: true,
     },
@@ -57,7 +59,7 @@ const reviews = [
 
 const TestimonialsSection = () => {
     return (
-        <div style={styles.container}>
+        <div id="testimonials" style={styles.container}>
             <p style={styles.subheading}>اراء الطلاب</p>
             <h2 style={styles.heading}>ماذا قالوا عن منصة هدى القرآن</h2>
             <Swiper

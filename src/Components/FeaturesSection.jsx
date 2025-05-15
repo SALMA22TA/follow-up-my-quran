@@ -1,8 +1,8 @@
-import React from 'react';
+// import React from 'react';
 
 const FeaturesSection = () => {
   return (
-    <div style={styles.container}>
+    <div id="features" style={styles.container}>
       <p style={styles.subheading}>مميزاتنا</p>
       <h2 style={styles.heading}>ما يميز منصة هدى القرآن</h2>
 
