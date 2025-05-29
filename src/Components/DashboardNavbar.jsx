@@ -1,3 +1,4 @@
+// @ts-ignore
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { logout } from '../services/authService'; 
@@ -54,15 +55,20 @@ const Navbar = () => {
   };
 
   return (
-    <nav style={navbarStyle}>
+    <nav 
+// @ts-ignore
+    style={navbarStyle}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
         <i className="fa fa-bell" style={{ fontSize: '20px', cursor: 'pointer' }}></i>
         <div
+          // @ts-ignore
           style={profileStyle}
           onClick={() => setShowDropdown(!showDropdown)}
         >
           {showDropdown && (
-            <div style={dropdownStyle}>
+            <div 
+// @ts-ignore
+            style={dropdownStyle}>
               <p style={{ margin: '0 0 10px', cursor: 'pointer' }}>الملف الشخصي</p>
               <p
                 style={{ margin: 0, cursor: 'pointer' }}

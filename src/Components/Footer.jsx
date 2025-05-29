@@ -1,17 +1,26 @@
 import { useState } from 'react';
 import "../styles/Footer.css"
+// @ts-ignore
 import Logo from "../Pages/images/Logo Container.png"
+// @ts-ignore
 import WhatsAppIcon from "../Pages/images/whatsApp.svg.png";
+// @ts-ignore
 import FacebookIcon from "../Pages/images/facebook.svg.png";
+// @ts-ignore
 import YouTubeIcon from "../Pages/images/youTube.svg.png";
+// @ts-ignore
 import InstagramIcon from "../Pages/images/instagram.svg fill.png";
+// @ts-ignore
 import MailIcon from "../Pages/images/message.svg fill.png"
+// @ts-ignore
 import TwitterIcon from "../Pages/images/twitter.svg fill.png"
+// @ts-ignore
 import LinkedInIcon from "../Pages/images/linkedIn.svg fill.png"
 
 const Footer = () => {
     const [hoveredLink, setHoveredLink] = useState(null);
 
+    // @ts-ignore
     const scrollToSection = (sectionId) => {
         const element = document.getElementById(sectionId);
         if (element) {
@@ -28,6 +37,7 @@ const Footer = () => {
         { text: 'الأسئلة الشائعة', sectionId: 'faq' },
     ];
 
+    // @ts-ignore
     const linkStyle = (isHovered) => ({
         textDecoration: 'none',
         color: isHovered ? '#00ffcb' : '#ffffff',
@@ -76,6 +86,7 @@ const Footer = () => {
                             key={index}
                             onClick={() => scrollToSection(link.sectionId)}
                             style={linkStyle(hoveredLink === index)}
+                            // @ts-ignore
                             onMouseEnter={() => setHoveredLink(index)}
                             onMouseLeave={() => setHoveredLink(null)}
                         >

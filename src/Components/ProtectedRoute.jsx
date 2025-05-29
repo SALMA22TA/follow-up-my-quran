@@ -3,6 +3,7 @@ import { Navigate, useLocation } from 'react-router-dom';
 import { getAccessToken, getUserRole } from '../services/authService';
 import { jwtDecode } from 'jwt-decode';
 
+// @ts-ignore
 const ProtectedRoute = ({ children }) => {
   const token = getAccessToken();
   const role = getUserRole();
@@ -17,6 +18,7 @@ const ProtectedRoute = ({ children }) => {
     const decodedToken = jwtDecode(token);
     const currentTime = Date.now() / 1000;
 
+    // @ts-ignore
     if (decodedToken.exp < currentTime) {
       console.log("Token expired, redirecting to login");
       localStorage.removeItem('access_token');

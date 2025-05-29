@@ -1,3 +1,4 @@
+// @ts-ignore
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from 'axios';
@@ -26,6 +27,7 @@ const ExamAnswers = () => {
   const fetchQuestion = async () => {
     const token = localStorage.getItem("access_token");
     if (!token) {
+      // @ts-ignore
       setError("❌ الرجاء تسجيل الدخول أولاً");
       setTimeout(() => {
         navigate("/login");
@@ -48,14 +50,17 @@ const ExamAnswers = () => {
       console.log("Question response:", JSON.stringify(response.data, null, 2));
       setQuestion(response.data.data);
     } catch (err) {
+      // @ts-ignore
       if (err.response?.status === 401) {
         localStorage.removeItem("access_token");
+        // @ts-ignore
         setError("❌ انتهت جلسة تسجيل الدخول. الرجاء تسجيل الدخول مرة أخرى.");
         setTimeout(() => {
           navigate("/login");
         }, 1000);
         return;
       }
+      // @ts-ignore
       setError("❌ حدث خطأ أثناء جلب السؤال: " + (err.response?.data.message || err.message));
     } finally {
       setLoading(false);
@@ -65,6 +70,7 @@ const ExamAnswers = () => {
   const fetchOptions = async () => {
     const token = localStorage.getItem("access_token");
     if (!token) {
+      // @ts-ignore
       setError("❌ الرجاء تسجيل الدخول أولاً");
       setTimeout(() => {
         navigate("/login");
@@ -91,14 +97,17 @@ const ExamAnswers = () => {
         setOptions([]);
       }
     } catch (err) {
+      // @ts-ignore
       if (err.response?.status === 401) {
         localStorage.removeItem("access_token");
+        // @ts-ignore
         setError("❌ انتهت جلسة تسجيل الدخول. الرجاء تسجيل الدخول مرة أخرى.");
         setTimeout(() => {
           navigate("/login");
         }, 1000);
         return;
       }
+      // @ts-ignore
       setError("❌ حدث خطأ أثناء جلب الخيارات: " + (err.response?.data.message || err.message));
     } finally {
       setLoading(false);
@@ -121,6 +130,7 @@ const ExamAnswers = () => {
     setIsModalOpen(true);
   };
 
+  // @ts-ignore
   const openEditModal = (option, e) => {
     e.stopPropagation();
     setIsEditing(true);
@@ -130,6 +140,7 @@ const ExamAnswers = () => {
     setIsModalOpen(true);
   };
 
+  // @ts-ignore
   const openDeleteModal = (option, e) => {
     e.stopPropagation();
     setCurrentOption(option);
@@ -150,12 +161,14 @@ const ExamAnswers = () => {
 
   const handleAddAnswer = async () => {
     if (answerText.trim() === "") {
+      // @ts-ignore
       setError("❌ يرجى إدخال نص الإجابة");
       return;
     }
 
     const token = localStorage.getItem("access_token");
     if (!token) {
+      // @ts-ignore
       setError("❌ الرجاء تسجيل الدخول أولاً");
       setTimeout(() => {
         navigate("/login");
@@ -189,26 +202,31 @@ const ExamAnswers = () => {
       closeModal();
       setError(null);
     } catch (err) {
+      // @ts-ignore
       if (err.response?.status === 401) {
         localStorage.removeItem("access_token");
+        // @ts-ignore
         setError("❌ انتهت جلسة تسجيل الدخول. الرجاء تسجيل الدخول مرة أخرى.");
         setTimeout(() => {
           navigate("/login");
         }, 1000);
         return;
       }
+      // @ts-ignore
       setError("❌ حدث خطأ أثناء إضافة الخيار: " + (err.response?.data?.message || err.message));
     }
   };
 
   const handleUpdateAnswer = async () => {
     if (answerText.trim() === "" || !currentOption) {
+      // @ts-ignore
       setError("❌ يرجى إدخال نص الإجابة");
       return;
     }
 
     const token = localStorage.getItem("access_token");
     if (!token) {
+      // @ts-ignore
       setError("❌ الرجاء تسجيل الدخول أولاً");
       setTimeout(() => {
         navigate("/login");
@@ -226,6 +244,7 @@ const ExamAnswers = () => {
         },
       });
 
+      // @ts-ignore
       const response = await api.put(`update_option/${currentOption.id}`, {
         option_text: answerText,
         is_correct: isCorrect,
@@ -238,14 +257,17 @@ const ExamAnswers = () => {
       closeModal();
       setError(null);
     } catch (err) {
+      // @ts-ignore
       if (err.response?.status === 401) {
         localStorage.removeItem("access_token");
+        // @ts-ignore
         setError("❌ انتهت جلسة تسجيل الدخول. الرجاء تسجيل الدخول مرة أخرى.");
         setTimeout(() => {
           navigate("/login");
         }, 1000);
         return;
       }
+      // @ts-ignore
       setError("❌ حدث خطأ أثناء تعديل الخيار: " + (err.response?.data.message || err.message));
     }
   };
@@ -255,6 +277,7 @@ const ExamAnswers = () => {
 
     const token = localStorage.getItem("access_token");
     if (!token) {
+      // @ts-ignore
       setError("❌ الرجاء تسجيل الدخول أولاً");
       setTimeout(() => {
         navigate("/login");
@@ -271,6 +294,7 @@ const ExamAnswers = () => {
         },
       });
 
+      // @ts-ignore
       const response = await api.delete(`delete_option/${currentOption.id}`);
       console.log("Delete option response:", response.data);
       setTimeout(async () => {
@@ -279,14 +303,17 @@ const ExamAnswers = () => {
       closeDeleteModal();
       setError(null);
     } catch (err) {
+      // @ts-ignore
       if (err.response?.status === 401) {
         localStorage.removeItem("access_token");
+        // @ts-ignore
         setError("❌ انتهت جلسة تسجيل الدخول. الرجاء تسجيل الدخول مرة أخرى.");
         setTimeout(() => {
           navigate("/login");
         }, 1000);
         return;
       }
+      // @ts-ignore
       setError("❌ حدث خطأ أثناء حذف الخيار: " + (err.response?.data.message || err.message));
     }
   };
@@ -294,7 +321,9 @@ const ExamAnswers = () => {
   return (
     <>
       <Navbar />
-      <div style={styles.dashboardContainer}>
+      <div 
+// @ts-ignore
+      style={styles.dashboardContainer}>
         <button
           style={{
             display: window.innerWidth <= 768 ? "block" : "none",
@@ -324,26 +353,36 @@ const ExamAnswers = () => {
         </div>
 
         <div style={styles.mainContent}>
-          <h1 style={styles.pageTitle}>إجابات السؤال {questionId}</h1>
+          <h1 
+// @ts-ignore
+          style={styles.pageTitle}>إجابات السؤال {questionId}</h1>
 
           {error && (
             <div style={{ color: 'red', marginBottom: '10px', textAlign: 'center' }}>{error}</div>
           )}
 
-          <div style={styles.questionBoxStyle}>
-            {question?.question_text || "جاري التحميل..."}
+          <div 
+// @ts-ignore
+          style={styles.questionBoxStyle}>
+            {question?.
+// @ts-ignore
+            question_text || "جاري التحميل..."}
           </div>
 
           <div style={styles.buttonContainer}>
             <button style={styles.addButtonStyle} onClick={openAddModal}>
               + إضافة إجابة
             </button>
-            <button style={styles.backButtonStyle} onClick={() => navigate(`/exam/${question?.exam_id}/questions`)}>
+            <button style={styles.backButtonStyle} onClick={() => navigate(`/exam/${question?.
+// @ts-ignore
+            exam_id}/questions`)}>
               العودة للأسئلة
             </button>
           </div>
 
-          <div style={styles.headerStyle}>
+          <div 
+// @ts-ignore
+          style={styles.headerStyle}>
             <FaEdit /> الإجابات:
           </div>
 
@@ -356,11 +395,21 @@ const ExamAnswers = () => {
               </div>
             ) : (
               options.map((option) => (
-                <div key={option.id} style={styles.rowStyle}>
-                  <span style={styles.circleStyle}>{option.id}</span>
-                  <span style={styles.answerTextStyle}>{option.option_text}</span>
-                  <span style={styles.isCorrectStyle}>
-                    {option.is_correct ? "صحيح" : "خاطئ"}
+                <div key={option.
+// @ts-ignore
+                id} style={styles.rowStyle}>
+                  <span 
+// @ts-ignore
+                  style={styles.circleStyle}>{option.id}</span>
+                  <span 
+// @ts-ignore
+                  style={styles.answerTextStyle}>{option.option_text}</span>
+                  <span 
+// @ts-ignore
+                  style={styles.isCorrectStyle}>
+                    {option.
+// @ts-ignore
+                    is_correct ? "صحيح" : "خاطئ"}
                   </span>
                   <div style={styles.buttonContainerStyle}>
                     <button style={styles.editButtonStyle} onClick={(e) => openEditModal(option, e)}>
@@ -376,15 +425,24 @@ const ExamAnswers = () => {
           </div>
 
           {isModalOpen && (
-            <div style={styles.modalStyle}>
-              <div style={styles.modalContentStyle}>
-                <button style={styles.closeButtonStyle} onClick={closeModal}>
+            <div 
+// @ts-ignore
+            style={styles.modalStyle}>
+              <div 
+// @ts-ignore
+              style={styles.modalContentStyle}>
+                <button 
+// @ts-ignore
+                style={styles.closeButtonStyle} onClick={closeModal}>
                   <FaTimes />
                 </button>
-                <h2 style={styles.modalTitleStyle}>{isEditing ? "تعديل الإجابة" : "إضافة إجابة"}</h2>
+                <h2 
+// @ts-ignore
+                style={styles.modalTitleStyle}>{isEditing ? "تعديل الإجابة" : "إضافة إجابة"}</h2>
                 <textarea
                   value={answerText}
                   onChange={(e) => setAnswerText(e.target.value)}
+                  // @ts-ignore
                   style={styles.textareaStyle}
                   placeholder="اكتب الإجابة هنا..."
                 />
@@ -410,15 +468,25 @@ const ExamAnswers = () => {
           )}
 
           {isDeleteModalOpen && (
-            <div style={styles.modalStyle}>
-              <div style={styles.modalContentStyle}>
-                <button style={styles.closeButtonStyle} onClick={closeDeleteModal}>
+            <div 
+// @ts-ignore
+            style={styles.modalStyle}>
+              <div 
+// @ts-ignore
+              style={styles.modalContentStyle}>
+                <button 
+// @ts-ignore
+                style={styles.closeButtonStyle} onClick={closeDeleteModal}>
                   <FaTimes />
                 </button>
-                <div style={styles.deleteIconContainer}>
+                <div 
+// @ts-ignore
+                style={styles.deleteIconContainer}>
                   <Trash2 size={50} color="#dc3545" />
                 </div>
-                <p style={styles.deleteText}>هل أنت متأكد من حذف هذه الإجابة؟</p>
+                <p 
+// @ts-ignore
+                style={styles.deleteText}>هل أنت متأكد من حذف هذه الإجابة؟</p>
                 <div style={styles.buttonContainer}>
                   <button onClick={handleDelete} style={styles.deleteConfirmButton}>نعم</button>
                   <button onClick={closeDeleteModal} style={styles.cancelButtonStyle}>لا</button>

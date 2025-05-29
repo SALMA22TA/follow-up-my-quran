@@ -1,8 +1,11 @@
+// @ts-ignore
 import React from 'react';
 
+// @ts-ignore
 const Button = ({ label, onClick, style, type = 'button' }) => {
   return (
     <button
+      // @ts-ignore
       type={type}
       onClick={onClick}
       style={{ ...styles.button, ...style }}

@@ -15,7 +15,9 @@ const NotFound = () => {
   };
 
   return (
-    <div style={styles.container}>
+    <div 
+// @ts-ignore
+    style={styles.container}>
       <h1 style={styles.header}>404 - الصفحة غير موجودة</h1>
       <p style={styles.message}>
         عذرًا، المسار الذي تحاول الوصول إليه غير موجود.

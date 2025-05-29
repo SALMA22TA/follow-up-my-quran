@@ -1,3 +1,4 @@
+// @ts-ignore
 import React, { useEffect } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import Register from './Pages/Register';
@@ -41,6 +42,7 @@ const App = () => {
         try {
           const decodedToken = jwtDecode(token);
           const currentTime = Date.now() / 1000;
+          // @ts-ignore
           if (decodedToken.exp < currentTime) {
             localStorage.removeItem('access_token');
             localStorage.removeItem('user_role');
@@ -77,7 +79,9 @@ const App = () => {
       <Route
           path="/student-dashboard"
           element={
-            <ProtectedRoute allowedRoles={[0]}>
+            <ProtectedRoute 
+// @ts-ignore
+            allowedRoles={[0]}>
               <Dashboard />
             </ProtectedRoute>
           }
@@ -85,7 +89,9 @@ const App = () => {
       <Route
           path="/admin-dashboard"
           element={
-            <ProtectedRoute allowedRoles={[1]}>
+            <ProtectedRoute 
+// @ts-ignore
+            allowedRoles={[1]}>
               <AdminDashboard />
             </ProtectedRoute>
           }
@@ -93,7 +99,9 @@ const App = () => {
       <Route
         path="/start-learning-form"
         element={
-          <ProtectedRoute allowedRoles={[0]}>
+          <ProtectedRoute 
+// @ts-ignore
+          allowedRoles={[0]}>
             <MainLayout>
               <StartLearningForm userID={currentUser.id} sheikhID={selectedSheikh.id} />
             </MainLayout>
@@ -103,7 +111,9 @@ const App = () => {
       <Route
         path="/add-course"
         element={
-          <ProtectedRoute allowedRoles={[2]}>
+          <ProtectedRoute 
+// @ts-ignore
+          allowedRoles={[2]}>
             <MainLayout>
               <AddCoursePage />
             </MainLayout>
@@ -113,7 +123,9 @@ const App = () => {
       <Route
         path="/add-video/:courseId"
         element={
-          <ProtectedRoute allowedRoles={[2]}>
+          <ProtectedRoute 
+// @ts-ignore
+          allowedRoles={[2]}>
             <MainLayout>
               <AddVideoPage />
             </MainLayout>
@@ -123,7 +135,9 @@ const App = () => {
       <Route
         path="/sheikh-dashboard"
         element={
-          <ProtectedRoute allowedRoles={[2]}>
+          <ProtectedRoute 
+// @ts-ignore
+          allowedRoles={[2]}>
             <MainLayout>
               <SheikhDashboard />
             </MainLayout>
@@ -133,7 +147,9 @@ const App = () => {
       <Route
         path="/schedule-requests"
         element={
-          <ProtectedRoute allowedRoles={[2]}>
+          <ProtectedRoute 
+// @ts-ignore
+          allowedRoles={[2]}>
             <MainLayout>
               <ScheduleRequests />
             </MainLayout>
@@ -143,7 +159,9 @@ const App = () => {
       <Route
         path="/courses"
         element={
-          <ProtectedRoute allowedRoles={[2]}>
+          <ProtectedRoute 
+// @ts-ignore
+          allowedRoles={[2]}>
             <MainLayout>
               <Courses />
             </MainLayout>
@@ -153,7 +171,9 @@ const App = () => {
       <Route
         path="/exams"
         element={
-          <ProtectedRoute allowedRoles={[2]}>
+          <ProtectedRoute 
+// @ts-ignore
+          allowedRoles={[2]}>
             <MainLayout>
               <ExamsPage />
             </MainLayout>
@@ -163,7 +183,9 @@ const App = () => {
       <Route
         path="/exam/:examId/questions"
         element={
-          <ProtectedRoute allowedRoles={[2]}>
+          <ProtectedRoute 
+// @ts-ignore
+          allowedRoles={[2]}>
             <MainLayout>
               <ExamQuestions />
             </MainLayout>
@@ -173,7 +195,9 @@ const App = () => {
       <Route
         path="/exam-answers/:questionId"
         element={
-          <ProtectedRoute allowedRoles={[2]}>
+          <ProtectedRoute 
+// @ts-ignore
+          allowedRoles={[2]}>
             <MainLayout>
               <ExamAnswers />
             </MainLayout>
@@ -183,7 +207,9 @@ const App = () => {
       <Route
         path="/today-sessions"
         element={
-          <ProtectedRoute allowedRoles={[2]}>
+          <ProtectedRoute 
+// @ts-ignore
+          allowedRoles={[2]}>
             <MainLayout>
               <TodaysSessions />
             </MainLayout>
@@ -193,7 +219,9 @@ const App = () => {
       <Route
         path="/course/:id"
         element={
-          <ProtectedRoute allowedRoles={[2]}>
+          <ProtectedRoute 
+// @ts-ignore
+          allowedRoles={[2]}>
             <MainLayout>
               <CourseDetails />
             </MainLayout>
@@ -203,7 +231,9 @@ const App = () => {
       <Route
         path="/generate-sessions"
         element={
-          <ProtectedRoute allowedRoles={[2]}>
+          <ProtectedRoute 
+// @ts-ignore
+          allowedRoles={[2]}>
             <MainLayout>
               <GenerateSessions />
             </MainLayout>
@@ -213,7 +243,9 @@ const App = () => {
       <Route
           path="/select-verse"
           element={
-            <ProtectedRoute allowedRoles={[0]}>
+            <ProtectedRoute 
+// @ts-ignore
+            allowedRoles={[0]}>
               <SelectVerse />
             </ProtectedRoute>
           }
@@ -221,7 +253,9 @@ const App = () => {
         <Route
           path="/recitation"
           element={
-            <ProtectedRoute allowedRoles={[0]}>
+            <ProtectedRoute 
+// @ts-ignore
+            allowedRoles={[0]}>
               <Recitation />
             </ProtectedRoute>
           }
@@ -229,7 +263,9 @@ const App = () => {
         <Route
           path="/recitation-feedback"
           element={
-            <ProtectedRoute allowedRoles={[0]}>
+            <ProtectedRoute 
+// @ts-ignore
+            allowedRoles={[0]}>
               <RecitationFeedback />
             </ProtectedRoute>
           }

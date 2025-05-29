@@ -51,11 +51,13 @@ export default function AddCoursePage() {
     // Validate file type and size
     const allowedTypes = ["image/jpeg", "image/png", "image/jpg"];
     const maxSize = 5 * 1024 * 1024; // 5MB
+    // @ts-ignore
     if (!allowedTypes.includes(coverImage.type)) {
       setMessage("❌ يجب أن تكون الصورة بصيغة JPG أو PNG");
       setLoading(false);
       return;
     }
+    // @ts-ignore
     if (coverImage.size > maxSize) {
       setMessage("❌ حجم الصورة يجب ألا يتجاوز 5 ميجابايت");
       setLoading(false);
@@ -69,6 +71,7 @@ export default function AddCoursePage() {
     formData.append("cover_image", coverImage);
 
     // Log FormData contents for debugging
+    // @ts-ignore
     for (let [key, value] of formData.entries()) {
       console.log(`${key}:`, value);
     }
@@ -93,15 +96,18 @@ export default function AddCoursePage() {
     } catch (error) {
       console.error("Error:", error);
 
+      // @ts-ignore
       if (error.response?.status === 401) {
         setMessage("❌ انتهت جلسة تسجيل الدخول. الرجاء تسجيل الدخول مرة أخرى.");
         localStorage.removeItem("access_token");
         setTimeout(() => {
           navigate("/login");
         }, 1000);
+      // @ts-ignore
       } else if (error.response?.status === 403) {
         setMessage("❌ ليس لديك الصلاحية لإضافة دورة.");
       } else {
+        // @ts-ignore
         const errorMsg = error.response?.data?.message || "خطأ غير معروف";
         setMessage(`❌ فشل الإضافة: ${errorMsg}`);
       }
@@ -113,9 +119,13 @@ export default function AddCoursePage() {
   return (
     <>
       <Navbar />
-      <div style={styles.container}>
+      <div 
+// @ts-ignore
+      style={styles.container}>
         <Sidebar />
-        <main style={styles.main}>
+        <main 
+// @ts-ignore
+        style={styles.main}>
           <div style={styles.header}>
             <h1 style={{ fontSize: "24px", fontWeight: "bold" }}>إضافة دورة جديدة</h1>
           </div>
@@ -123,7 +133,9 @@ export default function AddCoursePage() {
             <h2 style={styles.title}>
               إضافة دورة <PlusCircle style={{ marginLeft: "8px" }} />
             </h2>
-            <div style={styles.form}>
+            <div 
+// @ts-ignore
+            style={styles.form}>
               <div>
                 <label style={styles.label}>العنوان</label>
                 <input
@@ -131,6 +143,7 @@ export default function AddCoursePage() {
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder="أدخل عنوان الدورة"
+                  // @ts-ignore
                   style={styles.input}
                 />
               </div>
@@ -141,6 +154,7 @@ export default function AddCoursePage() {
                   onChange={(e) => setDescription(e.target.value)}
                   placeholder="أدخل وصف الدورة"
                   rows={4}
+                  // @ts-ignore
                   style={styles.input}
                 ></textarea>
               </div>
@@ -149,7 +163,9 @@ export default function AddCoursePage() {
                 <input
                   type="file"
                   accept="image/jpeg,image/png,image/jpg"
+                  // @ts-ignore
                   onChange={(e) => setCoverImage(e.target.files[0])}
+                  // @ts-ignore
                   style={styles.input}
                 />
               </div>

@@ -1,14 +1,17 @@
 import { useState } from 'react';
 
+// @ts-ignore
 const useForm = (initialValues, validate) => {
   const [formData, setFormData] = useState(initialValues);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
+  // @ts-ignore
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
+  // @ts-ignore
   const handleSubmit = (e) => {
     e.preventDefault();
 

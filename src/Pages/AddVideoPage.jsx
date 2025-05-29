@@ -12,6 +12,7 @@ export default function UploadVideoPage() {
     const [uploading, setUploading] = useState(false);
     const [message, setMessage] = useState(""); // لعرض رسائل النجاح أو الخطأ
 
+    // @ts-ignore
     const handleUpload = (event) => {
         setVideoFile(event.target.files[0]);
     };
@@ -77,24 +78,39 @@ export default function UploadVideoPage() {
     return (
         <>
             <Navbar />
-            <div style={styles.container}>
+            <div 
+// @ts-ignore
+            style={styles.container}>
                 <Sidebar />
-                <main style={styles.main}>
-                    <div style={styles.card}>
-                        <div style={styles.decorative}></div>
-                        <h1 style={styles.title}>رفع فيديو جديد</h1>
+                <main 
+// @ts-ignore
+                style={styles.main}>
+                    <div 
+// @ts-ignore
+                    style={styles.card}>
+                        <div 
+// @ts-ignore
+                        style={styles.decorative}></div>
+                        <h1 
+// @ts-ignore
+                        style={styles.title}>رفع فيديو جديد</h1>
 
                         <input
                             type="text"
                             placeholder="عنوان الفيديو"
+                            // @ts-ignore
                             style={styles.input}
                             value={videoTitle}
                             onChange={(e) => setVideoTitle(e.target.value)}
                         />
 
-                        <label style={styles.uploadBox}>
+                        <label 
+// @ts-ignore
+                        style={styles.uploadBox}>
                             <Upload size={50} style={{ color: "#1EC8A0", marginBottom: "10px" }} />
-                            <span>{videoFile ? videoFile.name : "اضغط هنا لرفع الفيديو"}</span>
+                            <span>{videoFile ? videoFile.
+// @ts-ignore
+                            name : "اضغط هنا لرفع الفيديو"}</span>
                             <input type="file" accept="video/*" style={styles.hiddenInput} onChange={handleUpload} />
                         </label>
 

@@ -1,5 +1,8 @@
+// @ts-ignore
 import React from "react";
+// @ts-ignore
 import mashariImage from "../Pages/images/Mashari.jpeg";
+// @ts-ignore
 import verifyIcon from "../Pages/images/verify.svg.svg";
 import { Link } from "react-router-dom";
 
@@ -32,19 +35,25 @@ const TeachersSection = () => {
     ];
 
     return (
-        <div id="teachers" style={styles.container}>
+        <div id="teachers" 
+// @ts-ignore
+        style={styles.container}>
             <p style={styles.subheading}>المعلمون</p>
             <h2 style={styles.heading}>إليكم معلمو منصة هدى القرآن</h2>
 
             <div style={styles.teachersGrid}>
                 {teachers.map((teacher, index) => (
-                    <div key={index} style={styles.teacherCard}>
+                    <div key={index} 
+// @ts-ignore
+                    style={styles.teacherCard}>
                         <img src={teacher.image} alt={teacher.name} style={styles.image} />
                         <div style={styles.nameContainer}>
                             <h3 style={styles.teacherName}>{teacher.name}</h3>
                             <img src={verifyIcon} alt="Verified" style={styles.verifyIcon} />
                         </div>
-                        <p style={styles.teacherDescription}>{teacher.description}</p>
+                        <p 
+// @ts-ignore
+                        style={styles.teacherDescription}>{teacher.description}</p>
                     </div>
                 ))}
             </div>

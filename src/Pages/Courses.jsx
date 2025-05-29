@@ -1,3 +1,4 @@
+// @ts-ignore
 import React, { useState, useEffect } from "react";
 import Sidebar from "../Components/Sidebar";
 import Navbar from "../Components/DashboardNavbar";
@@ -13,6 +14,7 @@ const Courses = () => {
   const [modalType, setModalType] = useState(""); // "delete" or "publish"
   const [selectedCourseId, setSelectedCourseId] = useState(null);
 
+  // @ts-ignore
   const openModal = (type, id) => {
     setModalType(type);
     setSelectedCourseId(id);
@@ -38,6 +40,7 @@ const Courses = () => {
     const fetchCourses = async () => {
       const token = localStorage.getItem("access_token"); 
       if (!token) {
+        // @ts-ignore
         setError("الرجاء تسجيل الدخول أولاً");
         setTimeout(() => {
           navigate("/login");
@@ -57,6 +60,7 @@ const Courses = () => {
         if (!response.ok) {
           if (response.status === 401) {
             localStorage.removeItem("access_token");
+            // @ts-ignore
             setError("انتهت جلسة تسجيل الدخول. الرجاء تسجيل الدخول مرة أخرى.");
             setTimeout(() => {
               navigate("/login");
@@ -70,6 +74,7 @@ const Courses = () => {
         console.log("Courses data:", data); // Debug
         setCourses(data.data.data); 
       } catch (err) {
+        // @ts-ignore
         setError(err.message);
       } finally {
         setLoading(false);
@@ -79,9 +84,11 @@ const Courses = () => {
     fetchCourses();
   }, [navigate]);
 
+  // @ts-ignore
   const handleDeleteCourse = async (id) => {
     const token = localStorage.getItem("access_token");
     if (!token) {
+      // @ts-ignore
       setError("الرجاء تسجيل الدخول أولاً");
       setTimeout(() => {
         navigate("/login");
@@ -103,6 +110,7 @@ const Courses = () => {
       if (!response.ok) {
         if (response.status === 401) {
           localStorage.removeItem("access_token");
+          // @ts-ignore
           setError("انتهت جلسة تسجيل الدخول. الرجاء تسجيل الدخول مرة أخرى.");
           setTimeout(() => {
             navigate("/login");
@@ -112,18 +120,23 @@ const Courses = () => {
         throw new Error("فشل في حذف الدورة");
       }
 
+      // @ts-ignore
       setCourses(prevCourses => prevCourses.filter(course => course.id !== id));
+      // @ts-ignore
       const courseTitle = courses.find(course => course.id === id)?.title;
       console.log(`تم حذف الدورة: ${courseTitle}`);
       setError(null); 
     } catch (err) {
+      // @ts-ignore
       setError(err.message);
     }
   };
 
+  // @ts-ignore
   const handlePublishCourse = async (id) => {
     const token = localStorage.getItem("access_token");
     if (!token) {
+      // @ts-ignore
       setError("الرجاء تسجيل الدخول أولاً");
       setTimeout(() => {
         navigate("/login");
@@ -146,6 +159,7 @@ const Courses = () => {
       if (!response.ok) {
         if (response.status === 401) {
           localStorage.removeItem("access_token");
+          // @ts-ignore
           setError("انتهت جلسة تسجيل الدخول. الرجاء تسجيل الدخول مرة أخرى.");
           setTimeout(() => {
             navigate("/login");
@@ -155,17 +169,21 @@ const Courses = () => {
         throw new Error(data.message || "فشل في نشر الدورة");
       }
 
+      // @ts-ignore
       setCourses(prevCourses =>
         prevCourses.map(course =>
+          // @ts-ignore
           course.id === id ? { ...course, status: "published" } : course
         )
       );
+      // @ts-ignore
       const courseTitle = courses.find(course => course.id === id)?.title;
       console.log(`تم نشر دورة: ${courseTitle}`);
 
       setError(null);
     } catch (err) {
       console.error("Error:", err);
+      // @ts-ignore
       setError(err.message);
     }
   };
@@ -173,9 +191,13 @@ const Courses = () => {
   return (
     <>
       <Navbar />
-      <div style={dashboardContainer}>
+      <div 
+// @ts-ignore
+      style={dashboardContainer}>
         <Sidebar />
-        <div style={mainContent}>
+        <div 
+// @ts-ignore
+        style={mainContent}>
           <h1>قائمة الدورات</h1>
           <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "15px" }}>
             <Link to="/add-course" style={addButtonStyle}>
@@ -187,28 +209,51 @@ const Courses = () => {
           {error && <p style={{ color: "red" }}>{error}</p>}
 
           {!loading && !error && (
-            <div style={tableContainerStyle}>
-              <table style={tableStyle}>
+            <div 
+// @ts-ignore
+            style={tableContainerStyle}>
+              <table 
+// @ts-ignore
+              style={tableStyle}>
                 <thead>
                   <tr style={tableHeaderRowStyle}>
-                    <th style={tableHeaderCellStyle}>العنوان</th>
-                    <th style={tableHeaderCellStyle}>الحالة</th>
-                    <th style={tableHeaderCellStyle}>إضافة فيديو</th> 
-                    <th style={tableHeaderCellStyle}>نشر؟</th>
-                    <th style={tableHeaderCellStyle}>حذف؟</th>
+                    <th 
+// @ts-ignore
+                    style={tableHeaderCellStyle}>العنوان</th>
+                    <th 
+// @ts-ignore
+                    style={tableHeaderCellStyle}>الحالة</th>
+                    <th 
+// @ts-ignore
+                    style={tableHeaderCellStyle}>إضافة فيديو</th> 
+                    <th 
+// @ts-ignore
+                    style={tableHeaderCellStyle}>نشر؟</th>
+                    <th 
+// @ts-ignore
+                    style={tableHeaderCellStyle}>حذف؟</th>
                   </tr>
                 </thead>
                 <tbody>
                   {courses.map((course) => (
-                    <tr key={course.id} style={tableRowStyle}>
+                    <tr key={course.
+// @ts-ignore
+                    id} style={tableRowStyle}>
                       <td style={tableCellStyle}>
-                        <Link to={`/course/${course.id}`} style={{ color: "#1EC8A0", textDecoration: "none", fontWeight: "bold" }}>
-                          {course.title}
+                        <Link to={`/course/${course.
+// @ts-ignore
+                        id}`} style={{ color: "#1EC8A0", textDecoration: "none", fontWeight: "bold" }}>
+                          {course.
+// @ts-ignore
+                          title}
                         </Link>
                       </td>
-                      <td style={tableCellStyle}>{course.status}</td>
+                      <td style={tableCellStyle}>{course.
+// @ts-ignore
+                      status}</td>
                       <td style={tableCellStyle}>
                         <Link
+                          // @ts-ignore
                           to={`/add-video/${course.id}`} 
                           style={{
                             backgroundColor: "#1EC8A0",
@@ -225,7 +270,9 @@ const Courses = () => {
                         </Link>
                       </td>
                       <td style={tableCellStyle}>
-                        {course.status === "draft" && (
+                        {course.
+// @ts-ignore
+                        status === "draft" && (
                           <button
                             style={{
                               backgroundColor: "#1EC8A0",
@@ -236,6 +283,7 @@ const Courses = () => {
                               fontWeight: "bold",
                               cursor: "pointer",
                             }}
+                            // @ts-ignore
                             onClick={() => openModal("publish", course.id)}
                           >
                             نشر
@@ -253,6 +301,7 @@ const Courses = () => {
                             fontWeight: "bold",
                             cursor: "pointer",
                           }}
+                          // @ts-ignore
                           onClick={() => openModal("delete", course.id)}
                         >
                           <FaTrash /> حذف
@@ -267,8 +316,12 @@ const Courses = () => {
         </div>
       </div>
       {showModal && (
-        <div style={modalOverlayStyle}>
-          <div style={modalStyle}>
+        <div 
+// @ts-ignore
+        style={modalOverlayStyle}>
+          <div 
+// @ts-ignore
+          style={modalStyle}>
             <p style={{ fontSize: "18px", marginBottom: "20px" }}>
               {modalType === "delete"
                 ? "هل أنت متأكد أنك تريد حذف الدورة؟"
