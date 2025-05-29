@@ -1,132 +1,152 @@
 /* Main container */
 .feedback-container {
-    min-height: 100vh;
-    background-color: #f5f9f8;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 1rem;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  }
-  
-  /* Card container */
+  min-height: 100vh;
+  background-color: #f5f9f8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Card container */
+.feedback-card {
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  width: 100%;
+  max-width: 28rem;
+  border: 1px solid #e0f0ed;
+}
+
+/* Title */
+.feedback-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+/* Notification box */
+.notification-box {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background-color: #e0f0ed;
+  border-radius: 0.5rem;
+  text-align: center;
+}
+
+.notification-text {
+  color: #555;
+  margin: 0;
+}
+
+/* Verse sections */
+.verse-section {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e0f0ed;
+}
+
+.verse-section:last-of-type {
+  border-bottom: none;
+}
+
+/* Section titles */
+.section-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: #444;
+}
+
+/* Verse text */
+.verse-text {
+  font-size: 1.25rem;
+  line-height: 1.6;
+  text-align: right;
+  margin-bottom: 0.5rem;
+}
+
+/* Verse info */
+.verse-info {
+  color: #777;
+  font-size: 0.875rem;
+  text-align: right;
+  margin-top: 0.25rem;
+}
+
+/* Correct/incorrect text */
+.verse-text.correct {
+  color: #333;
+}
+
+.verse-text.incorrect {
+  color: #e74c3c;
+}
+
+/* Action button */
+.action-button {
+  width: 100%;
+  background-color: #20c997;
+  color: white;
+  padding: 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1.125rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.action-button:hover {
+  background-color: #1db386;
+}
+
+/* Focus styles for accessibility */
+button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(32, 201, 151, 0.3);
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
   .feedback-card {
-    background-color: white;
-    border-radius: 0.5rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    padding: 2rem;
-    width: 100%;
-    max-width: 28rem;
-    border: 1px solid #e0f0ed;
+    padding: 1.5rem;
   }
-  
-  /* Title */
+
   .feedback-title {
-    font-size: 1.5rem;
-    font-weight: 700;
-    text-align: center;
-    margin-bottom: 1.5rem;
-    color: #333;
-  }
-  
-  /* Notification box */
-  .notification-box {
-    margin-bottom: 1.5rem;
-    padding: 1rem;
-    background-color: #e0f0ed;
-    border-radius: 0.5rem;
-    text-align: center;
-  }
-  
-  .notification-text {
-    color: #555;
-    margin: 0;
-  }
-  
-  /* Verse sections */
-  .verse-section {
-    margin-bottom: 1.5rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid #e0f0ed;
-  }
-  
-  .verse-section:last-of-type {
-    border-bottom: none;
-  }
-  
-  /* Section titles */
-  .section-title {
-    font-size: 1.125rem;
-    font-weight: 600;
-    margin-bottom: 0.75rem;
-    color: #444;
-  }
-  
-  /* Verse text */
-  .verse-text {
     font-size: 1.25rem;
-    line-height: 1.6;
-    text-align: right;
-    margin-bottom: 0.5rem;
   }
-  
-  /* Verse info */
-  .verse-info {
-    color: #777;
-    font-size: 0.875rem;
-    text-align: right;
-    margin-top: 0.25rem;
-  }
-  
-  /* Correct/incorrect text */
-  .verse-text.correct {
-    color: #333;
-  }
-  
-  .verse-text.incorrect {
-    color: #e74c3c;
-  }
-  
-  /* Action button */
-  .action-button {
-    width: 100%;
-    background-color: #20c997;
-    color: white;
-    padding: 1rem;
-    border: none;
-    border-radius: 0.5rem;
+
+  .verse-text {
     font-size: 1.125rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
   }
-  
-  .action-button:hover {
-    background-color: #1db386;
+
+  .action-button {
+    padding: 0.75rem;
   }
-  
-  /* Focus styles for accessibility */
-  button:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(32, 201, 151, 0.3);
+
+  .word-match-details {
+    margin-top: 1rem;
   }
-  
-  /* Responsive adjustments */
-  @media (max-width: 640px) {
-    .feedback-card {
-      padding: 1.5rem;
-    }
-  
-    .feedback-title {
-      font-size: 1.25rem;
-    }
-  
-    .verse-text {
-      font-size: 1.125rem;
-    }
-  
-    .action-button {
-      padding: 0.75rem;
-    }
+
+  .word-match-details ul {
+    list-style: none;
+    padding: 0;
   }
-  
+
+  .word-match-details li {
+    margin: 0.5rem 0;
+  }
+
+  .word-match-details .correct {
+    color: green;
+  }
+
+  .word-match-details .incorrect {
+    color: red;
+  }
+}
