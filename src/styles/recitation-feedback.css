@@ -78,13 +78,50 @@
   margin-top: 0.25rem;
 }
 
-/* Correct/incorrect text */
+/* Correct/incorrect text for entire verse */
 .verse-text.correct {
-  color: #333;
+  color: green;
 }
 
 .verse-text.incorrect {
   color: #e74c3c;
+}
+
+/* Word match details */
+.word-match-details {
+  margin-top: 1rem;
+}
+
+.word-match-details ul {
+  list-style: none;
+  padding: 0;
+}
+
+.word-match-details li {
+  margin: 0.5rem 0;
+}
+
+.word-match-details .correct {
+  color: green;
+}
+
+.word-match-details .incorrect {
+  color: red;
+}
+
+/* Individual word styling */
+.word {
+  margin-left: 0.25rem;
+  display: inline;
+}
+
+/* Ensure word-level styling takes precedence */
+.word.correct {
+  color: green;
+}
+
+.word.incorrect {
+  color: red;
 }
 
 /* Action button */
@@ -127,26 +164,5 @@ button:focus {
 
   .action-button {
     padding: 0.75rem;
-  }
-
-  .word-match-details {
-    margin-top: 1rem;
-  }
-
-  .word-match-details ul {
-    list-style: none;
-    padding: 0;
-  }
-
-  .word-match-details li {
-    margin: 0.5rem 0;
-  }
-
-  .word-match-details .correct {
-    color: green;
-  }
-
-  .word-match-details .incorrect {
-    color: red;
   }
 }
