@@ -177,6 +177,7 @@ const TodaysSessions = () => {
 
   const sessionCardStyle = {
     backgroundColor: '#F2F8F6',
+    // @ts-ignore
     borderRadius: '8px',
     padding: '10px',
     marginBottom: '10px',
@@ -263,9 +264,15 @@ const TodaysSessions = () => {
                     // @ts-ignore
                     onClick={() => handleDeleteSession(session.id)}
                   >
+                    <i className="fas fa-trash-can"></i> حذف الجلسة
+                  </button>
+                  <button
+                    style={cancelButtonStyle}
+                    // @ts-ignore
+                    onClick={() => handleCancelSession(session.id)}
+                  >
                     <i className="fas fa-times"></i> إلغاء الجلسة
                   </button>
-                  
                 </>
               )}
               {session.
@@ -291,6 +298,11 @@ const TodaysSessions = () => {
                     <i className="fas fa-check"></i> إنهاء الجلسة
                   </button>
                 </>
+              )}
+              {session.
+// @ts-ignore
+              status === 'completed' && (
+                <p style={{ color: 'green', marginLeft: '10px' }}>الجلسة مكتملة</p>
               )}
             </div>
           </div>
