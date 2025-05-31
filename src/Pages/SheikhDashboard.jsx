@@ -31,7 +31,7 @@ const Dashboard = () => {
           <h1>لوحة التحكم</h1>
         
 
-          <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
+          {/* <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
   {[
     { title: 'عدد الطلاب', value: 12 },
     { title: 'السور المحفوظة', value: 5 },
@@ -53,7 +53,7 @@ const Dashboard = () => {
       <p style={{ fontSize: '24px', fontWeight: 'bold', margin: 0 }}>{card.value}</p>
     </div>
   ))}
-</div>
+</div> */}
 
 <TodaysSessions />
           
