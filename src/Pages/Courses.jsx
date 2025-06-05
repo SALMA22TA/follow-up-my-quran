@@ -364,10 +364,6 @@ const mainContent = {
 //   },
 // };
 
-const tableRowStyle = {
-  borderBottom: "1px solid #ddd",
-};
-
 const addButtonStyle = {
   backgroundColor: "#1EC8A0",
   color: "#fff",

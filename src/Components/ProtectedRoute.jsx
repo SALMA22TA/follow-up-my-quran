@@ -1,4 +1,3 @@
-import React from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { getAccessToken, getUserRole } from '../services/authService';
 import { jwtDecode } from 'jwt-decode';
