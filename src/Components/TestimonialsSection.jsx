@@ -1,7 +1,4 @@
-// import React from "react";
-// @ts-ignore
 import Ye from "../Pages/images/Ye.jpg";
-// @ts-ignore
 import Ya from "../Pages/images/Ya.jpg";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
@@ -62,7 +59,7 @@ const reviews = [
 const TestimonialsSection = () => {
     return (
         <div id="testimonials" 
-// @ts-ignore
+
         style={styles.container}>
             <p style={styles.subheading}>اراء الطلاب</p>
             <h2 style={styles.heading}>ماذا قالوا عن منصة هدى القرآن</h2>
@@ -76,7 +73,7 @@ const TestimonialsSection = () => {
                 style={styles.swiper}
             >
                 {reviews.map((
-// @ts-ignore
+
                 review, index) => {
                     if (index % 2 !== 0) return null;
                     return (
@@ -87,7 +84,7 @@ const TestimonialsSection = () => {
                                         item && (
                                             <div
                                                 key={i}
-                                                // @ts-ignore
+                                                
                                                 style={{
                                                     ...styles.reviewCard,
                                                     backgroundColor: item.highlight ? "#20C997" : "#F8F8F8",
@@ -102,7 +99,7 @@ const TestimonialsSection = () => {
                                                     viewBox="0 0 24 24"
                                                     fill="none"
                                                     xmlns="http://www.w3.org/2000/svg"
-                                                    // @ts-ignore
+                                                    
                                                     style={{
                                                         ...styles.quotationIcon,
                                                         fill: item.highlight ? "#E9E9E9" : "#E9E9E98F",
@@ -126,7 +123,7 @@ const TestimonialsSection = () => {
                 })}
             </Swiper>
             <div className="custom-pagination" 
-// @ts-ignore
+
             style={styles.pagination}></div>
         </div>
     );

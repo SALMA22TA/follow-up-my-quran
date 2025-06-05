@@ -1,5 +1,3 @@
-// @ts-ignore
-import React from 'react';
 import FeaturesSection from '../Components/FeaturesSection';
 import TeachersSection from '../Components/TeachersSection';
 import TestimonialsSection from "../Components/TestimonialsSection";
@@ -15,11 +13,11 @@ const LandingPage = () => {
             {/* <Navbar /> */}
             <HeroSection />
             <div id="about" 
-// @ts-ignore
+
             style={styles.container}>
                 {/* Left Section */}
                 <div 
-// @ts-ignore
+
                 style={styles.leftSection}>
                     <p style={styles.subheading}>نبذة عن المنصة</p>
                     <h2 style={styles.heading}>نبذة عن منصة هدى القرآن</h2>

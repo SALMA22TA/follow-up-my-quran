@@ -1,7 +1,7 @@
 /* Main container */
 .verse-container {
     min-height: 100vh;
-    background-color: #f5f9f8;
+    background-color: rgb(250, 251, 252);
     display: flex;
     justify-content: center;
     align-items: center;

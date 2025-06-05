@@ -3,6 +3,7 @@ import Navbar from "../Components/DashboardNavbar"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComment } from '@fortawesome/free-solid-svg-icons';
 import "../styles/recitation-feedback.css"
+import Sidebar from "../Components/StudentSidebar";
 
 const RecitationFeedback = () => {
   const { state } = useLocation()
@@ -13,7 +14,7 @@ const RecitationFeedback = () => {
   const { actual_text: actualVerse, model_transcription: studentRead, word_match } = feedback?.data || {}
   
   // Derive overall correctness from word_match
-  // @ts-ignore
+  
   const isCorrect = word_match ? word_match.every(item => item.correct) : false
 
   // Split studentRead into words for individual styling
@@ -22,6 +23,7 @@ const RecitationFeedback = () => {
   return (
     <>
       <Navbar />
+      <Sidebar/>
       <div dir="rtl" className="feedback-container">
         <div className="feedback-card">
           <h1 className="feedback-title"> <FontAwesomeIcon icon={faComment} /> ملاحظات حول التلاوة </h1>
@@ -42,7 +44,7 @@ const RecitationFeedback = () => {
             <h2 className="section-title">تسميع الطالب</h2>
             <p className="verse-text">
               {studentWords.length > 0 ? (
-                // @ts-ignore
+                
                 studentWords.map((word, index) => {
                   // Find the corresponding word in word_match
                   const match = word_match && word_match[index] ? word_match[index] : { correct: false }
@@ -71,7 +73,7 @@ const RecitationFeedback = () => {
                 <h3 className="section-title">تفاصيل الكلمات</h3>
                 <ul>
                   {word_match.map((
-// @ts-ignore
+
                   item, index) => (
                     <li key={index} className={item.correct ? "correct" : "incorrect"}>
                       {item.word}: {item.correct ? "صحيح" : "غير صحيح"}
@@ -108,7 +110,7 @@ export default RecitationFeedback
 //   const { actual_text: actualVerse, model_transcription: studentRead, word_match } = feedback?.data || {}
   
 //   // Derive overall correctness from word_match
-//   // @ts-ignore
+//   
 //   const isCorrect = word_match ? word_match.every(item => item.correct) : false
 
 //   return (
@@ -150,7 +152,7 @@ export default RecitationFeedback
 //                 <h3 className="section-title">تفاصيل الكلمات</h3>
 //                 <ul>
 //                   {word_match.map((
-// // @ts-ignore
+// 
 //                   item, index) => (
 //                     <li key={index} className={item.correct ? "correct" : "incorrect"}>
 //                       {item.word}: {item.correct ? "صحيح" : "غير صحيح"}

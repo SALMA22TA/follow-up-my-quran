@@ -1,4 +1,4 @@
-// @ts-ignore
+
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import Sidebar from "../Components/Sidebar";
@@ -31,7 +31,7 @@ const ExamDetails = () => {
     const fetchExamDetails = async () => {
       const token = localStorage.getItem("access_token");
       if (!token) {
-        // @ts-ignore
+        
         setError("❌ الرجاء تسجيل الدخول أولاً");
         setTimeout(() => {
           navigate("/login");
@@ -47,17 +47,17 @@ const ExamDetails = () => {
         console.log("Exam details response:", response.data);
         setExam(response.data.data);
       } catch (err) {
-        // @ts-ignore
+        
         if (err.response?.status === 401) {
           localStorage.removeItem("access_token");
-          // @ts-ignore
+          
           setError("❌ انتهت جلسة تسجيل الدخول. الرجاء تسجيل الدخول مرة أخرى.");
           setTimeout(() => {
             navigate("/login");
           }, 1000);
           return;
         }
-        // @ts-ignore
+        
         setError(err.response?.data.message || '❌ حدث خطأ أثناء جلب تفاصيل الاختبار');
       } finally {
         setLoading(false);
@@ -71,7 +71,7 @@ const ExamDetails = () => {
     <>
       <Navbar />
       <div 
-// @ts-ignore
+
       style={styles.dashboardContainer}>
         <button
           style={{
@@ -103,7 +103,7 @@ const ExamDetails = () => {
 
         <div style={styles.mainContent}>
           <h1 
-// @ts-ignore
+
           style={styles.pageTitle}>تفاصيل الاختبار</h1>
 
           {error && (
@@ -119,10 +119,10 @@ const ExamDetails = () => {
           ) : (
             <div style={styles.examDetailsContainer}>
               <h2 
-// @ts-ignore
+
               style={styles.examTitleStyle}>{exam.title}</h2>
               <p><strong>المعرف:</strong> {exam.
-// @ts-ignore
+
               id}</p>
               <button
                 style={styles.viewQuestionsButtonStyle}

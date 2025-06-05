@@ -1,4 +1,4 @@
-// @ts-ignore
+
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 // import axios from 'axios';
@@ -30,7 +30,7 @@ const Verification = () => {
   }, [location, navigate]);
 
   // Handle input change for each digit
-  // @ts-ignore
+  
   const handleChange = (index, value) => {
     if (/^[0-9]$/.test(value) || value === '') {
       const newCode = [...code];
@@ -39,7 +39,7 @@ const Verification = () => {
 
       // Auto-focus the next input
       if (value !== '' && index < 5) {
-        // @ts-ignore
+        
         document.getElementById(`code-input-${index + 1}`).focus();
       }
     }
@@ -81,7 +81,7 @@ const Verification = () => {
   //   }
   // };
 /*********************************************************** */
-  // @ts-ignore
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -98,7 +98,7 @@ const Verification = () => {
       await verify(userId, verificationCode);
       navigate('/login', { state: { message: 'Email verified successfully!' } });
     } catch (err) {
-      // @ts-ignore
+      
       const errorMessage = err.message || 'Verification failed. Please check your code and try again.';
       setError(errorMessage);
       console.error('Verification error:', err);
@@ -123,7 +123,7 @@ const Verification = () => {
                 key={index}
                 id={`code-input-${index}`}
                 type="text"
-                // @ts-ignore
+                
                 maxLength="1"
                 value={digit}
                 onChange={(e) => handleChange(index, e.target.value)}

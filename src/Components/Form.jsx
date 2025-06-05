@@ -1,11 +1,7 @@
-// @ts-ignore
-import React from 'react';
-
-// @ts-ignore
 const Form = ({ children, onSubmit }) => {
   return (
     <form onSubmit={onSubmit} 
-// @ts-ignore
+
     style={styles.form}>
       {children}
     </form>

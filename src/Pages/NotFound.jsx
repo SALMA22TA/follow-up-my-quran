@@ -16,7 +16,7 @@ const NotFound = () => {
 
   return (
     <div 
-// @ts-ignore
+
     style={styles.container}>
       <h1 style={styles.header}>404 - الصفحة غير موجودة</h1>
       <p style={styles.message}>

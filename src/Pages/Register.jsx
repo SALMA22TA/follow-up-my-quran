@@ -1,7 +1,7 @@
 import { useState } from "react";
 // import axios from "axios";
 import { useNavigate } from 'react-router-dom';
-// @ts-ignore
+
 import quranImage from './images/q.png';
 import { Link } from 'react-router-dom';
 // import Verification from "./Verification";
@@ -15,7 +15,7 @@ const Register = () => {
     password: "",
   });
   const [message, setMessage] = useState("");
-  // @ts-ignore
+  
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -65,7 +65,7 @@ const Register = () => {
   //   }
   // };
   
-  // @ts-ignore
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage("");
@@ -83,17 +83,17 @@ const Register = () => {
 
   return (
     <div 
-// @ts-ignore
+
     style={styles.mainContainer}>
       {/* Left Section */}
       <div 
-// @ts-ignore
+
       style={styles.leftContainer}>
         <h2 
-// @ts-ignore
+
         style={styles.header}>إنشاء حساب جديد</h2>
         <p 
-// @ts-ignore
+
         style={styles.description}>قم بتسجيل الدخول إلى منصة هدى القرآن باستخدام إحدى الطرق التالية</p>
 
         <button style={styles.googleButton}>تسجيل بواسطة جوجل <span style={styles.icon}>G</span></button>
@@ -107,10 +107,10 @@ const Register = () => {
         {message && <p>{message}</p>}
 
         <form onSubmit={handleSubmit} 
-// @ts-ignore
+
         style={styles.form}>
           <label 
-// @ts-ignore
+
           style={styles.label}>اسم المستخدم</label>
           <input
             type="text"
@@ -118,12 +118,12 @@ const Register = () => {
             value={formData.fullName}
             onChange={handleChange}
             placeholder="أدخل اسمك الكامل هنا"
-            // @ts-ignore
+            
             style={styles.input}
             required
           />
           <label 
-// @ts-ignore
+
           style={styles.label}>البريد الإلكتروني</label>
           <input
             type="email"
@@ -131,12 +131,12 @@ const Register = () => {
             placeholder="أدخل بريدك الإلكتروني هنا"
             value={formData.email}
             onChange={handleChange}
-            // @ts-ignore
+            
             style={styles.input}
             required
           />
           <label 
-// @ts-ignore
+
           style={styles.label}>كلمة المرور</label>
           <input
             type="password"
@@ -144,7 +144,7 @@ const Register = () => {
             placeholder="أدخل كلمة المرور هنا"
             value={formData.password}
             onChange={handleChange}
-            // @ts-ignore
+            
             style={styles.input}
             required
           />
@@ -152,17 +152,17 @@ const Register = () => {
         </form>
 
           <Link to="/login" 
-// @ts-ignore
+
           style={styles.link}>
             تسجيل الدخول؟
           </Link>
           <p style={styles.loginText}>
           بتسجيلك في منصة هدى القرآن يعني أنك موافق على{' '}
           <Link to="/terms" 
-// @ts-ignore
+
           style={styles.link}>شروط الاستخدام</Link> و{' '}
           <Link to="/privacy" 
-// @ts-ignore
+
           style={styles.link}>قوانين الخصوصية</Link>
         </p>
       </div>

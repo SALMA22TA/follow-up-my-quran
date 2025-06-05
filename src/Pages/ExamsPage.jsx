@@ -1,4 +1,4 @@
-// @ts-ignore
+
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import Sidebar from "../Components/Sidebar";
@@ -35,7 +35,7 @@ const Exams = () => {
   const fetchExams = async () => {
     const token = localStorage.getItem("access_token");
     if (!token) {
-      // @ts-ignore
+      
       setError("❌ الرجاء تسجيل الدخول أولاً");
       setTimeout(() => {
         navigate("/login");
@@ -51,17 +51,17 @@ const Exams = () => {
       console.log("Exams response:", response.data);
       setExams(response.data.data.data); 
     } catch (err) {
-      // @ts-ignore
+      
       if (err.response?.status === 401) {
         localStorage.removeItem("access_token");
-        // @ts-ignore
+        
         setError("❌ انتهت جلسة تسجيل الدخول. الرجاء تسجيل الدخول مرة أخرى.");
         setTimeout(() => {
           navigate("/login");
         }, 1000);
         return;
       }
-      // @ts-ignore
+      
       setError(err.response?.data.message || '❌ حدث خطأ أثناء جلب الاختبارات');
     } finally {
       setLoading(false);
@@ -74,7 +74,7 @@ const Exams = () => {
 
   const handleAddExam = async () => {
     if (newExamTitle.trim() === "") {
-      // @ts-ignore
+      
       setError("❌ يرجى إدخال عنوان الاختبار");
       return;
     }
@@ -87,22 +87,22 @@ const Exams = () => {
       closeModal();
       setError(null);
     } catch (err) {
-      // @ts-ignore
+      
       if (err.response?.status === 401) {
         localStorage.removeItem("access_token");
-        // @ts-ignore
+        
         setError("❌ انتهت جلسة تسجيل الدخول. الرجاء تسجيل الدخول مرة أخرى.");
         setTimeout(() => {
           navigate("/login");
         }, 1000);
         return;
       }
-      // @ts-ignore
+      
       setError(err.response?.data.message || '❌ حدث خطأ أثناء إنشاء الاختبار');
     }
   };
 
-  // @ts-ignore
+  
   const handleDelete = async (id) => {
     try {
       const api = getApiInstance();
@@ -111,22 +111,22 @@ const Exams = () => {
       await fetchExams(); 
       setError(null);
     } catch (err) {
-      // @ts-ignore
+      
       if (err.response?.status === 401) {
         localStorage.removeItem("access_token");
-        // @ts-ignore
+        
         setError("❌ انتهت جلسة تسجيل الدخول. الرجاء تسجيل الدخول مرة أخرى.");
         setTimeout(() => {
           navigate("/login");
         }, 1000);
         return;
       }
-      // @ts-ignore
+      
       setError(err.response?.data.message || '❌ حدث خطأ أثناء حذف الاختبار');
     }
   };
 
-  // @ts-ignore
+  
   const handleEdit = (id, title) => {
     setEditingExamId(id);
     setNewExamTitle(title);
@@ -135,7 +135,7 @@ const Exams = () => {
 
   const handleUpdateExam = async () => {
     if (newExamTitle.trim() === "") {
-      // @ts-ignore
+      
       setError("❌ يرجى إدخال عنوان الاختبار");
       return;
     }
@@ -150,17 +150,17 @@ const Exams = () => {
       closeModal();
       setError(null);
     } catch (err) {
-      // @ts-ignore
+      
       if (err.response?.status === 401) {
         localStorage.removeItem("access_token");
-        // @ts-ignore
+        
         setError("❌ انتهت جلسة تسجيل الدخول. الرجاء تسجيل الدخول مرة أخرى.");
         setTimeout(() => {
           navigate("/login");
         }, 1000);
         return;
       }
-      // @ts-ignore
+      
       setError(err.response?.data.message || '❌ حدث خطأ أثناء تحديث الاختبار');
     }
   };
@@ -177,7 +177,7 @@ const Exams = () => {
     <>
       <Navbar />
       <div 
-// @ts-ignore
+
       style={styles.dashboardContainer}>
         {/* زر Hamburger Menu للشاشات الصغيرة */}
         <button
@@ -211,7 +211,7 @@ const Exams = () => {
 
         <div style={styles.mainContent}>
           <h1 
-// @ts-ignore
+
           style={styles.pageTitle}>الاختبارات</h1>
 
           {error && (
@@ -226,9 +226,7 @@ const Exams = () => {
             <div style={{ textAlign: 'center' }}>جاري التحميل...</div>
           ) : (
             <>
-              <h2 
-// @ts-ignore
-              style={styles.headerStyle}>قائمة الاختبارات</h2>
+              <h2 style={styles.headerStyle}>قائمة الاختبارات</h2>
               <div>
                 {exams.length === 0 ? (
                   <div style={{ textAlign: 'center', color: '#666' }}>
@@ -236,32 +234,28 @@ const Exams = () => {
                   </div>
                 ) : (
                   exams.map((exam) => (
-                    <div key={exam.
-// @ts-ignore
-                    id} style={styles.rowStyle}>
+                    <div key={exam.id} style={styles.rowStyle}>
                       <span 
-// @ts-ignore
+
                       style={styles.circleStyle}>{exam.id}</span>
                       <span
-                        // @ts-ignore
+                        
                         style={{ ...styles.examTitleStyle, cursor: 'pointer', color: '#1EC8A0' }}
-                        // @ts-ignore
+                        
                         onClick={() => navigate(`/exam/${exam.id}/questions`)}
                       >
-                        {exam.
-// @ts-ignore
-                        title}
+                        {exam.title}
                       </span>
                       <div style={styles.buttonContainerStyle}>
                         <button
                           style={styles.editButtonStyle}
-                          // @ts-ignore
+                          
                           onClick={() => handleEdit(exam.id, exam.title)}
                         >
                           <FaEdit /> تعديل
                         </button>
                         <button style={styles.deleteButtonStyle} onClick={() => {
-                          // @ts-ignore
+                          
                           setExamToDelete(exam.id);
                           setShowDeleteConfirm(true);
                         }}>
@@ -279,13 +273,13 @@ const Exams = () => {
 
       {isModalOpen && (
         <div 
-// @ts-ignore
+
         style={styles.overlayStyle}>
           <div 
-// @ts-ignore
+
           style={styles.modalStyle}>
             <button onClick={closeModal} 
-// @ts-ignore
+
             style={styles.closeButtonStyle}>
               <FaTimes />
             </button>
@@ -295,13 +289,13 @@ const Exams = () => {
             </h2>
 
             <label 
-// @ts-ignore
+
             style={styles.labelStyle}>عنوان الاختبار</label>
             <input
               type="text"
               value={newExamTitle}
               onChange={(e) => setNewExamTitle(e.target.value)}
-              // @ts-ignore
+              
               style={styles.inputStyle}
               placeholder="ادخل عنوان الاختبار"
             />
@@ -320,13 +314,13 @@ const Exams = () => {
       )}
       {showDeleteConfirm && (
         <div 
-// @ts-ignore
+
         style={styles.overlayStyle}>
           <div 
-// @ts-ignore
+
           style={styles.modalStyle}>
             <button onClick={() => setShowDeleteConfirm(false)} 
-// @ts-ignore
+
             style={styles.closeButtonStyle}>
               <FaTimes />
             </button>

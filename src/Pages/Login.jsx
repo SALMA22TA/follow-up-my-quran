@@ -1,8 +1,6 @@
-// @ts-ignore
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation, useSearchParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-// @ts-ignore
 import quranImage from './images/l.png';
 import { login } from '../services/authService';
 
@@ -30,13 +28,13 @@ const Login = () => {
   }, [message, isError]);
   
 
-  // @ts-ignore
-  const handleChange = (e) => {
+  
+const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // @ts-ignore
-  const handleLoginSubmit = async (e) => {
+  
+const handleLoginSubmit = async (e) => {
     e.preventDefault();
     setMessage("");
     setIsError(false);
@@ -74,8 +72,8 @@ const Login = () => {
       }
     } catch (error) {
       console.error("Login error:", error);
-      // @ts-ignore
-      const errorMessage = error.message || "فشل تسجيل الدخول. تحقق من البيانات.";
+      
+    const errorMessage = error.message || "فشل تسجيل الدخول. تحقق من البيانات.";
       setMessage(errorMessage);
       setIsError(true);
     }
@@ -86,16 +84,12 @@ const Login = () => {
 
   return (
     <div 
-// @ts-ignore
     style={styles.mainContainer}>
       <div 
-// @ts-ignore
       style={styles.leftContainer}>
         <h2 
-// @ts-ignore
         style={styles.header}>تسجيل الدخول</h2>
         <p 
-// @ts-ignore
         style={styles.description}>
           قم بتسجيل الدخول إلى منصة هدى القرآن باستخدام إحدى الطرق الآتية
         </p>
@@ -112,11 +106,9 @@ const Login = () => {
         </div>
 
         <form onSubmit={handleLoginSubmit} 
-// @ts-ignore
         style={styles.form}>
           {message && <p style={{ ...styles.message, color: isError ? 'red' : 'green' }}>{message}</p>}
           <label 
-// @ts-ignore
           style={styles.label}>البريد الإلكتروني</label>
           <input
             type="email"
@@ -125,11 +117,10 @@ const Login = () => {
             onChange={handleChange}
             placeholder="أدخل بريدك الإلكتروني هنا"
             required
-            // @ts-ignore
-            style={styles.input}
+            
+          style={styles.input}
           />
           <label 
-// @ts-ignore
           style={styles.label}>كلمة المرور</label>
           <input
             type="password"
@@ -137,8 +128,8 @@ const Login = () => {
             value={formData.password}
             onChange={handleChange}
             placeholder="أدخل كلمة المرور هنا"
-            // @ts-ignore
-            style={styles.input}
+            
+          style={styles.input}
             required
           />
           <button type="submit" style={styles.loginButton} disabled={loading}>
@@ -148,13 +139,11 @@ const Login = () => {
 
         <p style={styles.registerText}>
           <Link to="/register" 
-// @ts-ignore
           style={styles.link}>
             مستخدم جديد؟
           </Link>
         </p>
         <p 
-// @ts-ignore
         style={styles.termsText}>
           بتسجيلك في منصة هدى القرآن يعني أنك موافق على{' '}
           <Link to="/terms" style={styles.termsLink}>
@@ -171,8 +160,8 @@ const Login = () => {
         <img
           src={quranImage}
           alt="Quran Illustration"
-          // @ts-ignore
-          style={styles.rightImage}
+          
+        style={styles.rightImage}
         />
       </div>
     </div>

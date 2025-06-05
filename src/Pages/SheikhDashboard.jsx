@@ -1,4 +1,4 @@
-// @ts-ignore
+
 import React from 'react';
 import Sidebar from '../Components/Sidebar';
 import Navbar from '../Components/DashboardNavbar';
@@ -22,11 +22,11 @@ const Dashboard = () => {
     <>
       <Navbar /> {/* ✅ Navbar now spans the full width at the top */}
       <div 
-// @ts-ignore
+
       style={dashboardContainer}>
         <Sidebar />
         <div 
-// @ts-ignore
+
         style={mainContent}>
           <h1>لوحة التحكم</h1>
         

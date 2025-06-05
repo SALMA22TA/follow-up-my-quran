@@ -1,8 +1,8 @@
-// @ts-ignore
+
 import React from "react";
-// @ts-ignore
+
 import mashariImage from "../Pages/images/Mashari.jpeg";
-// @ts-ignore
+
 import verifyIcon from "../Pages/images/verify.svg.svg";
 import { Link } from "react-router-dom";
 
@@ -36,7 +36,7 @@ const TeachersSection = () => {
 
     return (
         <div id="teachers" 
-// @ts-ignore
+
         style={styles.container}>
             <p style={styles.subheading}>المعلمون</p>
             <h2 style={styles.heading}>إليكم معلمو منصة هدى القرآن</h2>
@@ -44,7 +44,7 @@ const TeachersSection = () => {
             <div style={styles.teachersGrid}>
                 {teachers.map((teacher, index) => (
                     <div key={index} 
-// @ts-ignore
+
                     style={styles.teacherCard}>
                         <img src={teacher.image} alt={teacher.name} style={styles.image} />
                         <div style={styles.nameContainer}>
@@ -52,7 +52,7 @@ const TeachersSection = () => {
                             <img src={verifyIcon} alt="Verified" style={styles.verifyIcon} />
                         </div>
                         <p 
-// @ts-ignore
+
                         style={styles.teacherDescription}>{teacher.description}</p>
                     </div>
                 ))}

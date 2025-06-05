@@ -5,6 +5,7 @@ import Navbar from "../Components/DashboardNavbar"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMicrophone } from '@fortawesome/free-solid-svg-icons';
 import "../styles/recitation.css"
+import Sidebar from "../Components/StudentSidebar";
 
 const Recitation = () => {
   const [isRecording, setIsRecording] = useState(false)
@@ -19,7 +20,7 @@ const Recitation = () => {
 
   useEffect(() => {
     if (isRecording) {
-      // @ts-ignore
+      
       timerRef.current = setInterval(() => {
         setTimeLeft((prev) => {
           if (prev <= 1) {
@@ -30,24 +31,24 @@ const Recitation = () => {
         })
       }, 1000)
     } else {
-      // @ts-ignore
+      
       clearInterval(timerRef.current)
     }
 
-    // @ts-ignore
+    
     return () => clearInterval(timerRef.current)
   }, [isRecording])
 
   // Function to convert WebM to WAV
-  // @ts-ignore
+  
   const webmToWav = async (webmBlob) => {
     try {
       if (!audioContextRef.current) {
-        // @ts-ignore
+        
         audioContextRef.current = new (window.AudioContext || window.webkitAudioContext)()
       }
       const arrayBuffer = await webmBlob.arrayBuffer()
-      // @ts-ignore
+      
       const audioBuffer = await audioContextRef.current.decodeAudioData(arrayBuffer)
       
       // Convert AudioBuffer to WAV
@@ -60,7 +61,7 @@ const Recitation = () => {
   }
 
   // Helper function to convert AudioBuffer to WAV
-  // @ts-ignore
+  
   const audioBufferToWav = (buffer) => {
     const numChannels = buffer.numberOfChannels
     const sampleRate = buffer.sampleRate
@@ -69,7 +70,7 @@ const Recitation = () => {
     const view = new DataView(bufferArray)
 
     // Write WAV header
-    // @ts-ignore
+    
     const writeString = (view, offset, string) => {
       for (let i = 0; i < string.length; i++) {
         view.setUint8(offset + i, string.charCodeAt(i))
@@ -102,22 +103,22 @@ const Recitation = () => {
   }
 
   // Function to convert WAV to MP3 using lamejs
-  // @ts-ignore
+  
   const wavToMp3 = async (wavBlob) => {
     try {
       // Check if lamejs is available
-      // @ts-ignore
+      
       if (!window.lamejs) {
         throw new Error("lamejs library is not loaded. Please ensure the script is included.")
       }
 
       const arrayBuffer = await wavBlob.arrayBuffer()
-      // @ts-ignore
+      
       const audioContext = new (window.AudioContext || window.webkitAudioContext)()
       const audioBuffer = await audioContext.decodeAudioData(arrayBuffer)
 
       // Use global lamejs
-      // @ts-ignore
+      
       const { Mp3Encoder } = window.lamejs
       const mp3Encoder = new Mp3Encoder(1, audioBuffer.sampleRate, 128) // Mono, 128kbps
       const samples = audioBuffer.getChannelData(0).map(sample => Math.round(sample * 32768))
@@ -146,17 +147,17 @@ const Recitation = () => {
   const startRecording = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
-      // @ts-ignore
+      
       mediaRecorderRef.current = new MediaRecorder(stream, { mimeType: 'audio/webm' })
       audioChunksRef.current = []
 
-      // @ts-ignore
+      
       mediaRecorderRef.current.ondataavailable = (event) => {
-        // @ts-ignore
+        
         audioChunksRef.current.push(event.data)
       }
 
-      // @ts-ignore
+      
       mediaRecorderRef.current.onstop = async () => {
         const webmBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' })
         console.log("WebM Blob Size:", webmBlob.size)
@@ -197,7 +198,7 @@ const Recitation = () => {
         }
       }
 
-      // @ts-ignore
+      
       mediaRecorderRef.current.start()
       setIsRecording(true)
       setTimeLeft(30)
@@ -208,7 +209,7 @@ const Recitation = () => {
 
   const stopRecording = () => {
     if (mediaRecorderRef.current) {
-      // @ts-ignore
+      
       mediaRecorderRef.current.stop()
       setIsRecording(false)
     }
@@ -217,6 +218,7 @@ const Recitation = () => {
   return (
     <>
       <Navbar />
+      <Sidebar/>
       <div dir="rtl" className="recitation-container">
         <div className="recitation-card">
           <h1 className="recitation-title"> <FontAwesomeIcon icon={faMicrophone} /> تسميع</h1>
@@ -251,7 +253,7 @@ export default Recitation
 // import "../styles/recitation.css";
 // import lamejs from "lamejs";
 
-// // @ts-ignore
+// 
 // window.MPEGMode = lamejs.MPEGMode;
 
 //  // Dynamically add MPEGMode to lamejs if it doesn't exist or is read-only
@@ -274,11 +276,11 @@ export default Recitation
 // const Recitation = () => {
 //   const [isRecording, setIsRecording] = useState(false);
 //   const [timeLeft, setTimeLeft] = useState(30);
-//   // @ts-ignore
+//   
 //   const mediaRecorderRef = useRef(null);
-//   // @ts-ignore
+//   
 //   const audioChunksRef = useRef([]);
-//   // @ts-ignore
+//   
 //   const timerRef = useRef(null);
 //   const navigate = useNavigate();
 //   const { state } = useLocation();
@@ -286,7 +288,7 @@ export default Recitation
 
 //   useEffect(() => {
 //     if (isRecording) {
-//       // @ts-ignore
+//       
 //       timerRef.current = setInterval(() => {
 //         setTimeLeft((prev) => {
 //           if (prev <= 1) {
@@ -307,17 +309,17 @@ export default Recitation
 //   const startRecording = async () => {
 //     try {
 //       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-//       // @ts-ignore
+//       
 //       mediaRecorderRef.current = new MediaRecorder(stream);
 //       audioChunksRef.current = [];
 
-//       // @ts-ignore
+//       
 //       mediaRecorderRef.current.ondataavailable = (event) => {
-//         // @ts-ignore
+//         
 //         audioChunksRef.current.push(event.data);
 //       };
 
-//       // @ts-ignore
+//       
 //       mediaRecorderRef.current.onstop = async () => {
 //         const audioBlob = new Blob(audioChunksRef.current, { type: "audio/webm" });
 //         const mp3Blob = await convertToMP3(audioBlob);
@@ -339,7 +341,7 @@ export default Recitation
 //         navigate("/recitation-feedback", { state: { feedback: data, surahName, verseNumber } });
 //       };
 
-//       // @ts-ignore
+//       
 //       mediaRecorderRef.current.start();
 //       setIsRecording(true);
 //       setTimeLeft(30);
@@ -350,25 +352,25 @@ export default Recitation
 
 //   const stopRecording = () => {
 //     if (mediaRecorderRef.current) {
-//       // @ts-ignore
+//       
 //       mediaRecorderRef.current.stop();
 //       setIsRecording(false);
 //     }
 //   };
 
-//   // @ts-ignore
+//   
 //   const convertToMP3 = (webmBlob) => {
 //     return new Promise((resolve, reject) => {
 //       const reader = new FileReader();
 //       reader.onload = async (event) => {
 //         try {
 //           const audioContext = new AudioContext();
-//           // @ts-ignore
+//           
 //           const arrayBuffer = event.target.result;
-//           // @ts-ignore
+//           
 //           const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
 //           const samples = audioBuffer.getChannelData(0); // Get raw Float32Array
-//           // @ts-ignore
+//           
 //           const mp3Encoder = new lamejs.Mp3Encoder(1, audioBuffer.sampleRate, 128);
 //           const mp3Data = [];
 
@@ -433,10 +435,10 @@ export default Recitation
 // const Recitation = () => {
 //   const [isRecording, setIsRecording] = useState(false);
 //   const [timeLeft, setTimeLeft] = useState(30); // 30 seconds max
-//   // @ts-ignore
+//   
 //   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
 //   const audioChunksRef = useRef([]);
-//   // @ts-ignore
+//   
 //   const timerRef = useRef<number | null>(null);
 //   const navigate = useNavigate();
 //   const { state } = useLocation();
@@ -444,7 +446,7 @@ export default Recitation
 
 //   useEffect(() => {
 //     if (isRecording) {
-//       // @ts-ignore
+//       
 //       timerRef.current = setInterval(() => {
 //         setTimeLeft((prev) => {
 //           if (prev <= 1) {
@@ -455,12 +457,12 @@ export default Recitation
 //         });
 //       }, 1000);
 //     } else {
-//       // @ts-ignore
+//       
 //       if (timerRef.current) clearInterval(timerRef.current);
 //     }
 
 //     return () => {
-//       // @ts-ignore
+//       
 //       if (timerRef.current) clearInterval(timerRef.current);
 //     };
 //   }, [isRecording]);
@@ -468,19 +470,19 @@ export default Recitation
 //   const startRecording = async () => {
 //     try {
 //       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-//       // @ts-ignore
+//       
 //       mediaRecorderRef.current = new MediaRecorder(stream);
 //       audioChunksRef.current = [];
 
-//       // @ts-ignore
+//       
 //       mediaRecorderRef.current.ondataavailable = (event: BlobEvent) => {
-//         // @ts-ignore
+//         
 //         audioChunksRef.current.push(event.data);
 //       };
 
-//       // @ts-ignore
+//       
 //       mediaRecorderRef.current.onstop = async () => {
-//         // @ts-ignore
+//         
 //         if (mediaRecorderRef.current) {
 //           const audioBlob = new Blob(audioChunksRef.current, { type: "audio/webm" });
 //           console.log("Audio Blob Size (webm):", audioBlob.size);
@@ -516,7 +518,7 @@ export default Recitation
 //         }
 //       };
 
-//       // @ts-ignore
+//       
 //       if (mediaRecorderRef.current) mediaRecorderRef.current.start();
 //       setIsRecording(true);
 //       setTimeLeft(30);
@@ -526,9 +528,9 @@ export default Recitation
 //   };
 
 //   const stopRecording = () => {
-//     // @ts-ignore
+//     
 //     if (mediaRecorderRef.current) {
-//       // @ts-ignore
+//       
 //       mediaRecorderRef.current.stop();
 //       setIsRecording(false);
 //     }

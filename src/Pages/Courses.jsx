@@ -1,9 +1,8 @@
-// @ts-ignore
 import React, { useState, useEffect } from "react";
 import Sidebar from "../Components/Sidebar";
 import Navbar from "../Components/DashboardNavbar";
 import { Link, useNavigate } from "react-router-dom"; 
-import { FaTrash } from "react-icons/fa";
+import { Trash2 } from "lucide-react";
 
 const Courses = () => {
   const navigate = useNavigate(); 
@@ -13,8 +12,7 @@ const Courses = () => {
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState(""); // "delete" or "publish"
   const [selectedCourseId, setSelectedCourseId] = useState(null);
-
-  // @ts-ignore
+  
   const openModal = (type, id) => {
     setModalType(type);
     setSelectedCourseId(id);
@@ -40,7 +38,7 @@ const Courses = () => {
     const fetchCourses = async () => {
       const token = localStorage.getItem("access_token"); 
       if (!token) {
-        // @ts-ignore
+        
         setError("الرجاء تسجيل الدخول أولاً");
         setTimeout(() => {
           navigate("/login");
@@ -60,7 +58,7 @@ const Courses = () => {
         if (!response.ok) {
           if (response.status === 401) {
             localStorage.removeItem("access_token");
-            // @ts-ignore
+            
             setError("انتهت جلسة تسجيل الدخول. الرجاء تسجيل الدخول مرة أخرى.");
             setTimeout(() => {
               navigate("/login");
@@ -74,7 +72,7 @@ const Courses = () => {
         console.log("Courses data:", data); // Debug
         setCourses(data.data.data); 
       } catch (err) {
-        // @ts-ignore
+        
         setError(err.message);
       } finally {
         setLoading(false);
@@ -84,11 +82,11 @@ const Courses = () => {
     fetchCourses();
   }, [navigate]);
 
-  // @ts-ignore
+  
   const handleDeleteCourse = async (id) => {
     const token = localStorage.getItem("access_token");
     if (!token) {
-      // @ts-ignore
+      
       setError("الرجاء تسجيل الدخول أولاً");
       setTimeout(() => {
         navigate("/login");
@@ -110,7 +108,7 @@ const Courses = () => {
       if (!response.ok) {
         if (response.status === 401) {
           localStorage.removeItem("access_token");
-          // @ts-ignore
+          
           setError("انتهت جلسة تسجيل الدخول. الرجاء تسجيل الدخول مرة أخرى.");
           setTimeout(() => {
             navigate("/login");
@@ -119,24 +117,23 @@ const Courses = () => {
         }
         throw new Error("فشل في حذف الدورة");
       }
-
-      // @ts-ignore
+      
       setCourses(prevCourses => prevCourses.filter(course => course.id !== id));
-      // @ts-ignore
+      
       const courseTitle = courses.find(course => course.id === id)?.title;
       console.log(`تم حذف الدورة: ${courseTitle}`);
       setError(null); 
     } catch (err) {
-      // @ts-ignore
+      
       setError(err.message);
     }
   };
 
-  // @ts-ignore
+  
   const handlePublishCourse = async (id) => {
     const token = localStorage.getItem("access_token");
     if (!token) {
-      // @ts-ignore
+      
       setError("الرجاء تسجيل الدخول أولاً");
       setTimeout(() => {
         navigate("/login");
@@ -159,7 +156,7 @@ const Courses = () => {
       if (!response.ok) {
         if (response.status === 401) {
           localStorage.removeItem("access_token");
-          // @ts-ignore
+          
           setError("انتهت جلسة تسجيل الدخول. الرجاء تسجيل الدخول مرة أخرى.");
           setTimeout(() => {
             navigate("/login");
@@ -169,91 +166,93 @@ const Courses = () => {
         throw new Error(data.message || "فشل في نشر الدورة");
       }
 
-      // @ts-ignore
+      
       setCourses(prevCourses =>
         prevCourses.map(course =>
-          // @ts-ignore
+          
           course.id === id ? { ...course, status: "published" } : course
         )
       );
-      // @ts-ignore
+      
       const courseTitle = courses.find(course => course.id === id)?.title;
       console.log(`تم نشر دورة: ${courseTitle}`);
 
       setError(null);
     } catch (err) {
       console.error("Error:", err);
-      // @ts-ignore
+      
       setError(err.message);
     }
   };
+  const tableStyle = {
+    width: '100%',
+    maxWidth: '1100px',
+    borderCollapse: 'collapse',
+    marginTop: '20px',
+    direction: 'rtl',
+    fontFamily: '"Tajawal", sans-serif',
+    boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+  };
 
+  const thStyle = {
+    border: '1px solid #E6E6E6',
+    padding: '12px',
+    backgroundColor: '#f9f9f9',
+    textAlign: 'center',
+    fontWeight: 'bold',
+  };
+
+  const tdStyle = {
+    border: '1px solid #E6E6E6',
+    padding: '12px',
+    textAlign: 'center',
+  };
   return (
     <>
       <Navbar />
       <div 
-// @ts-ignore
+
       style={dashboardContainer}>
         <Sidebar />
-        <div 
-// @ts-ignore
-        style={mainContent}>
+        <div style={mainContent}>
           <h1>قائمة الدورات</h1>
           <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "15px" }}>
-            <Link to="/add-course" style={addButtonStyle}>
+            <Link to="/add-course" style={addButtonStyle}
+              onMouseEnter={e => { e.currentTarget.style.background = '#17b893'; e.currentTarget.style.transform = 'translateY(-3px)'; }}
+              onMouseLeave={e => { e.currentTarget.style.background = '#1EC8A0'; e.currentTarget.style.transform = 'translateY(0)'; }}
+            >
               + إضافة دورة جديدة
             </Link>
+            
           </div>
 
           {loading && <p>جاري التحميل...</p>}
           {error && <p style={{ color: "red" }}>{error}</p>}
 
           {!loading && !error && (
-            <div 
-// @ts-ignore
-            style={tableContainerStyle}>
-              <table 
-// @ts-ignore
-              style={tableStyle}>
+            <div style={{ maxWidth: '1100px' }}>
+              <table style={tableStyle}>
                 <thead>
-                  <tr style={tableHeaderRowStyle}>
-                    <th 
-// @ts-ignore
-                    style={tableHeaderCellStyle}>العنوان</th>
-                    <th 
-// @ts-ignore
-                    style={tableHeaderCellStyle}>الحالة</th>
-                    <th 
-// @ts-ignore
-                    style={tableHeaderCellStyle}>إضافة فيديو</th> 
-                    <th 
-// @ts-ignore
-                    style={tableHeaderCellStyle}>نشر؟</th>
-                    <th 
-// @ts-ignore
-                    style={tableHeaderCellStyle}>حذف؟</th>
+                  <tr /*style={tableHeaderRowStyle}*/>
+                    <th style={thStyle}>العنوان</th>
+                    <th style={thStyle}>الحالة</th>
+                    <th style={thStyle}>إضافة فيديو</th> 
+                    <th style={thStyle}>نشر؟</th>
+                    <th style={thStyle}>حذف؟</th>
                   </tr>
                 </thead>
                 <tbody>
                   {courses.map((course) => (
-                    <tr key={course.
-// @ts-ignore
-                    id} style={tableRowStyle}>
-                      <td style={tableCellStyle}>
-                        <Link to={`/course/${course.
-// @ts-ignore
-                        id}`} style={{ color: "#1EC8A0", textDecoration: "none", fontWeight: "bold" }}>
-                          {course.
-// @ts-ignore
-                          title}
+                    <tr key={course.id}>
+                      <td style={tdStyle}>
+                        <Link to={`/course/${course.id}`} style={{ color: "black", textDecoration: "none"}}>
+                          {course.title}
                         </Link>
                       </td>
-                      <td style={tableCellStyle}>{course.
-// @ts-ignore
-                      status}</td>
-                      <td style={tableCellStyle}>
+                      <td style={tdStyle}>{course.status}</td>
+                      <td style={tdStyle}>
                         <Link
-                          // @ts-ignore
+                          
                           to={`/add-video/${course.id}`} 
                           style={{
                             backgroundColor: "#1EC8A0",
@@ -269,43 +268,18 @@ const Courses = () => {
                           إضافة فيديو
                         </Link>
                       </td>
-                      <td style={tableCellStyle}>
-                        {course.
-// @ts-ignore
-                        status === "draft" && (
-                          <button
-                            style={{
-                              backgroundColor: "#1EC8A0",
-                              color: "#fff",
-                              border: "none",
-                              padding: "7px 15px",
-                              borderRadius: "5px",
-                              fontWeight: "bold",
-                              cursor: "pointer",
-                            }}
-                            // @ts-ignore
-                            onClick={() => openModal("publish", course.id)}
-                          >
-                            نشر
-                          </button>
+                      <td style={tdStyle}>
+                        {course.status !== 'published' && (
+                          <button onClick={() => openModal('publish', course.id)} style={{ background: '#1EC8A0', color: '#fff', border: 'none', borderRadius: '5px', padding: '6px 14px', cursor: 'pointer' }}>نشر</button>
                         )}
+                        {course.status === 'published' && <span style={{ color: '#1EC8A0', fontWeight: 'bold' }}>تم النشر</span>}
                       </td>
-                      <td style={tableCellStyle}>
-                        <button
-                          style={{
-                            backgroundColor: "red",
-                            color: "white",
-                            border: "none",
-                            padding: "7px 15px",
-                            borderRadius: "5px",
-                            fontWeight: "bold",
-                            cursor: "pointer",
-                          }}
-                          // @ts-ignore
-                          onClick={() => openModal("delete", course.id)}
-                        >
-                          <FaTrash /> حذف
-                        </button>
+                      <td style={{ ...tdStyle, textAlign: 'center' }}>
+                        <div style={{ display: 'flex', justifyContent: 'center' }}>
+                          <button onClick={() => openModal('delete', course.id)} style={{ background: '#FF4D4F', color: '#fff', border: 'none', borderRadius: '5px', padding: '6px 18px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', fontWeight: 'bold', fontFamily: '"Tajawal", sans-serif' }}>
+                            <Trash2 size={18} /> حذف
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))}
@@ -317,10 +291,10 @@ const Courses = () => {
       </div>
       {showModal && (
         <div 
-// @ts-ignore
+
         style={modalOverlayStyle}>
           <div 
-// @ts-ignore
+
           style={modalStyle}>
             <p style={{ fontSize: "18px", marginBottom: "20px" }}>
               {modalType === "delete"
@@ -341,7 +315,6 @@ const Courses = () => {
     </>
   );
 };
-// Courses.js (مع التعديلات للـ Responsiveness)
 
 const dashboardContainer = {
   display: "flex",
@@ -360,48 +333,39 @@ const mainContent = {
     marginRight: "0",
   },
 };
+// const tableContainerStyle = {
+//   width: "100%",
+//   overflowX: "auto",
+//   backgroundColor: "#fff",
+//   borderRadius: "10px",
+//   boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
+//   padding: "15px",
+// };
 
-const tableContainerStyle = {
-  width: "100%",
-  overflowX: "auto",
-  backgroundColor: "#fff",
-  borderRadius: "10px",
-  boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
-  padding: "15px",
-};
+// const tableStyle = {
+//   width: "100%",
+//   borderCollapse: "collapse",
+//   textAlign: "right",
+//   minWidth: "600px",
+// };
 
-const tableStyle = {
-  width: "100%",
-  borderCollapse: "collapse",
-  textAlign: "right",
-  minWidth: "600px",
-};
+// const tableHeaderRowStyle = {
+//   backgroundColor: "#f8f9fa",
+// };
 
-const tableHeaderRowStyle = {
-  backgroundColor: "#f8f9fa",
-};
-
-const tableHeaderCellStyle = {
-  padding: "12px",
-  textAlign: "right",
-  fontWeight: "bold",
-  borderBottom: "2px solid #ddd",
-  "@media (max-width: 768px)": {
-    padding: "8px",
-    fontSize: "0.9rem",
-  },
-};
+// const thStyle = {
+//   padding: "12px",
+//   textAlign: "right",
+//   fontWeight: "bold",
+//   borderBottom: "2px solid #ddd",
+//   "@media (max-width: 768px)": {
+//     padding: "8px",
+//     fontSize: "0.9rem",
+//   },
+// };
 
 const tableRowStyle = {
   borderBottom: "1px solid #ddd",
-};
-
-const tableCellStyle = {
-  padding: "12px",
-  "@media (max-width: 768px)": {
-    padding: "8px",
-    fontSize: "0.9rem",
-  },
 };
 
 const addButtonStyle = {
@@ -481,9 +445,9 @@ const noButtonStyle = {
 // const tableContainerStyle = { width: "100%", overflowX: "auto", backgroundColor: "#fff", borderRadius: "10px", boxShadow: "0 2px 10px rgba(0,0,0,0.1)", padding: "15px" };
 // const tableStyle = { width: "100%", borderCollapse: "collapse", textAlign: "right" };
 // const tableHeaderRowStyle = { backgroundColor: "#f8f9fa" };
-// const tableHeaderCellStyle = { padding: "12px", textAlign: "right", fontWeight: "bold", borderBottom: "2px solid #ddd" };
+// const thStyle = { padding: "12px", textAlign: "right", fontWeight: "bold", borderBottom: "2px solid #ddd" };
 // const tableRowStyle = { borderBottom: "1px solid #ddd" };
-// const tableCellStyle = { padding: "12px" };
+// const tdStyle = { padding: "12px" };
 // const addButtonStyle = {
 //   backgroundColor: "#1EC8A0",
 //   color: "#fff",
@@ -734,21 +698,21 @@ export default Courses;
 //               <table style={tableStyle}>
 //                 <thead>
 //                   <tr style={tableHeaderRowStyle}>
-//                     <th style={tableHeaderCellStyle}>العنوان</th>
-//                     <th style={tableHeaderCellStyle}>الوصف</th>
-//                     <th style={tableHeaderCellStyle}>الحالة</th>
-//                     <th style={tableHeaderCellStyle}>إضافة فيديو</th> 
-//                     <th style={tableHeaderCellStyle}>نشر؟</th>
-//                     <th style={tableHeaderCellStyle}>حذف؟</th>
+//                     <th style={thStyle}>العنوان</th>
+//                     <th style={thStyle}>الوصف</th>
+//                     <th style={thStyle}>الحالة</th>
+//                     <th style={thStyle}>إضافة فيديو</th> 
+//                     <th style={thStyle}>نشر؟</th>
+//                     <th style={thStyle}>حذف؟</th>
 //                   </tr>
 //                 </thead>
 //                 <tbody>
 //                   {courses.map((course) => (
 //                     <tr key={course.id} style={tableRowStyle}>
-//                       <td style={tableCellStyle}>{course.title}</td>
-//                       <td style={tableCellStyle}>{course.description}</td>
-//                       <td style={tableCellStyle}>{course.status}</td>
-//                       <td style={tableCellStyle}>
+//                       <td style={tdStyle}>{course.title}</td>
+//                       <td style={tdStyle}>{course.description}</td>
+//                       <td style={tdStyle}>{course.status}</td>
+//                       <td style={tdStyle}>
 //                         <Link
 //                           to={`/add-video/${course.id}`} 
 //                           style={{
@@ -765,7 +729,7 @@ export default Courses;
 //                           إضافة فيديو
 //                         </Link>
 //                       </td>
-//                       <td style={tableCellStyle}>
+//                       <td style={tdStyle}>
 //                         {course.status === "draft" && (
 //                           <button
 //                             style={{
@@ -783,7 +747,7 @@ export default Courses;
 //                           </button>
 //                         )}
 //                       </td>
-//                       <td style={tableCellStyle}>
+//                       <td style={tdStyle}>
 //                         <button
 //                           style={{
 //                             backgroundColor: "red",
@@ -837,9 +801,9 @@ export default Courses;
 // const tableContainerStyle = { width: "100%", overflowX: "auto", backgroundColor: "#fff", borderRadius: "10px", boxShadow: "0 2px 10px rgba(0,0,0,0.1)", padding: "15px" };
 // const tableStyle = { width: "100%", borderCollapse: "collapse", textAlign: "right" };
 // const tableHeaderRowStyle = { backgroundColor: "#f8f9fa" };
-// const tableHeaderCellStyle = { padding: "12px", textAlign: "right", fontWeight: "bold", borderBottom: "2px solid #ddd" };
+// const thStyle = { padding: "12px", textAlign: "right", fontWeight: "bold", borderBottom: "2px solid #ddd" };
 // const tableRowStyle = { borderBottom: "1px solid #ddd" };
-// const tableCellStyle = { padding: "12px" };
+// const tdStyle = { padding: "12px" };
 // const addButtonStyle = {
 //   backgroundColor: "#1EC8A0",
 //   color: "#fff",

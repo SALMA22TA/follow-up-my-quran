@@ -1,12 +1,11 @@
 import { useState } from 'react';
-// @ts-ignore
 import logo from '../assests/imgs/Logo.png';
 import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   const [hoveredLink, setHoveredLink] = useState(null);
 
-  // @ts-ignore
+
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
     if (element) {
@@ -42,7 +41,7 @@ const Navbar = () => {
     padding: 0,
   };
 
-  // @ts-ignore
+
   const linkStyle = (isHovered) => ({
     textDecoration: 'none',
     color: isHovered ? '#00ffcb' : '#ffffff',
@@ -98,7 +97,6 @@ const Navbar = () => {
 
   return (
     <nav 
-// @ts-ignore
     style={navbarStyle}>
       <img src={logo} alt="Logo" style={logoStyle} />
       <ul style={navLinksStyle}>
@@ -107,7 +105,7 @@ const Navbar = () => {
             <button
               onClick={() => scrollToSection(link.sectionId)}
               style={{ ...linkStyle(hoveredLink === index), backgroundColor: 'transparent', border: 'none', padding: 0 }}
-              // @ts-ignore
+            
               onMouseEnter={() => setHoveredLink(index)}
               onMouseLeave={() => setHoveredLink(null)}
             >

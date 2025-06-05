@@ -1,7 +1,7 @@
 /* Main container */
 .feedback-container {
   min-height: 100vh;
-  background-color: #f5f9f8;
+  background-color: rgb(250, 251, 252);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -11,7 +11,7 @@
 
 /* Card container */
 .feedback-card {
-  background-color: white;
+  background-color: white; /*#f5f9f8*/
   border-radius: 0.5rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   padding: 2rem;

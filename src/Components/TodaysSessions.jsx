@@ -1,4 +1,3 @@
-// @ts-ignore
 import React, { useEffect, useState } from 'react';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import { useNavigate } from 'react-router-dom';
@@ -19,8 +18,8 @@ const TodaysSessions = () => {
       const token = localStorage.getItem("access_token");
       console.log("Fetching sessions... Token:", token ? "Found" : "Not found");
       if (!token) {
-        // @ts-ignore
-        setError("❌ الرجاء تسجيل الدخول أولاً");
+        
+      setError("❌ الرجاء تسجيل الدخول أولاً");
         setTimeout(() => {
           navigate("/login");
         }, 1000);
@@ -40,8 +39,8 @@ const TodaysSessions = () => {
         if (!response.ok) {
           if (response.status === 401) {
             localStorage.removeItem("access_token");
-            // @ts-ignore
-            setError("❌ انتهت جلسة تسجيل الدخول. الرجاء تسجيل الدخول مرة أخرى.");
+            
+          setError("❌ انتهت جلسة تسجيل الدخول. الرجاء تسجيل الدخول مرة أخرى.");
             setTimeout(() => {
               navigate("/login");
             }, 1000);
@@ -60,10 +59,10 @@ const TodaysSessions = () => {
           console.log("No sessions found");
         }
       } catch (error) {
-        // @ts-ignore
-        console.log("Error fetching sessions:", error.message);
-        // @ts-ignore
-        setError("❌ حدث خطأ أثناء جلب الجلسات: " + error.message);
+        
+      console.log("Error fetching sessions:", error.message);
+        
+      setError("❌ حدث خطأ أثناء جلب الجلسات: " + error.message);
       } finally {
         setLoading(false);
         console.log("Loading state set to false");
@@ -73,8 +72,8 @@ const TodaysSessions = () => {
     fetchSessions();
   }, [navigate]);
 
-  // @ts-ignore
-  const handleCancelSession = async (sessionId) => {
+  
+const handleCancelSession = async (sessionId) => {
     const token = localStorage.getItem("access_token");
     console.log("Attempting to cancel session ID:", sessionId, "Token:", token ? "Found" : "Not found");
     try {
@@ -88,24 +87,24 @@ const TodaysSessions = () => {
 
       console.log("Cancel Session API Response Status:", response.status);
       if (!response.ok) throw new Error("فشل في إلغاء الجلسة");
-      // @ts-ignore
-      const updatedSessions = sessions.filter(session => session.id !== sessionId);
-      // @ts-ignore
-      setSessions(updatedSessions);
+      
+    const updatedSessions = sessions.filter(session => session.id !== sessionId);
+      
+    setSessions(updatedSessions);
       console.log("Session cancelled, updated sessions count:", updatedSessions.length);
-      // @ts-ignore
-      setError("تم إلغاء الجلسة بنجاح");
+      
+    setError("تم إلغاء الجلسة بنجاح");
       setTimeout(() => setError(null), 3000);
     } catch (error) {
-      // @ts-ignore
-      console.log("Error cancelling session:", error.message);
-      // @ts-ignore
-      setError("❌ حدث خطأ أثناء إلغاء الجلسة: " + error.message);
+      
+    console.log("Error cancelling session:", error.message);
+      
+    setError("❌ حدث خطأ أثناء إلغاء الجلسة: " + error.message);
     }
   };
 
-  // @ts-ignore
-  const handleFinishSession = async (sessionId) => {
+  
+const handleFinishSession = async (sessionId) => {
     const token = localStorage.getItem("access_token");
     console.log("Attempting to finish session ID:", sessionId, "Token:", token ? "Found" : "Not found");
     try {
@@ -120,24 +119,24 @@ const TodaysSessions = () => {
 
       console.log("Finish Session API Response Status:", response.status);
       if (!response.ok) throw new Error("فشل في إنهاء الجلسة");
-      // @ts-ignore
-      const updatedSessions = sessions.filter(session => session.id !== sessionId);
-      // @ts-ignore
-      setSessions(updatedSessions);
+      
+    const updatedSessions = sessions.filter(session => session.id !== sessionId);
+      
+    setSessions(updatedSessions);
       console.log("Session finished, updated sessions count:", updatedSessions.length);
-      // @ts-ignore
-      setError("تم إنهاء الجلسة بنجاح");
+      
+    setError("تم إنهاء الجلسة بنجاح");
       setTimeout(() => setError(null), 3000);
     } catch (error) {
-      // @ts-ignore
-      console.log("Error finishing session:", error.message);
-      // @ts-ignore
-      setError("❌ حدث خطأ أثناء إنهاء الجلسة: " + error.message);
+      
+    console.log("Error finishing session:", error.message);
+      
+    setError("❌ حدث خطأ أثناء إنهاء الجلسة: " + error.message);
     }
   };
 
-  // @ts-ignore
-  const handleDeleteSession = async (sessionId) => {
+  
+const handleDeleteSession = async (sessionId) => {
     const token = localStorage.getItem("access_token");
     console.log("Attempting to delete session ID:", sessionId, "Token:", token ? "Found" : "Not found");
     try {
@@ -151,19 +150,19 @@ const TodaysSessions = () => {
 
       console.log("Delete Session API Response Status:", response.status);
       if (!response.ok) throw new Error("فشل في حذف الجلسة");
-      // @ts-ignore
-      const updatedSessions = sessions.filter(session => session.id !== sessionId);
-      // @ts-ignore
-      setSessions(updatedSessions);
+      
+    const updatedSessions = sessions.filter(session => session.id !== sessionId);
+      
+    setSessions(updatedSessions);
       console.log("Session deleted, updated sessions count:", updatedSessions.length);
-      // @ts-ignore
-      setError("تم حذف الجلسة بنجاح");
+      
+    setError("تم حذف الجلسة بنجاح");
       setTimeout(() => setError(null), 3000);
     } catch (error) {
-      // @ts-ignore
-      console.log("Error deleting session:", error.message);
-      // @ts-ignore
-      setError("❌ حدث خطأ أثناء حذف الجلسة: " + error.message);
+      
+    console.log("Error deleting session:", error.message);
+      
+    setError("❌ حدث خطأ أثناء حذف الجلسة: " + error.message);
     }
   };
 
@@ -177,8 +176,8 @@ const TodaysSessions = () => {
 
   const sessionCardStyle = {
     backgroundColor: '#F2F8F6',
-    // @ts-ignore
-    borderRadius: '8px',
+    
+  borderRadius: '8px',
     padding: '10px',
     marginBottom: '10px',
     display: 'flex',
@@ -212,14 +211,11 @@ const TodaysSessions = () => {
 
   return (
     <div 
-// @ts-ignore
     style={containerStyle}>
       <h3 style={{ textAlign: 'right' }}>جلسات اليوم</h3>
 
       {error && (
-        <p style={{ textAlign: 'center', color: error.
-// @ts-ignore
-        includes("❌") ? 'red' : 'green' }}>{error}</p>
+        <p style={{ textAlign: 'center', color: error.includes("❌") ? 'red' : 'green' }}>{error}</p>
       )}
 
       {loading ? (
@@ -228,80 +224,67 @@ const TodaysSessions = () => {
         <p style={{ textAlign: 'center' }}>لا توجد جلسات اليوم.</p>
       ) : (
         sessions.map((session) => (
-          <div key={session.
-// @ts-ignore
-          id} style={sessionCardStyle}>
+          <div key={session.id} style={sessionCardStyle}>
             <div 
-// @ts-ignore
             style={sessionInfoStyle}>
-              <strong>{session.
-// @ts-ignore
-              student?.fullName || "اسم الطالب غير متاح"}</strong>
+              <strong>{session.student?.fullName || "اسم الطالب غير متاح"}</strong>
               <p style={{ margin: '5px 0' }}>
-                الوقت: {session.
-// @ts-ignore
-                time || "غير متاح"} - التاريخ: {session.date || "غير متاح"}
+                الوقت: {session.time || "غير متاح"} - التاريخ: {session.date || "غير متاح"}
               </p>
             </div>
             <div>
-              {session.
-// @ts-ignore
-              status === 'pending' && (
+              {session.status === 'pending' && (
                 <>
                   <a
-                    // @ts-ignore
-                    href={session.teacher?.teacherinfo?.link || "#"}
+                    
+                  href={session.teacher?.teacherinfo?.link || "#"}
                     target="_blank"
                     rel="noopener noreferrer"
                     style={buttonStyle}
-                    // @ts-ignore
-                    onClick={() => console.log("Joining session ID:", session.id)}
+                    
+                  onClick={() => console.log("Joining session ID:", session.id)}
                   >
                     <i className="fas fa-video"></i> دخول الجلسة
                   </a>
                   <button
                     style={cancelButtonStyle}
-                    // @ts-ignore
-                    onClick={() => handleDeleteSession(session.id)}
+                    
+                  onClick={() => handleDeleteSession(session.id)}
                   >
                     <i className="fas fa-trash-can"></i> حذف الجلسة
                   </button>
                   <button
                     style={cancelButtonStyle}
-                    // @ts-ignore
-                    onClick={() => handleCancelSession(session.id)}
+                    
+                  onClick={() => handleCancelSession(session.id)}
                   >
                     <i className="fas fa-times"></i> إلغاء الجلسة
                   </button>
                 </>
               )}
-              {session.
-// @ts-ignore
-              status === 'in_progress' && (
+              {session.status === 'in_progress' && (
                 <>
                   <a
-                    // @ts-ignore
-                    href={session.teacher?.teacherinfo?.link || "#"}
+                    
+                  href={session.teacher?.teacherinfo?.link || "#"}
                     target="_blank"
                     rel="noopener noreferrer"
                     style={buttonStyle}
-                    // @ts-ignore
-                    onClick={() => console.log("Rejoining session ID:", session.id)}
+                    
+                  onClick={() => console.log("Rejoining session ID:", session.id)}
                   >
                     <i className="fas fa-video"></i> دخول مجددًا
                   </a>
                   <button
                     style={buttonStyle}
-                    // @ts-ignore
-                    onClick={() => handleFinishSession(session.id)}
+                    
+                  onClick={() => handleFinishSession(session.id)}
                   >
                     <i className="fas fa-check"></i> إنهاء الجلسة
                   </button>
                 </>
               )}
-              {session.
-// @ts-ignore
-              status === 'completed' && (
+              {session.status === 'completed' && (
                 <p style={{ color: 'green', marginLeft: '10px' }}>الجلسة مكتملة</p>
               )}
             </div>
@@ -314,14 +297,14 @@ const TodaysSessions = () => {
 
 export default TodaysSessions;
 /****************************************************************************** */
-// // @ts-ignore
-// import React, { useEffect, useState } from 'react';
+// 
+//import React, { useEffect, useState } from 'react';
 // import '@fortawesome/fontawesome-free/css/all.min.css';
-// // @ts-ignore
-// import { useNavigate } from 'react-router-dom'; 
+// 
+//import { useNavigate } from 'react-router-dom'; 
 
-// // @ts-ignore
-// const TodaysSessions = () => {
+// 
+//const TodaysSessions = () => {
 //   const navigate = useNavigate(); 
 //   const [sessions, setSessions] = useState([]);
 //   const [loading, setLoading] = useState(true);
@@ -333,8 +316,8 @@ export default TodaysSessions;
 //     const fetchSessions = async () => {
 //       const token = localStorage.getItem("access_token");
 //       if (!token) {
-//         // @ts-ignore
-//         setError("❌ الرجاء تسجيل الدخول أولاً");
+//         
+//        setError("❌ الرجاء تسجيل الدخول أولاً");
 //         setTimeout(() => {
 //           navigate("/login");
 //         }, 1000);
@@ -353,8 +336,8 @@ export default TodaysSessions;
 //         if (!response.ok) {
 //           if (response.status === 401) {
 //             localStorage.removeItem("access_token");
-//             // @ts-ignore
-//             setError("❌ انتهت جلسة تسجيل الدخول. الرجاء تسجيل الدخول مرة أخرى.");
+//             
+//            setError("❌ انتهت جلسة تسجيل الدخول. الرجاء تسجيل الدخول مرة أخرى.");
 //             setTimeout(() => {
 //               navigate("/login");
 //             }, 1000);
@@ -371,8 +354,8 @@ export default TodaysSessions;
 //           setSessions([]); // لو مفيش جلسات
 //         }
 //       } catch (error) {
-//         // @ts-ignore
-//         setError("❌ حدث خطأ أثناء جلب الجلسات: " + error.message);
+//         
+//        setError("❌ حدث خطأ أثناء جلب الجلسات: " + error.message);
 //       } finally {
 //         setLoading(false);
 //       }
@@ -419,8 +402,8 @@ export default TodaysSessions;
 
 //   return (
 //     <div 
-// // @ts-ignore
-//     style={containerStyle}>
+// 
+//    style={containerStyle}>
 //       <h3 style={{ textAlign: 'right' }}>جلسات اليوم</h3>
 
 //       {error && (
@@ -434,23 +417,23 @@ export default TodaysSessions;
 //       ) : (
 //         sessions.map((session, index) => (
 //           <div key={index} 
-// // @ts-ignore
-//           style={sessionCardStyle}>
+// 
+//          style={sessionCardStyle}>
 //             <div 
-// // @ts-ignore
-//             style={sessionInfoStyle}>
+// 
+//            style={sessionInfoStyle}>
 //               <strong>{session.
-// // @ts-ignore
-//               name || "اسم غير متاح"}</strong>
+// 
+//              name || "اسم غير متاح"}</strong>
 //               <p style={{ margin: '5px 0' }}>
 //                 الوقت: {session.
-// // @ts-ignore
-//                 time || "غير متاح"} - المدة: {session.duration || "غير متاح"}
+// 
+//                time || "غير متاح"} - المدة: {session.duration || "غير متاح"}
 //               </p>
 //             </div>
 //             <a
-//               // @ts-ignore
-//               href={session.zoom_link || "#"} 
+//               
+//              href={session.zoom_link || "#"} 
 //               target="_blank"
 //               rel="noopener noreferrer"
 //               style={joinButtonStyle}
@@ -464,8 +447,8 @@ export default TodaysSessions;
 //   );
 // };
 
-// // @ts-ignore
-// export default TodaysSessions;
+// 
+//export default TodaysSessions;
 /********************************************************************************** */
 // import React from 'react';
 // import '@fortawesome/fontawesome-free/css/all.min.css';

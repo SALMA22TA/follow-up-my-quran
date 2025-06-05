@@ -1,4 +1,4 @@
-// @ts-ignore
+
 import React, { useState, useEffect } from 'react';
 import Sidebar from '../Components/Sidebar';
 import Navbar from "../Components/DashboardNavbar";
@@ -16,7 +16,7 @@ const ScheduleRequests = () => {
     const fetchRequests = async () => {
       const token = localStorage.getItem("access_token");
       if (!token) {
-        // @ts-ignore
+        
         setError("❌ الرجاء تسجيل الدخول أولاً");
         setTimeout(() => {
           navigate("/login");
@@ -38,7 +38,7 @@ const ScheduleRequests = () => {
         if (!response.ok) {
           if (response.status === 401) {
             localStorage.removeItem("access_token");
-            // @ts-ignore
+            
             setError("❌ انتهت جلسة تسجيل الدخول. الرجاء تسجيل الدخول مرة أخرى.");
             setTimeout(() => {
               navigate("/login");
@@ -56,7 +56,7 @@ const ScheduleRequests = () => {
           setRequests([]);
         }
       } catch (error) {
-        // @ts-ignore
+        
         setError("❌ حدث خطأ أثناء جلب الطلبات: " + error.message);
       } finally {
         setLoading(false);
@@ -66,13 +66,13 @@ const ScheduleRequests = () => {
     fetchRequests();
   }, [navigate]);
 
-  // @ts-ignore
+  
   const handleAction = async (id, action) => {
     const url = `${API_BASE_URL}/${action}_schedule/${id}`;
     try {
       const token = localStorage.getItem("access_token");
       if (!token) {
-        // @ts-ignore
+        
         setError("❌ الرجاء تسجيل الدخول أولاً");
         setTimeout(() => {
           navigate("/login");
@@ -91,35 +91,35 @@ const ScheduleRequests = () => {
       const result = await response.json();
       console.log(`${action} schedule response:`, result); // Debug
       if (response.ok) {
-        // @ts-ignore
+        
         setRequests(prev => prev.filter(request => request.id !== id));
         setError(null);
       } else {
         if (response.status === 401) {
           localStorage.removeItem("access_token");
-          // @ts-ignore
+          
           setError("❌ انتهت جلسة تسجيل الدخول. الرجاء تسجيل الدخول مرة أخرى.");
           setTimeout(() => {
             navigate("/login");
           }, 1000);
           return;
         }
-        // @ts-ignore
+        
         setError(`❌ خطأ: ${result.message || 'حدث خطأ ما'}`);
       }
     } catch (error) {
-      // @ts-ignore
+      
       setError(`❌ فشل العملية: ${error.message}`);
     }
   };
 
-  // @ts-ignore
+  
   const handleDelete = async (id) => {
     const url = `${API_BASE_URL}/delete_schedule/${id}`;
     try {
       const token = localStorage.getItem("access_token");
       if (!token) {
-        // @ts-ignore
+        
         setError("❌ الرجاء تسجيل الدخول أولاً");
         setTimeout(() => {
           navigate("/login");
@@ -138,24 +138,24 @@ const ScheduleRequests = () => {
       const result = await response.json();
       console.log("Delete schedule response:", result); // Debug
       if (response.ok) {
-        // @ts-ignore
+        
         setRequests(prev => prev.filter(request => request.id !== id));
         setError(null);
       } else {
         if (response.status === 401) {
           localStorage.removeItem("access_token");
-          // @ts-ignore
+          
           setError("❌ انتهت جلسة تسجيل الدخول. الرجاء تسجيل الدخول مرة أخرى.");
           setTimeout(() => {
             navigate("/login");
           }, 1000);
           return;
         }
-        // @ts-ignore
+        
         setError(`❌ خطأ: ${result.message || 'حدث خطأ ما'}`);
       }
     } catch (error) {
-      // @ts-ignore
+      
       setError(`❌ فشل العملية: ${error.message}`);
     }
   };
@@ -183,34 +183,20 @@ const ScheduleRequests = () => {
               </p>
             ) : (
               requests.map((request) => (
-                <div key={request.
-// @ts-ignore
-                id} style={{
+                <div key={request.id} style={{
                   backgroundColor: '#E9F3F1', borderRadius: '8px', padding: '15px', marginBottom: '15px',
                   display: 'flex', justifyContent: 'space-between', alignItems: 'center',
                   boxShadow: '0 1px 5px rgba(0, 0, 0, 0.05)'
                 }}>
                   <div>
-                    <p style={{ margin: 0, fontWeight: 'bold', fontSize: '18px' }}>{request.
-// @ts-ignore
-                    name}</p>
-                    <p style={{ margin: '5px 0' }}>الأيام: {request.
-// @ts-ignore
-                    days} - الساعة: {request.time}</p>
-                    <p style={{ margin: 0 }}>المدة: {request.
-// @ts-ignore
-                    duration}</p>
+                    <p style={{ margin: 0, fontWeight: 'bold', fontSize: '18px' }}>{request.name}</p>
+                    <p style={{ margin: '5px 0' }}>الأيام: {request.days} - الساعة: {request.time}</p>
+                    <p style={{ margin: 0 }}>المدة: {request.duration}</p>
                   </div>
                   <div style={{ display: 'flex', gap: '10px' }}>
-                    <button onClick={() => handleAction(request.
-// @ts-ignore
-                    id, 'accept')} style={{ backgroundColor: '#1EC8A0', color: '#fff', border: 'none', padding: '10px 20px', borderRadius: '5px', cursor: 'pointer', fontWeight: 'bold' }}>قبول</button>
-                    <button onClick={() => handleAction(request.
-// @ts-ignore
-                    id, 'reject')} style={{ backgroundColor: '#FF4C4C', color: '#fff', border: 'none', padding: '10px 20px', borderRadius: '5px', cursor: 'pointer', fontWeight: 'bold' }}>رفض</button>
-                    <button onClick={() => handleDelete(request.
-// @ts-ignore
-                    id)} style={{ backgroundColor: '#777', color: '#fff', border: 'none', padding: '10px 20px', borderRadius: '5px', cursor: 'pointer', fontWeight: 'bold' }}>حذف</button>
+                    <button onClick={() => handleAction(request.id, 'accept')} style={{ backgroundColor: '#1EC8A0', color: '#fff', border: 'none', padding: '10px 20px', borderRadius: '5px', cursor: 'pointer', fontWeight: 'bold' }}>قبول</button>
+                    <button onClick={() => handleAction(request.id, 'reject')} style={{ backgroundColor: '#FF4C4C', color: '#fff', border: 'none', padding: '10px 20px', borderRadius: '5px', cursor: 'pointer', fontWeight: 'bold' }}>رفض</button>
+                    <button onClick={() => handleDelete(request.id)} style={{ backgroundColor: '#777', color: '#fff', border: 'none', padding: '10px 20px', borderRadius: '5px', cursor: 'pointer', fontWeight: 'bold' }}>حذف</button>
                   </div>
                 </div>
               ))

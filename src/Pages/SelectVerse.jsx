@@ -4,11 +4,12 @@ import Navbar from "../Components/DashboardNavbar";
 import "../styles/select-verse.css"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBookOpenReader } from '@fortawesome/free-solid-svg-icons';
+import Sidebar from "../Components/StudentSidebar";
 
 const SelectVerse = () => {
   const [surahs, setSurahs] = useState([])
   const [selectedSurah, setSelectedSurah] = useState("")
-  // @ts-ignore
+  
   const [verseCount, setVerseCount] = useState(0)
   const [verses, setVerses] = useState([])
   const [selectedVerse, setSelectedVerse] = useState("")
@@ -21,7 +22,7 @@ const SelectVerse = () => {
     const fetchSurahs = async () => {
       const token = localStorage.getItem("access_token")
       if (!token) {
-        // @ts-ignore
+        
         setError("الرجاء تسجيل الدخول أولاً")
         setTimeout(() => {
           navigate("/login")
@@ -41,7 +42,7 @@ const SelectVerse = () => {
         if (!response.ok) {
           if (response.status === 401) {
             localStorage.removeItem("access_token")
-            // @ts-ignore
+            
             setError("انتهت جلسة تسجيل الدخول. الرجاء تسجيل الدخول مرة أخرى.")
             setTimeout(() => {
               navigate("/login")
@@ -58,7 +59,7 @@ const SelectVerse = () => {
           throw new Error(result.message || "فشل في جلب قائمة السور")
         }
       } catch (err) {
-        // @ts-ignore
+        
         setError(err.message)
       } finally {
         setLoading(false)
@@ -78,7 +79,7 @@ const SelectVerse = () => {
 
       const token = localStorage.getItem("access_token")
       if (!token) {
-        // @ts-ignore
+        
         setError("الرجاء تسجيل الدخول أولاً")
         setTimeout(() => {
           navigate("/login")
@@ -98,7 +99,7 @@ const SelectVerse = () => {
         if (!response.ok) {
           if (response.status === 401) {
             localStorage.removeItem("access_token")
-            // @ts-ignore
+            
             setError("انتهت جلسة تسجيل الدخول. الرجاء تسجيل الدخول مرة أخرى.")
             setTimeout(() => {
               navigate("/login")
@@ -111,15 +112,15 @@ const SelectVerse = () => {
         const result = await response.json()
         if (result.status === 200) {
           setVerses(result.data)
-          // @ts-ignore
+          
           const surah = surahs.find((s) => s.id === Number.parseInt(selectedSurah))
-          // @ts-ignore
+          
           setVerseCount(surah ? surah.verse_count : 0)
         } else {
           throw new Error(result.message || "فشل في جلب الآيات")
         }
       } catch (err) {
-        // @ts-ignore
+        
         setError(err.message)
         setVerses([])
         setVerseCount(0)
@@ -129,7 +130,7 @@ const SelectVerse = () => {
   }, [selectedSurah, surahs, navigate])
 
   // Handle Surah selection
-  // @ts-ignore
+  
   const handleSurahChange = (e) => {
     const surahId = e.target.value
     setSelectedSurah(surahId)
@@ -137,7 +138,7 @@ const SelectVerse = () => {
   }
 
   // Handle Verse selection
-  // @ts-ignore
+  
   const handleVerseChange = (e) => {
     setSelectedVerse(e.target.value)
   }
@@ -146,26 +147,27 @@ const SelectVerse = () => {
   const handleSubmit = () => {
     if (!selectedSurah || !selectedVerse) return
 
-    // @ts-ignore
+    
     const surah = surahs.find((s) => s.id === Number.parseInt(selectedSurah))
     navigate("/recitation", { 
       state: { 
-        // @ts-ignore
+        
         surahId: surah.id, 
         verseNumber: selectedVerse, 
-        // @ts-ignore
+        
         surahName: surah.name 
       } 
     })
   }
 
   // Generate verse options based on verses fetched
-  // @ts-ignore
+  
   const verseOptions = verses.map(verse => verse.verse_number)
 
   return (
     <>
       <Navbar />
+      <Sidebar/>
       <div dir="rtl" className="verse-container">
         <div className="verse-card">
           <h1 className="verse-title"><FontAwesomeIcon icon={faBookOpenReader} /> اختر آية</h1>
@@ -177,11 +179,9 @@ const SelectVerse = () => {
             <select id="surah" value={selectedSurah} onChange={handleSurahChange} className="form-select">
               <option value="">اختر سورة</option>
               {surahs.map((surah) => (
-                // @ts-ignore
+                
                 <option key={surah.id} value={surah.id}>
-                  {surah.
-// @ts-ignore
-                  name} (#{surah.id})
+                  {surah.name} (#{surah.id})
                 </option>
               ))}
             </select>

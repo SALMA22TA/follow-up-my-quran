@@ -6,7 +6,6 @@ import '../styles/TeacherStyles.css';
 
 const TeacherDetail = () => {
   const { id } = useParams();
-  // @ts-ignore
   const teacher = teachers.find((teacher) => teacher.id === parseInt(id));
 
   if (!teacher) {
