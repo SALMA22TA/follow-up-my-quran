@@ -26,7 +26,7 @@ const Sidebar = () => {
               <NavLink to="/schedule-requests" className={({ isActive }) => isActive ? "active" : ""}> <FontAwesomeIcon icon={faClipboard} /> طلبات الجدولة</NavLink>
             </li>
             <li>
-              <NavLink to="/discussions" className={({ isActive }) => isActive ? "active" : ""}> <FontAwesomeIcon icon={faCommentDots} /> المحادثات</NavLink>
+              <NavLink to="/coming-soon-teacher" className={({ isActive }) => isActive ? "active" : ""}> <FontAwesomeIcon icon={faCommentDots} /> المحادثات</NavLink>
             </li>
             <li>
               <NavLink to="/exams" className={({ isActive }) => isActive ? "active" : ""}> <FontAwesomeIcon icon={faFileLines} /> الاختبارات</NavLink>

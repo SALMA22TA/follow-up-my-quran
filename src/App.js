@@ -31,6 +31,7 @@ import NotFound from './Pages/NotFound';
 import SelectVerse from './Pages/SelectVerse';
 import Recitation from './Pages/Recitation';
 import RecitationFeedback from './Pages/RecitationFeedback';
+import ComingSoonTeacher from './Pages/coming-soon-teacher';
 
 const App = () => {
   const navigate = useNavigate();
@@ -270,6 +271,18 @@ const App = () => {
             </ProtectedRoute>
           }
         />
+        <Route
+        path="/coming-soon-teacher"
+        element={
+          <ProtectedRoute 
+
+          allowedRoles={[2]}>
+            <MainLayout>
+              <ComingSoonTeacher />
+            </MainLayout>
+          </ProtectedRoute>
+        }
+      />
 
       {/* Wildcard route for invalid paths */}
       <Route path="*" element={<NotFound />} />
