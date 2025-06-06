@@ -114,8 +114,8 @@ const GenerateSessions = () => {
     console.log(`User confirmed generating session for schedule ID ${selectedScheduleId}`); // رسالة لما الشيخ يضغط "نعم" في الـ pop-up
     setLoading(true);
     try {
-      const response = await generateSessions(selectedScheduleId);
-      setSuccessMessage(response.message || 'تم إنشاء جلسة بنجاح!');
+      await generateSessions(selectedScheduleId);
+      setSuccessMessage('!تم إنشاء الجلسات بنجاح');
       setShowConfirmModal(false);
       setTimeout(() => {
         setSuccessMessage('');
@@ -125,7 +125,7 @@ const GenerateSessions = () => {
       const updatedSchedules = await getAcceptedSchedules();
       setSchedules(updatedSchedules.schedules || []);
     } catch (error) {
-      setSuccessMessage('فشل إنشاء الجلسة. حاول مرة أخرى.');
+      setSuccessMessage('حدث خطأ أثناء إنشاء الجلسات. يرجى المحاولة مرة أخرى.');
       setTimeout(() => {
         setSuccessMessage('');
       }, 3000);
@@ -143,22 +143,27 @@ const GenerateSessions = () => {
 
   const tableStyle = {
     width: '100%',
+    maxWidth: '1100px',
+    marginRight: '220px',
+    marginLeft: 'auto',
     borderCollapse: 'collapse',
     marginTop: '20px',
     direction: 'rtl',
     fontFamily: '"Tajawal", sans-serif',
+    boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
   };
 
   const thStyle = {
     border: '1px solid #E6E6E6',
-    padding: '10px',
+    padding: '12px',
     backgroundColor: '#f9f9f9',
     textAlign: 'center',
+    fontWeight: 'bold',
   };
 
   const tdStyle = {
     border: '1px solid #E6E6E6',
-    padding: '10px',
+    padding: '12px',
     textAlign: 'center',
   };
 
@@ -216,16 +221,18 @@ const GenerateSessions = () => {
   };
 
   const successMessageStyle = {
-    color: 'green',
+    color: '#1EC8A0',
     textAlign: 'center',
     marginTop: '20px',
     fontFamily: '"Tajawal", sans-serif',
+    fontSize: '16px',
+    fontWeight: 'bold',
   };
 
   return (
     <><Navbar /><Sidebar />
-    <div style={{ padding: '20px', marginTop: '90px' }}>
-      <h2 style={{ textAlign: 'center', fontFamily: '"Tajawal", sans-serif', direction: 'rtl' }}>
+    <div style={{ padding: '20px', marginTop: '90px', maxWidth: '1100px', marginRight: '220px', marginLeft: 'auto' }}>
+      <h2 style={{ textAlign: 'center', fontFamily: '"Tajawal", sans-serif', direction: 'rtl', marginBottom: '30px' }}>
         إنشاء الجلسات
       </h2>
       {successMessage && <p style={successMessageStyle}>{successMessage}</p>}

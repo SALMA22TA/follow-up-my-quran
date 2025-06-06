@@ -10,9 +10,18 @@ const Sidebar = () => {
 
   return (
     <>
-      <button className="toggle-btn" onClick={() => setIsOpen(!isOpen)}>
+          <button
+        className="toggle-btn"
+        onClick={() => setIsOpen(!isOpen)}
+        style={{ position: 'fixed', top: '15px', right: 0, zIndex: 1100, marginRight: '16px', transition: 'background 0.2s' }}
+        onMouseEnter={e => { e.currentTarget.style.background = '#EAF8F4'; e.currentTarget.style.cursor = 'pointer'; }}
+        onMouseLeave={e => { e.currentTarget.style.background = ''; }}
+      >
         ☰
-      </button>
+      </button> 
+      {/* <button className="toggle-btn" onClick={() => setIsOpen(!isOpen)}>
+        ☰
+      </button> */}
       {isOpen && (
         <div className="sidebar" style={{ right: 0, left: 'auto', position: 'fixed' }}>
           <ul>

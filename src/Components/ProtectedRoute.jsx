@@ -3,7 +3,7 @@ import { Navigate, useLocation } from 'react-router-dom';
 import { getAccessToken, getUserRole } from '../services/authService';
 import { jwtDecode } from 'jwt-decode';
 
-const ProtectedRoute = ({ children }) => {
+const ProtectedRoute = ({ children, allowedRoles }) => {
   const token = getAccessToken();
   const role = getUserRole();
   const location = useLocation();
@@ -24,70 +24,9 @@ const ProtectedRoute = ({ children }) => {
       return <Navigate to="/login" state={{ message: "انتهت صلاحية الجلسة، يرجى تسجيل الدخول مرة أخرى.", isError: true }} replace />;
     }
 
-    // Role-based access control for dashboards
-    if (location.pathname === '/student-dashboard' && role !== '0') {
-      localStorage.removeItem('access_token');
-      localStorage.removeItem('user_role');
-      return <Navigate to="/login" state={{ message: "غير مصرح لك بالوصول لهذه الصفحة.", isError: true }} replace />;
-    }
-    if (location.pathname === '/admin-dashboard' && role !== '1') {
-      localStorage.removeItem('access_token');
-      localStorage.removeItem('user_role');
-      return <Navigate to="/login" state={{ message: "غير مصرح لك بالوصول لهذه الصفحة.", isError: true }} replace />;
-    }
-    if (location.pathname === '/sheikh-dashboard' && role !== '2') {
-      localStorage.removeItem('access_token');
-      localStorage.removeItem('user_role');
-      return <Navigate to="/login" state={{ message: "غير مصرح لك بالوصول لهذه الصفحة.", isError: true }} replace />;
-    }
-    if (location.pathname === '/add-course' && role !== '2') {
-      localStorage.removeItem('access_token');
-      localStorage.removeItem('user_role');
-      return <Navigate to="/login" state={{ message: "غير مصرح لك بالوصول لهذه الصفحة.", isError: true }} replace />;
-    }
-    if (location.pathname === '/add-video/:courseId' && role !== '2') {
-      localStorage.removeItem('access_token');
-      localStorage.removeItem('user_role');
-      return <Navigate to="/login" state={{ message: "غير مصرح لك بالوصول لهذه الصفحة.", isError: true }} replace />;
-    }
-    if (location.pathname === '/schedule-requests' && role !== '2') {
-      localStorage.removeItem('access_token');
-      localStorage.removeItem('user_role');
-      return <Navigate to="/login" state={{ message: "غير مصرح لك بالوصول لهذه الصفحة.", isError: true }} replace />;
-    }
-    if (location.pathname === '/courses' && role !== '2') {
-      localStorage.removeItem('access_token');
-      localStorage.removeItem('user_role');
-      return <Navigate to="/login" state={{ message: "غير مصرح لك بالوصول لهذه الصفحة.", isError: true }} replace />;
-    }
-    if (location.pathname === '/exams' && role !== '2') {
-      localStorage.removeItem('access_token');
-      localStorage.removeItem('user_role');
-      return <Navigate to="/login" state={{ message: "غير مصرح لك بالوصول لهذه الصفحة.", isError: true }} replace />;
-    }
-    if (location.pathname === '/exam/:examId/questions' && role !== '2') {
-      localStorage.removeItem('access_token');
-      localStorage.removeItem('user_role');
-      return <Navigate to="/login" state={{ message: "غير مصرح لك بالوصول لهذه الصفحة.", isError: true }} replace />;
-    }
-    if (location.pathname === '/exam-answers/:questionId' && role !== '2') {
-      localStorage.removeItem('access_token');
-      localStorage.removeItem('user_role');
-      return <Navigate to="/login" state={{ message: "غير مصرح لك بالوصول لهذه الصفحة.", isError: true }} replace />;
-    }
-    if (location.pathname === '/today-sessions' && role !== '2') {
-      localStorage.removeItem('access_token');
-      localStorage.removeItem('user_role');
-      return <Navigate to="/login" state={{ message: "غير مصرح لك بالوصول لهذه الصفحة.", isError: true }} replace />;
-    }
-    if (location.pathname === '/course/:id' && role !== '2') {
-      localStorage.removeItem('access_token');
-      localStorage.removeItem('user_role');
-      return <Navigate to="/login" state={{ message: "غير مصرح لك بالوصول لهذه الصفحة.", isError: true }} replace />;
-    }
-    if (location.pathname === '/generate-sessions' && role !== '2') {
-      localStorage.removeItem('access_token');
-      localStorage.removeItem('user_role');
+    // Check if user's role is in the allowed roles array
+    if (allowedRoles && !allowedRoles.includes(Number(role))) {
+      console.log("Unauthorized access attempt, redirecting to login");
       return <Navigate to="/login" state={{ message: "غير مصرح لك بالوصول لهذه الصفحة.", isError: true }} replace />;
     }
 

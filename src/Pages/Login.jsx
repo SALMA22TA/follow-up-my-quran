@@ -48,6 +48,7 @@ const Login = () => {
       setTimeout(() => {
         const role = Number(response.user.role);
         if (role === 0) {
+        
           navigate("/student-dashboard");
         } else if (role === 1) {
           navigate("/admin-dashboard");
