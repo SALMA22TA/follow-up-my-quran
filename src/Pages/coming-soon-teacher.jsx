@@ -1,5 +1,5 @@
 // import { useState } from "react"
-// import { Link } from "react-router-dom"
+import { Link } from "react-router-dom"
 import "../styles/coming-soon-teacher.css"
 
 const ComingSoonTeacher = () => {
@@ -141,14 +141,14 @@ const ComingSoonTeacher = () => {
           </div>
         )} */}
 
-        {/* <div className="action-buttons">
-          <Link to="/" className="home-button">
+        <div className="action-buttons">
+          {/* <Link to="/" className="home-button">
             العودة للصفحة الرئيسية
-          </Link>
+          </Link> */}
           <Link to="/sheikh-dashboard" className="dashboard-button">
             لوحة تحكم المعلم
           </Link>
-        </div> */}
+        </div>
       </div>
     </div>
   )
