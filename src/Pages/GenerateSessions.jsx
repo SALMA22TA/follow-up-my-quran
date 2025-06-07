@@ -26,12 +26,10 @@ const GenerateSessions = () => {
       const acceptedSchedules = response.data.data.data;
 
       // Mapping للبيانات
-      
       const mappedSchedules = acceptedSchedules.map((schedule) => {
         try {
           const daysArray = JSON.parse(schedule.days);
           const daysInArabic = daysArray
-            
             .map((day) => {
               const daysMap = {
                 Saturday: 'السبت',
@@ -42,7 +40,6 @@ const GenerateSessions = () => {
                 Thursday: 'الخميس',
                 Friday: 'الجمعة',
               };
-              
               return daysMap[day] || day;
             })
             .join('، ');
@@ -59,21 +56,17 @@ const GenerateSessions = () => {
           console.error(`Error mapping schedule for student ${schedule.student_id}:`, error); // رسالة خطأ لو حصل مشكلة في الـ mapping
           return null;
         }
-      
       }).filter(schedule => schedule !== null); // إزالة أي عناصر فاشلة في الـ mapping
 
       console.log('All schedules mapped successfully:', mappedSchedules); // طباعة الجداول بعد الـ mapping
       return { schedules: mappedSchedules };
     } catch (error) {
-      
       console.error('Error fetching accepted schedules:', error.response?.data || error); // رسالة خطأ لو حصل مشكلة في جلب الجداول
-      
       throw error.response?.data || error;
     }
   };
 
   // دالة لإنشاء الجلسات
-  
   const generateSessions = async (scheduleId) => {
     console.log(`Starting to generate sessions for schedule ID ${scheduleId}...`); 
     try {
@@ -90,9 +83,7 @@ const GenerateSessions = () => {
       console.log(`Sessions generated successfully for schedule ID ${scheduleId}:`, response.data); // رسالة نجاح إنشاء الجلسات
       return response.data;
     } catch (error) {
-      
       console.error(`Error generating sessions for schedule ID ${scheduleId}:`, error.response?.data || error); // رسالة خطأ لو حصل مشكلة في إنشاء الجلسات
-      
       throw error.response?.data || error;
     }
   };
@@ -112,7 +103,6 @@ const GenerateSessions = () => {
   }, []);
 
   // دالة لفتح الـ pop-up للتأكيد
-  
   const handleGenerateClick = (scheduleId) => {
     console.log(`Generate button clicked for schedule ID ${scheduleId}`); // رسالة لما الشيخ يضغط على زرار "إنشاء جلسة"
     setSelectedScheduleId(scheduleId);
@@ -245,51 +235,30 @@ const GenerateSessions = () => {
       <h2 style={{ textAlign: 'center', fontFamily: '"Tajawal", sans-serif', direction: 'rtl', marginBottom: '30px' }}>
         إنشاء الجلسات
       </h2>
-      {successMessage && <p 
-
-      style={successMessageStyle}>{successMessage}</p>}
+      {successMessage && <p style={successMessageStyle}>{successMessage}</p>}
       {schedules.length === 0 ? (
         <p style={{ textAlign: 'center', fontFamily: '"Tajawal", sans-serif', direction: 'rtl' }}>
           لا يوجد جداول مقبولة لإنشاء جلسات.
         </p>
       ) : (
-        <table 
-
-        style={tableStyle}>
+        <table style={tableStyle}>
           <thead>
             <tr>
-              <th 
-
-              style={thStyle}>اسم الطالب</th>
-              <th 
-
-              style={thStyle}>موعد الجلسة</th>
-              <th 
-
-              style={thStyle}>الأيام</th>
-              <th 
-
-              style={thStyle}>إنشاء جلسة</th>
+              <th style={thStyle}>اسم الطالب</th>
+              <th style={thStyle}>موعد الجلسة</th>
+              <th style={thStyle}>الأيام</th>
+              <th style={thStyle}>إنشاء جلسة</th>
             </tr>
           </thead>
           <tbody>
             {schedules.map((schedule) => (
               <tr key={schedule.id}>
-                <td 
-
-                style={tdStyle}>{schedule.name}</td>
-                <td 
-
-                style={tdStyle}>{schedule.sessionTime}</td>
-                <td 
-
-                style={tdStyle}>{schedule.days}</td>
-                <td 
-
-                style={tdStyle}>
+                <td style={tdStyle}>{schedule.name}</td>
+                <td style={tdStyle}>{schedule.sessionTime}</td>
+                <td style={tdStyle}>{schedule.days}</td>
+                <td style={tdStyle}>
                   <button
                     style={buttonStyle}
-                    
                     onClick={() => handleGenerateClick(schedule.id)}
                     disabled={loading}
                   >
@@ -303,12 +272,8 @@ const GenerateSessions = () => {
       )}
 
       {showConfirmModal && (
-        <div 
-
-        style={modalStyle}>
-          <div 
-
-          style={modalContentStyle}>
+        <div style={modalStyle}>
+          <div style={modalContentStyle}>
             <p>هل أنت متأكد أنك تريد إنشاء جلسة لهذا الطالب؟</p>
             <button style={confirmButtonStyle} onClick={confirmGenerateSession} disabled={loading}>
               نعم

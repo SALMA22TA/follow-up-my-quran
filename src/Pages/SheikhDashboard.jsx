@@ -1,5 +1,3 @@
-
-import React from 'react';
 import Sidebar from '../Components/Sidebar';
 import Navbar from '../Components/DashboardNavbar';
 import TodaysSessions from '../Components/TodaysSessions'

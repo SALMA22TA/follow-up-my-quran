@@ -34,7 +34,6 @@ const ExamsPage = () => {
   const fetchExams = async () => {
     const token = localStorage.getItem("access_token");
     if (!token) {
-      
       setError("❌ الرجاء تسجيل الدخول أولاً");
       setTimeout(() => {
         navigate("/login");
@@ -50,17 +49,14 @@ const ExamsPage = () => {
       console.log("Exams response:", response.data);
       setExams(response.data.data.data); 
     } catch (err) {
-      
       if (err.response?.status === 401) {
         localStorage.removeItem("access_token");
-        
         setError("❌ انتهت جلسة تسجيل الدخول. الرجاء تسجيل الدخول مرة أخرى.");
         setTimeout(() => {
           navigate("/login");
         }, 1000);
         return;
       }
-      
       setError(err.response?.data.message || '❌ حدث خطأ أثناء جلب الاختبارات');
     } finally {
       setLoading(false);
@@ -73,7 +69,6 @@ const ExamsPage = () => {
 
   const handleAddExam = async () => {
     if (newExamTitle.trim() === "") {
-      
       setError("❌ يرجى إدخال عنوان الاختبار");
       return;
     }
@@ -86,22 +81,18 @@ const ExamsPage = () => {
       closeModal();
       setError(null);
     } catch (err) {
-      
       if (err.response?.status === 401) {
         localStorage.removeItem("access_token");
-        
         setError("❌ انتهت جلسة تسجيل الدخول. الرجاء تسجيل الدخول مرة أخرى.");
         setTimeout(() => {
           navigate("/login");
         }, 1000);
         return;
       }
-      
       setError(err.response?.data.message || '❌ حدث خطأ أثناء إنشاء الاختبار');
     }
   };
 
-  
   const handleDelete = async (id) => {
     try {
       const api = getApiInstance();
@@ -110,22 +101,18 @@ const ExamsPage = () => {
       await fetchExams(); 
       setError(null);
     } catch (err) {
-      
       if (err.response?.status === 401) {
         localStorage.removeItem("access_token");
-        
         setError("❌ انتهت جلسة تسجيل الدخول. الرجاء تسجيل الدخول مرة أخرى.");
         setTimeout(() => {
           navigate("/login");
         }, 1000);
         return;
       }
-      
       setError(err.response?.data.message || '❌ حدث خطأ أثناء حذف الاختبار');
     }
   };
 
-  
   const handleEdit = (id, title) => {
     setEditingExamId(id);
     setNewExamTitle(title);
@@ -134,7 +121,6 @@ const ExamsPage = () => {
 
   const handleUpdateExam = async () => {
     if (newExamTitle.trim() === "") {
-      
       setError("❌ يرجى إدخال عنوان الاختبار");
       return;
     }
@@ -149,17 +135,14 @@ const ExamsPage = () => {
       closeModal();
       setError(null);
     } catch (err) {
-      
       if (err.response?.status === 401) {
         localStorage.removeItem("access_token");
-        
         setError("❌ انتهت جلسة تسجيل الدخول. الرجاء تسجيل الدخول مرة أخرى.");
         setTimeout(() => {
           navigate("/login");
         }, 1000);
         return;
       }
-      
       setError(err.response?.data.message || '❌ حدث خطأ أثناء تحديث الاختبار');
     }
   };
@@ -254,42 +237,42 @@ const ExamsPage = () => {
               ))}
             </div>
           )}
+
+          {isModalOpen && (
+            <div style={styles.overlayStyle}>
+              <div style={styles.modalStyle}>
+                <button onClick={closeModal} style={styles.closeButtonStyle}>
+                  <FaTimes />
+                </button>
+                <h2 style={styles.modalTitle}>
+                  {editingExamId ? 'تعديل الاختبار' : 'إنشاء اختبار'}
+                </h2>
+                <label style={styles.modalLabel}>
+                  عنوان الاختبار:
+                  <input
+                    type="text"
+                    value={newExamTitle}
+                    onChange={(e) => setNewExamTitle(e.target.value)}
+                    style={styles.modalInput}
+                    placeholder="أدخل عنوان الاختبار"
+                  />
+                </label>
+                <div style={styles.modalButtonContainer}>
+                  <button
+                    style={styles.submitButtonStyle}
+                    onClick={editingExamId ? handleUpdateExam : handleAddExam}
+                  >
+                    {editingExamId ? 'تحديث' : 'إضافة'}
+                  </button>
+                  <button style={styles.cancelButtonStyle} onClick={closeModal}>
+                    إلغاء
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
-
-      {isModalOpen && (
-        <div style={styles.overlayStyle}>
-          <div style={styles.modalStyle}>
-            <button onClick={closeModal} style={styles.closeButtonStyle}>
-              <FaTimes />
-            </button>
-            <h2 style={styles.modalTitle}>
-              {editingExamId ? 'تعديل الاختبار' : 'إنشاء اختبار'}
-            </h2>
-            <label style={styles.modalLabel}>
-              عنوان الاختبار:
-              <input
-                type="text"
-                value={newExamTitle}
-                onChange={(e) => setNewExamTitle(e.target.value)}
-                style={styles.modalInput}
-                placeholder="أدخل عنوان الاختبار"
-              />
-            </label>
-            <div style={styles.modalButtonContainer}>
-              <button
-                style={styles.submitButtonStyle}
-                onClick={editingExamId ? handleUpdateExam : handleAddExam}
-              >
-                {editingExamId ? 'تحديث' : 'إضافة'}
-              </button>
-              <button style={styles.cancelButtonStyle} onClick={closeModal}>
-                إلغاء
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
 
       {showDeleteConfirm && (
         <div style={styles.overlayStyle}>
@@ -405,14 +388,17 @@ const styles = {
     marginBottom: "10px",
     width: "95%",
     boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
-    transition: "background-color 0.15s",
+    transition: "background 0.15s",
     cursor: "pointer",
     "@media (max-width: 768px)": {
       flexDirection: "column",
       alignItems: "flex-end",
       padding: "10px",
-      width: "100%"
-    }
+      width: "100%",
+    },
+    ":hover": {
+      backgroundColor: '#ECECEC',
+    },
   },
   examTitleStyle: {
     flex: 1,
