@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 const API_URL = 'http://localhost:8000/api/v1/teacher/'; 
 
-const Exams = () => {
+const ExamsPage = () => {
   const navigate = useNavigate(); 
   const [exams, setExams] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -34,6 +34,7 @@ const Exams = () => {
   const fetchExams = async () => {
     const token = localStorage.getItem("access_token");
     if (!token) {
+      
       setError("❌ الرجاء تسجيل الدخول أولاً");
       setTimeout(() => {
         navigate("/login");
@@ -49,14 +50,17 @@ const Exams = () => {
       console.log("Exams response:", response.data);
       setExams(response.data.data.data); 
     } catch (err) {
+      
       if (err.response?.status === 401) {
         localStorage.removeItem("access_token");
+        
         setError("❌ انتهت جلسة تسجيل الدخول. الرجاء تسجيل الدخول مرة أخرى.");
         setTimeout(() => {
           navigate("/login");
         }, 1000);
         return;
       }
+      
       setError(err.response?.data.message || '❌ حدث خطأ أثناء جلب الاختبارات');
     } finally {
       setLoading(false);
@@ -69,6 +73,7 @@ const Exams = () => {
 
   const handleAddExam = async () => {
     if (newExamTitle.trim() === "") {
+      
       setError("❌ يرجى إدخال عنوان الاختبار");
       return;
     }
@@ -81,18 +86,22 @@ const Exams = () => {
       closeModal();
       setError(null);
     } catch (err) {
+      
       if (err.response?.status === 401) {
         localStorage.removeItem("access_token");
+        
         setError("❌ انتهت جلسة تسجيل الدخول. الرجاء تسجيل الدخول مرة أخرى.");
         setTimeout(() => {
           navigate("/login");
         }, 1000);
         return;
       }
+      
       setError(err.response?.data.message || '❌ حدث خطأ أثناء إنشاء الاختبار');
     }
   };
 
+  
   const handleDelete = async (id) => {
     try {
       const api = getApiInstance();
@@ -101,18 +110,22 @@ const Exams = () => {
       await fetchExams(); 
       setError(null);
     } catch (err) {
+      
       if (err.response?.status === 401) {
         localStorage.removeItem("access_token");
+        
         setError("❌ انتهت جلسة تسجيل الدخول. الرجاء تسجيل الدخول مرة أخرى.");
         setTimeout(() => {
           navigate("/login");
         }, 1000);
         return;
       }
+      
       setError(err.response?.data.message || '❌ حدث خطأ أثناء حذف الاختبار');
     }
   };
 
+  
   const handleEdit = (id, title) => {
     setEditingExamId(id);
     setNewExamTitle(title);
@@ -121,6 +134,7 @@ const Exams = () => {
 
   const handleUpdateExam = async () => {
     if (newExamTitle.trim() === "") {
+      
       setError("❌ يرجى إدخال عنوان الاختبار");
       return;
     }
@@ -135,14 +149,17 @@ const Exams = () => {
       closeModal();
       setError(null);
     } catch (err) {
+      
       if (err.response?.status === 401) {
         localStorage.removeItem("access_token");
+        
         setError("❌ انتهت جلسة تسجيل الدخول. الرجاء تسجيل الدخول مرة أخرى.");
         setTimeout(() => {
           navigate("/login");
         }, 1000);
         return;
       }
+      
       setError(err.response?.data.message || '❌ حدث خطأ أثناء تحديث الاختبار');
     }
   };
@@ -159,7 +176,6 @@ const Exams = () => {
     <>
       <Navbar />
       <div style={styles.dashboardContainer}>
-        {/* زر Hamburger Menu للشاشات الصغيرة */}
         <button
           style={{
             display: window.innerWidth <= 768 ? "block" : "none",
@@ -179,7 +195,6 @@ const Exams = () => {
           ☰
         </button>
 
-        {/* الـ Sidebar */}
         <div
           style={{
             ...styles.sidebarContainer,
@@ -196,54 +211,48 @@ const Exams = () => {
             <div style={{ color: 'red', marginBottom: '10px', textAlign: 'center' }}>{error}</div>
           )}
 
-          <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "10px" }}>
-            <button style={styles.createButtonStyle} onClick={openModal}>+ إنشاء</button>
+          <div style={styles.buttonContainer}>
+            <button style={styles.addButtonStyle} onClick={() => setIsModalOpen(true)}>
+              + إضافة اختبار
+            </button>
           </div>
 
           {loading ? (
             <div style={{ textAlign: 'center' }}>جاري التحميل...</div>
+          ) : exams.length === 0 ? (
+            <div style={{ textAlign: 'center', color: '#666' }}>
+              لا توجد اختبارات حاليًا
+            </div>
           ) : (
-            <>
-              <h2 style={styles.headerStyle}>قائمة الاختبارات</h2>
-              <div>
-                {exams.length === 0 ? (
-                  <div style={{ textAlign: 'center', color: '#666' }}>
-                    لا توجد اختبارات حاليًا
-                  </div>
-                ) : (
-                  exams.map((exam, idx) => (
-                    <div
-                      key={exam.id}
-                      style={styles.rowStyle}
-                      onMouseEnter={e => e.currentTarget.style.backgroundColor = '#ECECEC'}
-                      onMouseLeave={e => e.currentTarget.style.backgroundColor = '#fff'}
+            <div>
+              {exams.map((exam) => (
+                <div key={exam.id} style={styles.rowStyle}>
+                  <span
+                    style={{ ...styles.examTitleStyle, cursor: 'pointer', color: '#1EC8A0' }}
+                    onClick={() => navigate(`/exam/${exam.id}/questions`)}
+                  >
+                    {exam.title}
+                  </span>
+                  <div style={styles.buttonContainerStyle}>
+                    <button
+                      style={styles.editButtonStyle}
+                      onClick={() => handleEdit(exam.id, exam.title)}
                     >
-                      <span style={styles.circleStyle}>{idx + 1}</span>
-                      <span
-                        style={{ ...styles.examTitleStyle, cursor: 'pointer', color: '#1EC8A0' }}
-                        onClick={() => navigate(`/exam/${exam.id}/questions`)}
-                      >
-                        {exam.title}
-                      </span>
-                      <div style={styles.buttonContainerStyle}>
-                        <button
-                          style={styles.editButtonStyle}
-                          onClick={() => handleEdit(exam.id, exam.title)}
-                        >
-                          <FaEdit /> تعديل
-                        </button>
-                        <button style={styles.deleteButtonStyle} onClick={() => {
-                          setExamToDelete(exam.id);
-                          setShowDeleteConfirm(true);
-                        }}>
-                          <FaTrash /> حذف
-                        </button>
-                      </div>
-                    </div>
-                  ))
-                )}
-              </div>
-            </>
+                      <FaEdit /> تعديل
+                    </button>
+                    <button 
+                      style={styles.deleteButtonStyle} 
+                      onClick={() => {
+                        setExamToDelete(exam.id);
+                        setShowDeleteConfirm(true);
+                      }}
+                    >
+                      <FaTrash /> حذف
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
           )}
         </div>
       </div>
@@ -254,54 +263,57 @@ const Exams = () => {
             <button onClick={closeModal} style={styles.closeButtonStyle}>
               <FaTimes />
             </button>
-
             <h2 style={styles.modalTitle}>
               {editingExamId ? 'تعديل الاختبار' : 'إنشاء اختبار'}
             </h2>
-
-            <label style={styles.labelStyle}>عنوان الاختبار</label>
-            <input
-              type="text"
-              value={newExamTitle}
-              onChange={(e) => setNewExamTitle(e.target.value)}
-              style={styles.inputStyle}
-              placeholder="ادخل عنوان الاختبار"
-            />
-
-            <div style={styles.buttonContainer}>
-              <button onClick={closeModal} style={styles.cancelButtonStyle}>إلغاء</button>
+            <label style={styles.modalLabel}>
+              عنوان الاختبار:
+              <input
+                type="text"
+                value={newExamTitle}
+                onChange={(e) => setNewExamTitle(e.target.value)}
+                style={styles.modalInput}
+                placeholder="أدخل عنوان الاختبار"
+              />
+            </label>
+            <div style={styles.modalButtonContainer}>
               <button
+                style={styles.submitButtonStyle}
                 onClick={editingExamId ? handleUpdateExam : handleAddExam}
-                style={styles.addButtonStyle}
               >
-                {editingExamId ? 'حفظ التعديلات' : 'إضافة اختبار +'}
+                {editingExamId ? 'تحديث' : 'إضافة'}
+              </button>
+              <button style={styles.cancelButtonStyle} onClick={closeModal}>
+                إلغاء
               </button>
             </div>
           </div>
         </div>
       )}
+
       {showDeleteConfirm && (
         <div style={styles.overlayStyle}>
           <div style={styles.modalStyle}>
             <button onClick={() => setShowDeleteConfirm(false)} style={styles.closeButtonStyle}>
               <FaTimes />
             </button>
-            <h2 style={styles.modalTitle}>هل أنت متأكد أنك تريد حذف هذا الاختبار؟</h2>
-            <div style={styles.buttonContainer}>
+            <h2 style={styles.modalTitle}>تأكيد الحذف</h2>
+            <p style={styles.modalText}>هل أنت متأكد من حذف هذا الاختبار؟</p>
+            <div style={styles.modalButtonContainer}>
               <button
+                style={styles.deleteConfirmButton}
                 onClick={() => {
                   handleDelete(examToDelete);
                   setShowDeleteConfirm(false);
                 }}
-                style={{ ...styles.addButtonStyle, backgroundColor: "#dc3545" }}
               >
-                نعم
+                حذف
               </button>
               <button
-                onClick={() => setShowDeleteConfirm(false)}
                 style={styles.cancelButtonStyle}
+                onClick={() => setShowDeleteConfirm(false)}
               >
-                لا
+                إلغاء
               </button>
             </div>
           </div>
@@ -350,7 +362,12 @@ const styles = {
       fontSize: "24px",
     },
   },
-  createButtonStyle: {
+  buttonContainer: {
+    display: "flex",
+    justifyContent: "flex-end",
+    marginBottom: "10px",
+  },
+  addButtonStyle: {
     backgroundColor: "#1EC8A0",
     color: "#fff",
     border: "none",
@@ -388,17 +405,14 @@ const styles = {
     marginBottom: "10px",
     width: "95%",
     boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
-    transition: "background 0.15s",
+    transition: "background-color 0.15s",
     cursor: "pointer",
-    '@media (max-width: 768px)': {
+    "@media (max-width: 768px)": {
       flexDirection: "column",
       alignItems: "flex-end",
       padding: "10px",
-      width: "100%",
-    },
-    ':hover': {
-      backgroundColor: '#ECECEC',
-    },
+      width: "100%"
+    }
   },
   examTitleStyle: {
     flex: 1,
@@ -407,25 +421,6 @@ const styles = {
     "@media (max-width: 768px)": {
       fontSize: "16px",
       marginBottom: "10px",
-    },
-  },
-  circleStyle: {
-    display: "inline-block",
-    width: "30px",
-    height: "30px",
-    backgroundColor: "#1EC8A0",
-    color: "#fff",
-    borderRadius: "50%",
-    textAlign: "center",
-    lineHeight: "30px",
-    fontSize: "16px",
-    marginLeft: "15px",
-    "@media (max-width: 768px)": {
-      width: "25px",
-      height: "25px",
-      lineHeight: "25px",
-      fontSize: "14px",
-      marginLeft: "10px",
     },
   },
   buttonContainerStyle: {
@@ -513,7 +508,7 @@ const styles = {
       fontSize: "18px",
     },
   },
-  labelStyle: {
+  modalLabel: {
     display: "block",
     marginBottom: "5px",
     textAlign: "right",
@@ -522,7 +517,7 @@ const styles = {
       fontSize: "14px",
     },
   },
-  inputStyle: {
+  modalInput: {
     width: "97%",
     padding: "10px",
     border: "1px solid #1EC8A0",
@@ -535,13 +530,27 @@ const styles = {
       padding: "8px",
     },
   },
-  buttonContainer: {
+  modalButtonContainer: {
     display: "flex",
     justifyContent: "space-between",
     marginTop: "15px",
     "@media (max-width: 768px)": {
       flexDirection: "column",
       gap: "10px",
+    },
+  },
+  submitButtonStyle: {
+    backgroundColor: "#1EC8A0",
+    color: "#fff",
+    padding: "10px 15px",
+    borderRadius: "5px",
+    cursor: "pointer",
+    border: "none",
+    fontSize: "16px",
+    "@media (max-width: 768px)": {
+      fontSize: "14px",
+      padding: "8px 12px",
+      width: "100%",
     },
   },
   cancelButtonStyle: {
@@ -557,8 +566,8 @@ const styles = {
       width: "100%",
     },
   },
-  addButtonStyle: {
-    backgroundColor: "#1EC8A0",
+  deleteConfirmButton: {
+    backgroundColor: "#dc3545",
     color: "#fff",
     padding: "10px 15px",
     borderRadius: "5px",
@@ -571,6 +580,13 @@ const styles = {
       width: "100%",
     },
   },
+  modalText: {
+    marginBottom: "15px",
+    fontSize: "16px",
+    "@media (max-width: 768px)": {
+      fontSize: "14px",
+    },
+  },
 };
 
-export default Exams;
+export default ExamsPage;

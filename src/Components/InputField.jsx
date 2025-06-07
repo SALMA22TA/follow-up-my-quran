@@ -1,5 +1,3 @@
-import React from 'react';
-
 const InputField = ({ label, name, value, onChange, placeholder, type = 'text' }) => {
   return (
     <div style={styles.inputGroup}>

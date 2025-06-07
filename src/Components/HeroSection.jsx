@@ -3,7 +3,7 @@ import Navbar from '../Components/Navbar'
 
 const HeroSection = () => {
   return ( 
-    <div style={{ position: 'relative', width: '100%' }}>
+    <div id="hero" style={{ position: 'relative', width: '100%' }}>
       <Navbar />
        <div style={{
       backgroundImage: "url('/quraan.png')",

@@ -4,6 +4,7 @@ import Button from '../Components/Button';
 import InputField from '../Components/InputField';
 import Form from '../Components/Form';
 import useForm from '../Components/useForm'; 
+import Navbar from '../Components/DashboardNavbar';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -36,6 +37,7 @@ const Dashboard = () => {
     fetchPendingRequests();
   }, []);
 
+  
   const handleDashboardSubmit = (e) => {
     e.preventDefault();
 
@@ -60,7 +62,8 @@ const Dashboard = () => {
   };
 
   return (
-    <div style={styles.container}>
+    
+    <><Navbar /><div style={styles.container}>
       <h2 style={styles.header}>Choose your plan</h2>
       <Form onSubmit={handleDashboardSubmit}>
         {error && <p style={styles.errorMessage}>{error}</p>}
@@ -71,21 +74,23 @@ const Dashboard = () => {
           value={formData.surahPages}
           onChange={handleChange}
           placeholder="Enter number of pages"
-          type="number"
-        />
+          type="number" />
         <InputField
           label="Number of Days to Memorize:"
           name="daysToMemorize"
           value={formData.daysToMemorize}
           onChange={handleChange}
           placeholder="Enter number of days"
-          type="number"
-        />
-        <Button label="Submit Plan Request" type="submit" />
+          type="number" />
+        <
+
+        Button label="Submit Plan Request" type="submit" />
       </Form>
 
       {/* Pending Requests Section */}
-      <div style={styles.requestsContainer}>
+      <div 
+
+      style={styles.requestsContainer}>
         <h3 style={styles.requestsHeader}>Pending Requests</h3>
         {pendingRequests.length > 0 ? (
           pendingRequests.map((request) => (
@@ -101,13 +106,16 @@ const Dashboard = () => {
       </div>
 
       {/* Start Learning Button */}
-      <div style={styles.buttonContainer}>
-        <Button
+      <div 
+
+      style={styles.buttonContainer}>
+        <
+
+        Button
           label="Start Learning"
-          onClick={() => navigate('/start-learning-form')}
-        />
+          onClick={() => navigate('/start-learning-form')} />
       </div>
-    </div>
+    </div></>
   );
 };
 

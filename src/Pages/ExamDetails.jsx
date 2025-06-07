@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import Sidebar from "../Components/Sidebar";
@@ -30,6 +31,7 @@ const ExamDetails = () => {
     const fetchExamDetails = async () => {
       const token = localStorage.getItem("access_token");
       if (!token) {
+        
         setError("❌ الرجاء تسجيل الدخول أولاً");
         setTimeout(() => {
           navigate("/login");
@@ -45,14 +47,17 @@ const ExamDetails = () => {
         console.log("Exam details response:", response.data);
         setExam(response.data.data);
       } catch (err) {
+        
         if (err.response?.status === 401) {
           localStorage.removeItem("access_token");
+          
           setError("❌ انتهت جلسة تسجيل الدخول. الرجاء تسجيل الدخول مرة أخرى.");
           setTimeout(() => {
             navigate("/login");
           }, 1000);
           return;
         }
+        
         setError(err.response?.data.message || '❌ حدث خطأ أثناء جلب تفاصيل الاختبار');
       } finally {
         setLoading(false);
@@ -65,7 +70,9 @@ const ExamDetails = () => {
   return (
     <>
       <Navbar />
-      <div style={styles.dashboardContainer}>
+      <div 
+
+      style={styles.dashboardContainer}>
         <button
           style={{
             display: window.innerWidth <= 768 ? "block" : "none",
@@ -95,7 +102,9 @@ const ExamDetails = () => {
         </div>
 
         <div style={styles.mainContent}>
-          <h1 style={styles.pageTitle}>تفاصيل الاختبار</h1>
+          <h1 
+
+          style={styles.pageTitle}>تفاصيل الاختبار</h1>
 
           {error && (
             <div style={{ color: 'red', marginBottom: '10px', textAlign: 'center' }}>{error}</div>
@@ -109,8 +118,12 @@ const ExamDetails = () => {
             </div>
           ) : (
             <div style={styles.examDetailsContainer}>
-              <h2 style={styles.examTitleStyle}>{exam.title}</h2>
-              <p><strong>المعرف:</strong> {exam.id}</p>
+              <h2 
+
+              style={styles.examTitleStyle}>{exam.title}</h2>
+              <p><strong>المعرف:</strong> {exam.
+
+              id}</p>
               <button
                 style={styles.viewQuestionsButtonStyle}
                 onClick={() => navigate(`/exam/${id}/questions`)}

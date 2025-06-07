@@ -1,8 +1,7 @@
-import React from 'react';
-
 const Button = ({ label, onClick, style, type = 'button' }) => {
   return (
     <button
+
       type={type}
       onClick={onClick}
       style={{ ...styles.button, ...style }}

@@ -1,4 +1,3 @@
-import React from 'react';
 import FeaturesSection from '../Components/FeaturesSection';
 import TeachersSection from '../Components/TeachersSection';
 import TestimonialsSection from "../Components/TestimonialsSection";
@@ -13,9 +12,13 @@ const LandingPage = () => {
         <div>
             {/* <Navbar /> */}
             <HeroSection />
-            <div style={styles.container}>
+            <div id="about" 
+
+            style={styles.container}>
                 {/* Left Section */}
-                <div style={styles.leftSection}>
+                <div 
+
+                style={styles.leftSection}>
                     <p style={styles.subheading}>نبذة عن المنصة</p>
                     <h2 style={styles.heading}>نبذة عن منصة هدى القرآن</h2>
                     <p style={styles.description}>

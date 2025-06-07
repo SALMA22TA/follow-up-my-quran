@@ -1,0 +1,469 @@
+/* Main container */
+.coming-soon-container {
+  min-height: 100vh;
+  background-color: #f5f9f8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Card container */
+.coming-soon-card {
+  background-color: white;
+  border-radius: 1rem;
+  box-shadow: 0 10px 25px rgba(32, 201, 151, 0.15);
+  padding: 3rem;
+  width: 100%;
+  max-width: 900px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #e0f0ed;
+}
+
+/* Feature badge */
+.feature-badge {
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+  background-color: #20c997;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 2rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+/* Title */
+.coming-soon-title {
+  font-size: 2.75rem;
+  font-weight: 700;
+  color: #20c997;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+/* Icon with animation */
+.coming-soon-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem 0;
+  position: relative;
+  height: 120px;
+}
+
+.pulse-circle {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: rgba(32, 201, 151, 0.1);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(32, 201, 151, 0.4);
+  }
+
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 20px rgba(32, 201, 151, 0);
+  }
+
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(32, 201, 151, 0);
+  }
+}
+
+.teacher-icon {
+  position: relative;
+  width: 70px;
+  height: 70px;
+  background-color: #20c997;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+}
+
+.teacher-icon-inner {
+  position: relative;
+  width: 35px;
+  height: 35px;
+  background-color: white;
+  border-radius: 50%;
+}
+
+.teacher-icon-inner::before {
+  content: "";
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 25px;
+  height: 15px;
+  background-color: white;
+  border-radius: 25px 25px 0 0;
+}
+
+/* Subtitle */
+.coming-soon-subtitle {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+/* Description */
+.coming-soon-description {
+  font-size: 1.125rem;
+  color: #555;
+  line-height: 1.8;
+  margin-bottom: 2.5rem;
+  text-align: right;
+}
+
+/* Teacher benefits section */
+.teacher-benefits {
+  margin-bottom: 3rem;
+}
+
+.benefits-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 1.5rem;
+  text-align: right;
+}
+
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.benefit-item {
+  display: flex;
+  background-color: #f9fffd;
+  border: 1px solid #e0f0ed;
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.benefit-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(32, 201, 151, 0.1);
+}
+
+.benefit-icon {
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  border-radius: 12px;
+  background-color: rgba(32, 201, 151, 0.1);
+  margin-left: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.students-icon::before {
+  content: "👥";
+  font-size: 1.5rem;
+}
+
+.feedback-icon::before {
+  content: "✓";
+  font-size: 1.5rem;
+  color: #20c997;
+}
+
+.schedule-icon::before {
+  content: "📅";
+  font-size: 1.5rem;
+}
+
+.analytics-icon::before {
+  content: "📊";
+  font-size: 1.5rem;
+}
+
+.benefit-content h4 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 0.5rem 0;
+}
+
+.benefit-content p {
+  font-size: 0.9375rem;
+  color: #666;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Notification form */
+.notification-form {
+  background-color: #f5f9f8;
+  padding: 2rem;
+  border-radius: 0.75rem;
+  margin-bottom: 2rem;
+  border: 1px solid #e0f0ed;
+}
+
+.form-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.form-description {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+
+.email-form {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.email-input {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border: 1px solid #e0f0ed;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  text-align: right;
+}
+
+.email-input:focus {
+  outline: none;
+  border-color: #20c997;
+  box-shadow: 0 0 0 3px rgba(32, 201, 151, 0.2);
+}
+
+.submit-button {
+  background-color: #20c997;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  white-space: nowrap;
+}
+
+.submit-button:hover {
+  background-color: #1db386;
+}
+
+.success-message {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background-color: rgba(32, 201, 151, 0.1);
+  border-radius: 0.5rem;
+  color: #20c997;
+  font-weight: 500;
+  text-align: center;
+}
+
+/* Feedback button and form */
+.feedback-button {
+  display: block;
+  width: 100%;
+  background-color: transparent;
+  border: 1px dashed #20c997;
+  color: #20c997;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin-bottom: 2rem;
+  transition: all 0.3s ease;
+}
+
+.feedback-button:hover {
+  background-color: rgba(32, 201, 151, 0.05);
+}
+
+.feedback-form {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  border: 1px solid #e0f0ed;
+  border-radius: 0.75rem;
+  background-color: #f9fffd;
+}
+
+.feedback-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.feedback-description {
+  font-size: 0.9375rem;
+  color: #666;
+  margin-bottom: 1rem;
+}
+
+.feedback-textarea {
+  width: 100%;
+  height: 120px;
+  padding: 0.75rem;
+  border: 1px solid #e0f0ed;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  resize: vertical;
+  text-align: right;
+}
+
+.feedback-textarea:focus {
+  outline: none;
+  border-color: #20c997;
+  box-shadow: 0 0 0 3px rgba(32, 201, 151, 0.2);
+}
+
+.feedback-actions {
+  display: flex;
+  justify-content: flex-start;
+  gap: 0.75rem;
+}
+
+.send-feedback-button {
+  background-color: #20c997;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.send-feedback-button:hover {
+  background-color: #1db386;
+}
+
+.cancel-button {
+  background-color: transparent;
+  color: #666;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cancel-button:hover {
+  background-color: #f1f1f1;
+}
+
+/* Action buttons */
+.action-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.home-button,
+.dashboard-button {
+  flex: 1;
+  display: block;
+  text-align: center;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.home-button {
+  background-color: transparent;
+  color: #20c997;
+  border: 1px solid #20c997;
+}
+
+.home-button:hover {
+  background-color: rgba(32, 201, 151, 0.1);
+}
+
+.dashboard-button {
+  background-color: #20c997;
+  color: white;
+}
+
+.dashboard-button:hover {
+  background-color: #1db386;
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  .coming-soon-card {
+    padding: 2rem;
+  }
+
+  .coming-soon-title {
+    font-size: 2.25rem;
+  }
+
+  .benefits-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .coming-soon-subtitle {
+    font-size: 1.75rem;
+  }
+
+  .email-form {
+    flex-direction: column;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .coming-soon-card {
+    padding: 1.5rem;
+  }
+
+  .coming-soon-title {
+    font-size: 1.75rem;
+  }
+
+  .feature-badge {
+    top: 1rem;
+    left: 1rem;
+  }
+
+  .benefit-item {
+    flex-direction: column;
+  }
+
+  .benefit-icon {
+    margin-left: 0;
+    margin-bottom: 1rem;
+  }
+}

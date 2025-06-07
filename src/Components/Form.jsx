@@ -1,8 +1,8 @@
-import React from 'react';
-
 const Form = ({ children, onSubmit }) => {
   return (
-    <form onSubmit={onSubmit} style={styles.form}>
+    <form onSubmit={onSubmit} 
+
+    style={styles.form}>
       {children}
     </form>
   );

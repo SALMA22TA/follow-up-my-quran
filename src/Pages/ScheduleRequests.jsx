@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import Sidebar from '../Components/Sidebar';
 import Navbar from "../Components/DashboardNavbar";
@@ -15,6 +16,7 @@ const ScheduleRequests = () => {
     const fetchRequests = async () => {
       const token = localStorage.getItem("access_token");
       if (!token) {
+        
         setError("❌ الرجاء تسجيل الدخول أولاً");
         setTimeout(() => {
           navigate("/login");
@@ -36,6 +38,7 @@ const ScheduleRequests = () => {
         if (!response.ok) {
           if (response.status === 401) {
             localStorage.removeItem("access_token");
+            
             setError("❌ انتهت جلسة تسجيل الدخول. الرجاء تسجيل الدخول مرة أخرى.");
             setTimeout(() => {
               navigate("/login");
@@ -53,6 +56,7 @@ const ScheduleRequests = () => {
           setRequests([]);
         }
       } catch (error) {
+        
         setError("❌ حدث خطأ أثناء جلب الطلبات: " + error.message);
       } finally {
         setLoading(false);
@@ -62,11 +66,13 @@ const ScheduleRequests = () => {
     fetchRequests();
   }, [navigate]);
 
+  
   const handleAction = async (id, action) => {
     const url = `${API_BASE_URL}/${action}_schedule/${id}`;
     try {
       const token = localStorage.getItem("access_token");
       if (!token) {
+        
         setError("❌ الرجاء تسجيل الدخول أولاً");
         setTimeout(() => {
           navigate("/login");
@@ -85,29 +91,35 @@ const ScheduleRequests = () => {
       const result = await response.json();
       console.log(`${action} schedule response:`, result); // Debug
       if (response.ok) {
+        
         setRequests(prev => prev.filter(request => request.id !== id));
         setError(null);
       } else {
         if (response.status === 401) {
           localStorage.removeItem("access_token");
+          
           setError("❌ انتهت جلسة تسجيل الدخول. الرجاء تسجيل الدخول مرة أخرى.");
           setTimeout(() => {
             navigate("/login");
           }, 1000);
           return;
         }
+        
         setError(`❌ خطأ: ${result.message || 'حدث خطأ ما'}`);
       }
     } catch (error) {
+      
       setError(`❌ فشل العملية: ${error.message}`);
     }
   };
 
+  
   const handleDelete = async (id) => {
     const url = `${API_BASE_URL}/delete_schedule/${id}`;
     try {
       const token = localStorage.getItem("access_token");
       if (!token) {
+        
         setError("❌ الرجاء تسجيل الدخول أولاً");
         setTimeout(() => {
           navigate("/login");
@@ -126,20 +138,24 @@ const ScheduleRequests = () => {
       const result = await response.json();
       console.log("Delete schedule response:", result); // Debug
       if (response.ok) {
+        
         setRequests(prev => prev.filter(request => request.id !== id));
         setError(null);
       } else {
         if (response.status === 401) {
           localStorage.removeItem("access_token");
+          
           setError("❌ انتهت جلسة تسجيل الدخول. الرجاء تسجيل الدخول مرة أخرى.");
           setTimeout(() => {
             navigate("/login");
           }, 1000);
           return;
         }
+        
         setError(`❌ خطأ: ${result.message || 'حدث خطأ ما'}`);
       }
     } catch (error) {
+      
       setError(`❌ فشل العملية: ${error.message}`);
     }
   };

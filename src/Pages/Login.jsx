@@ -16,64 +16,81 @@ const Login = () => {
   const [isError, setIsError] = useState(location.state?.isError || false);
   const [message, setMessage] = useState(location.state?.message || searchParams.get('message') || "");
 
-  // Clear message after 3 seconds
   useEffect(() => {
-    if (message) {
-      const timer = setTimeout(() => {
-        setMessage("");
-        setIsError(false);
-      }, 3000);
-      return () => clearTimeout(timer);
-    }
-  }, [message]);
+    if (!message) return;
+  
+    const timer = setTimeout(() => {
+      setMessage("");
+      setIsError(false);
+    }, isError ? 4000 : 3000);  
+  
+    return () => clearTimeout(timer);
+  }, [message, isError]);
+  
 
-  const handleChange = (e) => {
+  
+const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleLoginSubmit = async (e) => {
-    e.preventDefault();
-    setMessage("");
-    setIsError(false);
-    if (!formData.email || !formData.password) {
-      setMessage("يرجى ملء كلا الحقلين.");
-      setIsError(true);
-      return;
-    }
-    setLoading(true);
-    try {
-      const response = await login(formData.email, formData.password);
+  
+const handleLoginSubmit = async (e) => {
+  e.preventDefault();
+  setMessage("");
+  setIsError(false);
+
+  if (!formData.email || !formData.password) {
+    setMessage("يرجى ملء كلا الحقلين.");
+    setIsError(true);
+    return;
+  }
+
+  setLoading(true);
+  try {
+    const response = await login(formData.email, formData.password);
+    const role = Number(response.user.role);
+
+    if (role === 0) {
       setMessage("تم تسجيل الدخول بنجاح!");
-      setIsError(false); // Success message should not be red
+      setIsError(false);
       setTimeout(() => {
-        const role = Number(response.user.role);
-        if (role === 0) {
-        
-          navigate("/student-dashboard");
-        } else if (role === 1) {
-          navigate("/admin-dashboard");
-        } else if (role === 2) {
-          navigate("/sheikh-dashboard");
-        } else {
-          setMessage("دور المستخدم غير معروف.");
-          setIsError(true);
-        }
+        navigate("/student-dashboard");
       }, 1000);
-    } catch (error) {
-      console.error("Login error:", error);
-      const errorMessage = error.message || "فشل تسجيل الدخول. تحقق من البيانات.";
-      setMessage(errorMessage);
+    } else if (role === 1) {
+      setMessage("تم تسجيل الدخول بنجاح!");
+      setIsError(false);
+      setTimeout(() => {
+        navigate("/admin-dashboard");
+      }, 1000);
+    } else if (role === 2) {
+      setMessage("تم تسجيل الدخول بنجاح!");
+      setIsError(false);
+      setTimeout(() => {
+        navigate("/sheikh-dashboard");
+      }, 1000);
+    } else {
+      setMessage("دور المستخدم غير معروف.");
       setIsError(true);
-    } finally {
-      setLoading(false);
     }
-  };
+  } catch (error) {
+    console.error("Login error:", error);
+    const errorMessage = error.message || "فشل تسجيل الدخول. تحقق من البيانات.";
+    setMessage(errorMessage);
+    setIsError(true);
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
-    <div style={styles.mainContainer}>
-      <div style={styles.leftContainer}>
-        <h2 style={styles.header}>تسجيل الدخول</h2>
-        <p style={styles.description}>
+    <div 
+    style={styles.mainContainer}>
+      <div 
+      style={styles.leftContainer}>
+        <h2 
+        style={styles.header}>تسجيل الدخول</h2>
+        <p 
+        style={styles.description}>
           قم بتسجيل الدخول إلى منصة هدى القرآن باستخدام إحدى الطرق الآتية
         </p>
         <button style={styles.socialButtonGoogle}>
@@ -88,26 +105,31 @@ const Login = () => {
           <div style={styles.line}></div>
         </div>
 
-        <form onSubmit={handleLoginSubmit} style={styles.form}>
+        <form onSubmit={handleLoginSubmit} 
+        style={styles.form}>
           {message && <p style={{ ...styles.message, color: isError ? 'red' : 'green' }}>{message}</p>}
-          <label style={styles.label}>اسم المستخدم</label>
+          <label 
+          style={styles.label}>البريد الإلكتروني</label>
           <input
             type="email"
             name="email"
             value={formData.email}
             onChange={handleChange}
-            placeholder="أدخل اسم المستخدم من هنا"
+            placeholder="أدخل بريدك الإلكتروني هنا"
             required
-            style={styles.input}
+            
+          style={styles.input}
           />
-          <label style={styles.label}>كلمة المرور</label>
+          <label 
+          style={styles.label}>كلمة المرور</label>
           <input
             type="password"
             name="password"
             value={formData.password}
             onChange={handleChange}
             placeholder="أدخل كلمة المرور هنا"
-            style={styles.input}
+            
+          style={styles.input}
             required
           />
           <button type="submit" style={styles.loginButton} disabled={loading}>
@@ -116,11 +138,13 @@ const Login = () => {
         </form>
 
         <p style={styles.registerText}>
-          <Link to="/register" style={styles.link}>
+          <Link to="/register" 
+          style={styles.link}>
             مستخدم جديد؟
           </Link>
         </p>
-        <p style={styles.termsText}>
+        <p 
+        style={styles.termsText}>
           بتسجيلك في منصة هدى القرآن يعني أنك موافق على{' '}
           <Link to="/terms" style={styles.termsLink}>
             شروط الاستخدام
@@ -136,7 +160,8 @@ const Login = () => {
         <img
           src={quranImage}
           alt="Quran Illustration"
-          style={styles.rightImage}
+          
+        style={styles.rightImage}
         />
       </div>
     </div>

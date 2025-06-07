@@ -1,6 +1,7 @@
 import { useState } from "react";
 // import axios from "axios";
 import { useNavigate } from 'react-router-dom';
+
 import quranImage from './images/q.png';
 import { Link } from 'react-router-dom';
 // import Verification from "./Verification";
@@ -14,6 +15,7 @@ const Register = () => {
     password: "",
   });
   const [message, setMessage] = useState("");
+  
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -63,6 +65,7 @@ const Register = () => {
   //   }
   // };
   
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage("");
@@ -79,11 +82,19 @@ const Register = () => {
   };
 
   return (
-    <div style={styles.mainContainer}>
+    <div 
+
+    style={styles.mainContainer}>
       {/* Left Section */}
-      <div style={styles.leftContainer}>
-        <h2 style={styles.header}>إنشاء حساب جديد</h2>
-        <p style={styles.description}>قم بتسجيل الدخول إلى منصة هدى القرآن باستخدام إحدى الطرق التالية</p>
+      <div 
+
+      style={styles.leftContainer}>
+        <h2 
+
+        style={styles.header}>إنشاء حساب جديد</h2>
+        <p 
+
+        style={styles.description}>قم بتسجيل الدخول إلى منصة هدى القرآن باستخدام إحدى الطرق التالية</p>
 
         <button style={styles.googleButton}>تسجيل بواسطة جوجل <span style={styles.icon}>G</span></button>
         <button style={styles.facebookButton}>تسجيل بواسطة فيسبوك <span style={styles.icon}>f</span></button>
@@ -95,47 +106,64 @@ const Register = () => {
         </div>
         {message && <p>{message}</p>}
 
-        <form onSubmit={handleSubmit} style={styles.form}>
-          <label style={styles.label}>اسم المستخدم</label>
+        <form onSubmit={handleSubmit} 
+
+        style={styles.form}>
+          <label 
+
+          style={styles.label}>اسم المستخدم</label>
           <input
             type="text"
             name="fullName"
             value={formData.fullName}
             onChange={handleChange}
             placeholder="أدخل اسمك الكامل هنا"
+            
             style={styles.input}
             required
           />
-          <label style={styles.label}>البريد الإلكتروني</label>
+          <label 
+
+          style={styles.label}>البريد الإلكتروني</label>
           <input
             type="email"
             name="email"
             placeholder="أدخل بريدك الإلكتروني هنا"
             value={formData.email}
             onChange={handleChange}
+            
             style={styles.input}
             required
           />
-          <label style={styles.label}>كلمة المرور</label>
+          <label 
+
+          style={styles.label}>كلمة المرور</label>
           <input
             type="password"
             name="password"
             placeholder="أدخل كلمة المرور هنا"
             value={formData.password}
             onChange={handleChange}
+            
             style={styles.input}
             required
           />
           <button type="submit" style={styles.registerButton}>إنشاء حساب جديد</button>
         </form>
 
-          <Link to="/login" style={styles.link}>
+          <Link to="/login" 
+
+          style={styles.link}>
             تسجيل الدخول؟
           </Link>
           <p style={styles.loginText}>
           بتسجيلك في منصة هدى القرآن يعني أنك موافق على{' '}
-          <Link to="/terms" style={styles.link}>شروط الاستخدام</Link> و{' '}
-          <Link to="/privacy" style={styles.link}>قوانين الخصوصية</Link>
+          <Link to="/terms" 
+
+          style={styles.link}>شروط الاستخدام</Link> و{' '}
+          <Link to="/privacy" 
+
+          style={styles.link}>قوانين الخصوصية</Link>
         </p>
       </div>
 

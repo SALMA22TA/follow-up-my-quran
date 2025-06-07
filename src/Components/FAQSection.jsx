@@ -36,14 +36,15 @@ const FAQSection = () => {
   };
 
   return (
-    <div style={styles.container}>
-      <p style={styles.subheading}>الأسئلة الشائعة</p>
-      <h2 style={styles.heading}>أشياء من المحتمل أن تكون فضوليًا بشأنها</h2>
-      <div style={styles.faqList}>
+    <div id="faq"     style={styles.container}>
+      <p       style={styles.subheading}>الأسئلة الشائعة</p>
+      <h2       style={styles.heading}>أشياء من المحتمل أن تكون فضوليًا بشأنها</h2>
+      <div       style={styles.faqList}>
         {faqData.map((item, index) => (
           <div
             key={index}
-            style={openIndex === index ? styles.faqItemOpen : styles.faqItem}
+            
+        style={openIndex === index ? styles.faqItemOpen : styles.faqItem}
           >
             <div style={styles.question} onClick={() => toggleFAQ(index)}>
               <span>{item.question}</span>

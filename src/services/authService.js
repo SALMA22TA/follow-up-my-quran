@@ -35,30 +35,52 @@ axiosInstance.interceptors.response.use(
   }
 );
 
+
 const login = async (email, password) => {
   try {
-    const response = await axiosInstance.post('login', { email, password });
-    console.log('Login response:', response.data);
+    const response = await axios.post(`${API_URL}login`, { email, password }, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+    });
     localStorage.setItem('access_token', response.data.access_token);
-    localStorage.setItem('user_role', response.data.user.role); // Changed to response.data.user.role
-    console.log("Token stored:", localStorage.getItem("access_token"));
-    console.log("Role stored:", localStorage.getItem("user_role"));
+    localStorage.setItem('user_role', response.data.user.role);
     return response.data;
   } catch (error) {
-    console.error('Login error:', error.response?.data || error);
+    
     throw error.response?.data || error;
   }
 };
+
+// const login = async (email, password) => {
+//   try {
+//     const response = await axiosInstance.post('login', { email, password });
+//     console.log('Login response:', response.data);
+//     localStorage.setItem('access_token', response.data.access_token);
+//     localStorage.setItem('user_role', response.data.user.role); // Changed to response.data.user.role
+//     console.log("Token stored:", localStorage.getItem("access_token"));
+//     console.log("Role stored:", localStorage.getItem("user_role"));
+//     return response.data;
+//   } catch (error) {
+//     console.error('Login error:', error.response?.data || error);
+//     throw error.response?.data || error;
+//   }
+// };
+
 
 const register = async (formData) => {
   try {
     const response = await axiosInstance.post('register', formData);
     return response.data;
   } catch (error) {
+    
     console.error('Registration error:', error.response?.data || error);
+    
     throw error.response?.data || error;
   }
 };
+
 
 const verify = async (userId, verificationCode) => {
   try {
@@ -68,7 +90,9 @@ const verify = async (userId, verificationCode) => {
     });
     return response.data;
   } catch (error) {
+    
     console.error('Verification error:', error.response?.data || error);
+    
     throw error.response?.data || error;
   }
 };

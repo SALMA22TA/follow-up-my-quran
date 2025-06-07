@@ -1,8 +1,10 @@
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import InputField from '../Components/InputField';
 import Button from '../Components/Button';
 import Form from '../Components/Form';
+
 
 const StartLearningForm = ({ userID, sheikhID }) => {
   const navigate = useNavigate();
@@ -11,11 +13,13 @@ const StartLearningForm = ({ userID, sheikhID }) => {
     memorizationGoal: '', 
   });
 
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
+  
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -35,6 +39,7 @@ const StartLearningForm = ({ userID, sheikhID }) => {
       body: JSON.stringify(payload),
     })
       .then((res) => res.json())
+      
       .then((data) => {
         alert('Request submitted successfully! Pending admin approval.');
         navigate('/dashboard');
@@ -46,7 +51,9 @@ const StartLearningForm = ({ userID, sheikhID }) => {
   };
 
   return (
-    <div style={styles.container}>
+    <div 
+
+    style={styles.container}>
       <h2 style={styles.header}>Start Learning</h2>
       <Form onSubmit={handleSubmit}>
         <InputField
@@ -63,7 +70,9 @@ const StartLearningForm = ({ userID, sheikhID }) => {
           onChange={handleChange}
           placeholder="What do you want to memorize?"
         />
-        <Button label="Submit Request" type="submit" />
+        <
+
+        Button label="Submit Request" type="submit" />
       </Form>
     </div>
   );

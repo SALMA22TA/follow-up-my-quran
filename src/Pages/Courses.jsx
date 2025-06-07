@@ -12,7 +12,7 @@ const Courses = () => {
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState(""); // "delete" or "publish"
   const [selectedCourseId, setSelectedCourseId] = useState(null);
-
+  
   const openModal = (type, id) => {
     setModalType(type);
     setSelectedCourseId(id);
@@ -67,7 +67,7 @@ const Courses = () => {
         }
 
         const data = await response.json();
-        console.log("Courses data:", data); // Debug
+        console.log("Courses data:", data);
         setCourses(data.data.data); 
       } catch (err) {
         setError(err.message);
@@ -111,7 +111,7 @@ const Courses = () => {
         }
         throw new Error("فشل في حذف الدورة");
       }
-
+      
       setCourses(prevCourses => prevCourses.filter(course => course.id !== id));
       const courseTitle = courses.find(course => course.id === id)?.title;
       console.log(`تم حذف الدورة: ${courseTitle}`);
@@ -162,36 +162,11 @@ const Courses = () => {
       );
       const courseTitle = courses.find(course => course.id === id)?.title;
       console.log(`تم نشر دورة: ${courseTitle}`);
-
       setError(null);
     } catch (err) {
       console.error("Error:", err);
       setError(err.message);
     }
-  };
-
-  const tableStyle = {
-    width: '100%',
-    maxWidth: '1100px',
-    borderCollapse: 'collapse',
-    marginTop: '20px',
-    direction: 'rtl',
-    fontFamily: '"Tajawal", sans-serif',
-    boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-  };
-
-  const thStyle = {
-    border: '1px solid #E6E6E6',
-    padding: '12px',
-    backgroundColor: '#f9f9f9',
-    textAlign: 'center',
-    fontWeight: 'bold',
-  };
-
-  const tdStyle = {
-    border: '1px solid #E6E6E6',
-    padding: '12px',
-    textAlign: 'center',
   };
 
   return (
@@ -220,24 +195,49 @@ const Courses = () => {
                   <tr>
                     <th style={thStyle}>العنوان</th>
                     <th style={thStyle}>الحالة</th>
-                    <th style={thStyle}>نشر؟</th>
+                    <th style={thStyle}>إضافة فيديو</th>
+                    <th style={thStyle}>نشر</th>
                     <th style={thStyle}>حذف</th>
                   </tr>
                 </thead>
                 <tbody>
                   {courses.map((course) => (
                     <tr key={course.id}>
-                      <td style={tdStyle}>{course.title}</td>
+                      <td style={tdStyle}>
+                        <Link to={`/course/${course.id}`} style={{ color: "black", textDecoration: "none"}}>
+                          {course.title}
+                        </Link>
+                      </td>
                       <td style={tdStyle}>{course.status}</td>
                       <td style={tdStyle}>
+                        <Link
+                          to={`/add-video/${course.id}`} 
+                          style={addVideoButtonStyle}
+                        >
+                          إضافة فيديو
+                        </Link>
+                      </td>
+                      <td style={tdStyle}>
                         {course.status !== 'published' && (
-                          <button onClick={() => openModal('publish', course.id)} style={{ background: '#1EC8A0', color: '#fff', border: 'none', borderRadius: '5px', padding: '6px 14px', cursor: 'pointer' }}>نشر</button>
+                          <button 
+                            onClick={() => openModal('publish', course.id)} 
+                            style={publishButtonStyle}
+                          >
+                            نشر
+                          </button>
                         )}
-                        {course.status === 'published' && <span style={{ color: '#1EC8A0', fontWeight: 'bold' }}>تم النشر</span>}
+                        {course.status === 'published' && (
+                          <span style={{ color: '#1EC8A0', fontWeight: 'bold' }}>
+                            تم النشر
+                          </span>
+                        )}
                       </td>
                       <td style={{ ...tdStyle, textAlign: 'center' }}>
                         <div style={{ display: 'flex', justifyContent: 'center' }}>
-                          <button onClick={() => openModal('delete', course.id)} style={{ background: '#FF4D4F', color: '#fff', border: 'none', borderRadius: '5px', padding: '6px 18px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', fontWeight: 'bold', fontFamily: '"Tajawal", sans-serif' }}>
+                          <button 
+                            onClick={() => openModal('delete', course.id)} 
+                            style={deleteButtonStyle}
+                          >
                             <Trash2 size={18} /> حذف
                           </button>
                         </div>
@@ -272,8 +272,6 @@ const Courses = () => {
     </>
   );
 };
-export default Courses;
-
 
 const dashboardContainer = {
   display: "flex",
@@ -293,23 +291,77 @@ const mainContent = {
   },
 };
 
+const tableStyle = {
+  width: '100%',
+  maxWidth: '1100px',
+  borderCollapse: 'collapse',
+  marginTop: '20px',
+  direction: 'rtl',
+  fontFamily: '"Tajawal", sans-serif',
+  boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+};
+
+const thStyle = {
+  border: '1px solid #E6E6E6',
+  padding: '12px',
+  backgroundColor: '#f9f9f9',
+  textAlign: 'center',
+  fontWeight: 'bold',
+};
+
+const tdStyle = {
+  border: '1px solid #E6E6E6',
+  padding: '12px',
+  textAlign: 'center',
+};
+
 const addButtonStyle = {
   backgroundColor: "#1EC8A0",
   color: "#fff",
   border: "none",
   padding: "10px 15px",
   borderRadius: "5px",
-  fontSize: "1rem",
+  fontSize: "18px",
   cursor: "pointer",
-  display: "inline-flex",
+  display: "flex",
   alignItems: "center",
   textDecoration: "none",
-  transition: "background 0.2s, transform 0.2s ease-in-out",
-  transform: "translateY(0)",
-  "@media (max-width: 768px)": {
-    fontSize: "0.9rem",
-    padding: "8px 12px",
-  },
+  transition: "all 0.3s ease",
+};
+
+const addVideoButtonStyle = {
+  backgroundColor: "#1EC8A0",
+  color: "#fff",
+  border: "none",
+  padding: "7px 15px",
+  borderRadius: "5px",
+  fontWeight: "bold",
+  cursor: "pointer",
+  textDecoration: "none",
+};
+
+const publishButtonStyle = {
+  background: '#1EC8A0',
+  color: '#fff',
+  border: 'none',
+  borderRadius: '5px',
+  padding: '6px 14px',
+  cursor: 'pointer',
+};
+
+const deleteButtonStyle = {
+  background: '#FF4D4F',
+  color: '#fff',
+  border: 'none',
+  borderRadius: '5px',
+  padding: '6px 18px',
+  cursor: 'pointer',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: '6px',
+  fontWeight: 'bold',
+  fontFamily: '"Tajawal", sans-serif',
 };
 
 const modalOverlayStyle = {
@@ -327,16 +379,11 @@ const modalOverlayStyle = {
 
 const modalStyle = {
   backgroundColor: "#fff",
-  padding: "20px",
+  padding: "30px",
   borderRadius: "10px",
   boxShadow: "0 5px 15px rgba(0, 0, 0, 0.3)",
   textAlign: "center",
-  width: "90%",
-  maxWidth: "400px",
-  "@media (max-width: 768px)": {
-    padding: "15px",
-    maxWidth: "90%",
-  },
+  minWidth: "300px",
 };
 
 const yesButtonStyle = {
@@ -347,10 +394,6 @@ const yesButtonStyle = {
   borderRadius: "5px",
   fontWeight: "bold",
   cursor: "pointer",
-  "@media (max-width: 768px)": {
-    padding: "8px 15px",
-    fontSize: "0.9rem",
-  },
 };
 
 const noButtonStyle = {
@@ -361,8 +404,7 @@ const noButtonStyle = {
   borderRadius: "5px",
   fontWeight: "bold",
   cursor: "pointer",
-  "@media (max-width: 768px)": {
-    padding: "8px 15px",
-    fontSize: "0.9rem",
-  },
 };
+
+export default Courses;
+

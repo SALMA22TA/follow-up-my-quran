@@ -1,7 +1,5 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import '../styles/TeacherStyles.css';
-
 const TeacherCard = ({ teacher }) => {
   return (
     <div className="teacher-card">

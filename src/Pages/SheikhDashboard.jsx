@@ -1,3 +1,4 @@
+
 import React from 'react';
 import Sidebar from '../Components/Sidebar';
 import Navbar from '../Components/DashboardNavbar';
@@ -20,13 +21,17 @@ const Dashboard = () => {
   return (
     <>
       <Navbar /> {/* ✅ Navbar now spans the full width at the top */}
-      <div style={dashboardContainer}>
+      <div 
+
+      style={dashboardContainer}>
         <Sidebar />
-        <div style={mainContent}>
+        <div 
+
+        style={mainContent}>
           <h1>لوحة التحكم</h1>
         
 
-          <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
+          {/* <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
   {[
     { title: 'عدد الطلاب', value: 12 },
     { title: 'السور المحفوظة', value: 5 },
@@ -48,7 +53,7 @@ const Dashboard = () => {
       <p style={{ fontSize: '24px', fontWeight: 'bold', margin: 0 }}>{card.value}</p>
     </div>
   ))}
-</div>
+</div> */}
 
 <TodaysSessions />
           

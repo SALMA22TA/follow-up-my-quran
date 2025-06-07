@@ -29,6 +29,7 @@ import { jwtDecode } from 'jwt-decode';
 import MainLayout from './Components/MainLayout'; 
 import StudentDashboard from './Pages/StudentDashboard';
 import NotFound from './Pages/NotFound';
+
 import TeachersList from './Pages/TeachersList';
 import StudentRequests from './Pages/StudentRequests';
 import RequestSchedule from './Components/RequestSchedule';
@@ -47,6 +48,12 @@ import AdminStudents from './Pages/AdminStudents';
 import StudentNotification from './Pages/StudentNotification';
 
 
+import SelectVerse from './Pages/SelectVerse';
+import Recitation from './Pages/Recitation';
+import RecitationFeedback from './Pages/RecitationFeedback';
+import ComingSoonTeacher from './Pages/coming-soon-teacher';
+
+
 const App = () => {
   const navigate = useNavigate();
 
@@ -57,6 +64,7 @@ const App = () => {
         try {
           const decodedToken = jwtDecode(token);
           const currentTime = Date.now() / 1000;
+          
           if (decodedToken.exp < currentTime) {
             localStorage.removeItem('access_token');
             localStorage.removeItem('user_role');
@@ -89,7 +97,14 @@ const App = () => {
       <Route path="/teacher-list" element={<TeacherList />} />
       <Route path="/teachers/:id" element={<TeacherDetail />} />
       <Route path="/verify" element={<Verification />} />
-      <Route path="/student-dashboard" element={<StudentDashboard />} />
+      <Route
+        path="/student-dashboard"
+        element={
+          <ProtectedRoute allowedRoles={[0]}>
+            <StudentDashboard />
+          </ProtectedRoute>
+        }
+      />
       <Route path="/teachers" element={<TeachersList />} />
       <Route path="/student-requests" element={<StudentRequests />} />
       <Route path="/request-schedule" element={<RequestSchedule />} />
@@ -99,23 +114,14 @@ const App = () => {
       <Route path="/student-exams" element={<StudentExamsPage />} />
       <Route path="/exam/:id/student-exams-ques" element={<StdExamQuestions />} />
       <Route path="/progress" element={<StudentPlansPage />} />
-
       <Route
-          path="/student-dashboard"
-          element={
-            <ProtectedRoute allowedRoles={[0]}>
-              <Dashboard />
-            </ProtectedRoute>
-          }
-        />
-      <Route
-          path="/admin-dashboard"
-          element={
-            <ProtectedRoute allowedRoles={[1]}>
-              <AdminDashboard />
-            </ProtectedRoute>
-          }
-        />
+        path="/admin-dashboard"
+        element={
+          <ProtectedRoute allowedRoles={[1]}>
+            <AdminDashboard />
+          </ProtectedRoute>
+        }
+      />
       <Route
         path="/start-learning-form"
         element={
@@ -236,6 +242,7 @@ const App = () => {
           </ProtectedRoute>
         }
       />
+
       <Route path="/teacher/:id" element={<TeacherProfile />} />
       <Route path="/teacher/:id/feedbacks" element={<TeacherFeedbacks />} />
       <Route
@@ -295,6 +302,43 @@ const App = () => {
           </ProtectedRoute>
         }
       />
+
+      <Route
+          path="/select-verse"
+          element={
+            <ProtectedRoute allowedRoles={[0]}>
+              <SelectVerse />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/recitation"
+          element={
+            <ProtectedRoute allowedRoles={[0]}>
+              <Recitation />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/recitation-feedback"
+          element={
+            <ProtectedRoute allowedRoles={[0]}>
+              <RecitationFeedback />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+        path="/coming-soon-teacher"
+        element={
+          <ProtectedRoute allowedRoles={[2]}>
+            <MainLayout>
+              <ComingSoonTeacher />
+            </MainLayout>
+          </ProtectedRoute>
+        }
+      />
+
+
       {/* Wildcard route for invalid paths */}
       <Route path="*" element={<NotFound />} />
     </Routes>
