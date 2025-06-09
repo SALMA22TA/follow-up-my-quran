@@ -847,8 +847,7 @@ const CourseDetails = () => {
   )
 }
 
-export default CourseDetails
-/********************************************************************************************* */
+export default CourseDetails/********************************************************************************************* */
 // import React, { useState, useEffect } from "react";
 // import { useParams, useNavigate, Link } from "react-router-dom";
 // import Sidebar from "../Components/Sidebar";
@@ -3100,3 +3099,4 @@ export default CourseDetails
 // const modalButtonContainerStyle = { display: "flex", justifyContent: "space-between", marginTop: "10px" };
 // const submitButtonStyle = { backgroundColor: "#1EC8A0", color: "#fff", padding: "10px", borderRadius: "5px", border: "none", cursor: "pointer" };
 // const cancelButtonStyle = { backgroundColor: "#ccc", color: "#fff", padding: "10px", borderRadius: "5px", border: "none", cursor: "pointer" };
+

@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import Sidebar from "../Components/Sidebar";
 import Navbar from "../Components/DashboardNavbar";
-import { FaEdit, FaTrash, FaTimes } from "react-icons/fa";
+import { FaEdit, FaTimes } from "react-icons/fa";
+import { Trash2 } from "lucide-react";
 import { useNavigate } from "react-router-dom"; 
 
 const API_URL = 'http://localhost:8000/api/v1/teacher/'; 
@@ -189,16 +190,16 @@ const ExamsPage = () => {
 
         <div style={styles.mainContent}>
           <h1 style={styles.pageTitle}>الاختبارات</h1>
-
-          {error && (
-            <div style={{ color: 'red', marginBottom: '10px', textAlign: 'center' }}>{error}</div>
-          )}
-
-          <div style={styles.buttonContainer}>
+          <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 8 }}>
             <button style={styles.addButtonStyle} onClick={() => setIsModalOpen(true)}>
               + إضافة اختبار
             </button>
           </div>
+          <div style={styles.headerStyle}>قائمة الاختبارات</div>
+
+          {error && (
+            <div style={{ color: 'red', marginBottom: '10px', textAlign: 'center' }}>{error}</div>
+          )}
 
           {loading ? (
             <div style={{ textAlign: 'center' }}>جاري التحميل...</div>
@@ -208,29 +209,49 @@ const ExamsPage = () => {
             </div>
           ) : (
             <div>
-              {exams.map((exam) => (
-                <div key={exam.id} style={styles.rowStyle}>
-                  <span
-                    style={{ ...styles.examTitleStyle, cursor: 'pointer', color: '#1EC8A0' }}
-                    onClick={() => navigate(`/exam/${exam.id}/questions`)}
-                  >
-                    {exam.title}
+              {exams.map((exam, idx) => (
+                <div
+                  key={exam.id}
+                  style={{ ...styles.rowStyle, cursor: 'pointer' }}
+                  onMouseEnter={e => {
+                    e.currentTarget.style.backgroundColor = '#ECECEC';
+                    e.currentTarget.style.boxShadow = '0 4px 16px rgba(30,200,160,0.10)';
+                  }}
+                  onMouseLeave={e => {
+                    e.currentTarget.style.backgroundColor = '#fff';
+                    e.currentTarget.style.boxShadow = '0 2px 5px rgba(0, 0, 0, 0.1)';
+                  }}
+                  onClick={e => {
+                    if (
+                      e.target.closest('button') ||
+                      e.target.closest('svg')
+                    ) return;
+                    navigate(`/exam/${exam.id}/questions`);
+                  }}
+                >
+                  <span style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                    <span style={styles.circleStyle}>{idx + 1}</span>
+                    <span style={{ ...styles.examTitleStyle, color: '#222', fontWeight: 600 }}>{exam.title}</span>
                   </span>
                   <div style={styles.buttonContainerStyle}>
                     <button
                       style={styles.editButtonStyle}
-                      onClick={() => handleEdit(exam.id, exam.title)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleEdit(exam.id, exam.title);
+                      }}
                     >
                       <FaEdit /> تعديل
                     </button>
                     <button 
                       style={styles.deleteButtonStyle} 
-                      onClick={() => {
+                      onClick={(e) => {
+                        e.stopPropagation();
                         setExamToDelete(exam.id);
                         setShowDeleteConfirm(true);
                       }}
                     >
-                      <FaTrash /> حذف
+                      <Trash2 size={18} /> حذف
                     </button>
                   </div>
                 </div>
@@ -395,9 +416,6 @@ const styles = {
       alignItems: "flex-end",
       padding: "10px",
       width: "100%",
-    },
-    ":hover": {
-      backgroundColor: '#ECECEC',
     },
   },
   examTitleStyle: {
@@ -571,6 +589,25 @@ const styles = {
     fontSize: "16px",
     "@media (max-width: 768px)": {
       fontSize: "14px",
+    },
+  },
+  circleStyle: {
+    display: "inline-block",
+    width: "30px",
+    height: "30px",
+    backgroundColor: "#1EC8A0",
+    color: "#fff",
+    borderRadius: "50%",
+    textAlign: "center",
+    lineHeight: "30px",
+    fontSize: "16px",
+    marginLeft: "15px",
+    "@media (max-width: 768px)": {
+      width: "25px",
+      height: "25px",
+      lineHeight: "25px",
+      fontSize: "14px",
+      marginLeft: "10px",
     },
   },
 };

@@ -29,6 +29,7 @@ import { jwtDecode } from 'jwt-decode';
 import MainLayout from './Components/MainLayout'; 
 import StudentDashboard from './Pages/StudentDashboard';
 import NotFound from './Pages/NotFound';
+import CourseDetails from './Pages/CourseDetails'
 
 import TeachersList from './Pages/TeachersList';
 import StudentRequests from './Pages/StudentRequests';
@@ -225,9 +226,19 @@ const App = () => {
       <Route
         path="/course/:id"
         element={
-          <ProtectedRoute allowedRoles={[2]}>
+          <ProtectedRoute allowedRoles={[1]}>
             <MainLayout>
               <CourseDetailsPage />
+            </MainLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/courseDetails/:id"
+        element={
+          <ProtectedRoute allowedRoles={[2]}>
+            <MainLayout>
+              <CourseDetails />
             </MainLayout>
           </ProtectedRoute>
         }

@@ -78,7 +78,7 @@ export default function UploadVideoPage() {
   const containerStyle = {
     display: "flex",
     minHeight: "100vh",
-    backgroundColor: "#f5f9f8",
+    backgroundColor: "#fff",
     color: "#333",
     flexDirection: "row-reverse",
     fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
@@ -102,7 +102,7 @@ export default function UploadVideoPage() {
     boxShadow: "0 10px 25px rgba(32, 201, 151, 0.15)",
     borderRadius: "20px",
     border: "1px solid #e0f0ed",
-    backgroundColor: "white",
+    backgroundColor: "#fafbfc",
     position: "relative",
     overflow: "hidden",
   }
@@ -543,6 +543,7 @@ export default function UploadVideoPage() {
 //         boxShadow: "0px 4px 10px rgba(0,0,0,0.1)",
 //         borderRadius: "12px",
 //         border: "1px solid #ddd",
+//         // backgroundColor: "#fff",
 //         backgroundColor: '#D5E7E1',
 //         position: "relative",
 //     },
@@ -595,6 +596,7 @@ export default function UploadVideoPage() {
 //     },
 //     button: {
 //         width: "100%",
+//         // backgroundColor: "green",
 //         backgroundColor: "#1EC8A0",
 //         color: "#fff",
 //         fontWeight: "bold",

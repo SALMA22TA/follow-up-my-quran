@@ -13,6 +13,12 @@ const Courses = () => {
   const [modalType, setModalType] = useState(""); // "delete" or "publish"
   const [selectedCourseId, setSelectedCourseId] = useState(null);
   
+  const statusTranslation = {
+    published: "منشورة",
+    draft: "مسودة",
+    pending: "قيد الانتظار"
+  };
+
   const openModal = (type, id) => {
     setModalType(type);
     setSelectedCourseId(id);
@@ -204,11 +210,31 @@ const Courses = () => {
                   {courses.map((course) => (
                     <tr key={course.id}>
                       <td style={tdStyle}>
-                        <Link to={`/course/${course.id}`} style={{ color: "black", textDecoration: "none"}}>
+                        <Link 
+                          to={`/courseDetails/${course.id}`} 
+                          style={{ 
+                            color: "black", 
+                            textDecoration: "none",
+                            transition: "all 0.2s ease",
+                            display: "inline-block",
+                            padding: "2px 5px",
+                            borderRadius: "4px"
+                          }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.color = "#1EC8A0";
+                            e.currentTarget.style.backgroundColor = "#EAF8F4";
+                            e.currentTarget.style.transform = "translateX(-2px)";
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.color = "black";
+                            e.currentTarget.style.backgroundColor = "transparent";
+                            e.currentTarget.style.transform = "translateX(0)";
+                          }}
+                        >
                           {course.title}
                         </Link>
                       </td>
-                      <td style={tdStyle}>{course.status}</td>
+                      <td style={tdStyle}>{statusTranslation[course.status] || course.status}</td>
                       <td style={tdStyle}>
                         <Link
                           to={`/add-video/${course.id}`} 
@@ -218,19 +244,21 @@ const Courses = () => {
                         </Link>
                       </td>
                       <td style={tdStyle}>
-                        {course.status !== 'published' && (
-                          <button 
-                            onClick={() => openModal('publish', course.id)} 
-                            style={publishButtonStyle}
-                          >
-                            نشر
-                          </button>
-                        )}
-                        {course.status === 'published' && (
-                          <span style={{ color: '#1EC8A0', fontWeight: 'bold' }}>
-                            تم النشر
-                          </span>
-                        )}
+                        <div style={centerCellStyle}>
+                          {course.status !== "published" && (
+                            <button 
+                              onClick={() => openModal('publish', course.id)} 
+                              style={publishButtonStyle}
+                            >
+                              نشر
+                            </button>
+                          )}
+                          {course.status === "published" && (
+                            <span style={{ color: '#1EC8A0', fontWeight: 'bold' }}>
+                              تم النشر
+                            </span>
+                          )}
+                        </div>
                       </td>
                       <td style={{ ...tdStyle, textAlign: 'center' }}>
                         <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -315,6 +343,13 @@ const tdStyle = {
   textAlign: 'center',
 };
 
+const centerCellStyle = {
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  height: '100%',
+};
+
 const addButtonStyle = {
   backgroundColor: "#1EC8A0",
   color: "#fff",
@@ -345,8 +380,14 @@ const publishButtonStyle = {
   color: '#fff',
   border: 'none',
   borderRadius: '5px',
-  padding: '6px 14px',
+  padding: '6px 18px',
   cursor: 'pointer',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: '6px',
+  fontWeight: 'bold',
+  fontFamily: '"Tajawal", sans-serif',
 };
 
 const deleteButtonStyle = {
