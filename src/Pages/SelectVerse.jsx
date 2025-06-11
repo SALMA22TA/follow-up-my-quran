@@ -209,7 +209,7 @@ const SelectVerse = () => {
 
           <button
             onClick={handleSubmit}
-            className={`submit-button ${!selectedSurah || !selectedVerse ? "disabled" : ""}`}
+            className={`submit-Button ${!selectedSurah || !selectedVerse ? "disabled" : ""}`}
             disabled={!selectedSurah || !selectedVerse}
           >
             ابدأ تسميع هذه الآية
