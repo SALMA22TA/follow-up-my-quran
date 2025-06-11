@@ -350,7 +350,7 @@ const CourseDetails = () => {
 
   const addButtonHoverStyle = {
     backgroundColor: "#1db386",
-    transform: "translateY(-2px)",
+    // transform: "translateY(-2px)",
     boxShadow: "0 6px 16px rgba(32, 201, 151, 0.4)",
   }
 
@@ -372,7 +372,7 @@ const CourseDetails = () => {
 
   const backButtonHoverStyle = {
     backgroundColor: "#4b5563",
-    transform: "translateY(-2px)",
+    // transform: "translateY(-2px)",
   }
 
   const sectionTitleStyle = {
@@ -469,7 +469,7 @@ const CourseDetails = () => {
 
   const playButtonHoverStyle = {
     backgroundColor: "#1db386",
-    transform: "translateY(-1px)",
+    // transform: "translateY(-1px)",
     boxShadow: "0 4px 8px rgba(32, 201, 151, 0.3)",
   }
 
@@ -483,7 +483,7 @@ const CourseDetails = () => {
   const editButtonHoverStyle = {
     backgroundColor: "#20c997",
     color: "white",
-    transform: "translateY(-1px)",
+    // transform: "translateY(-1px)",
   }
 
   const deleteButtonStyle = {
@@ -496,7 +496,7 @@ const CourseDetails = () => {
   const deleteButtonHoverStyle = {
     backgroundColor: "#dc3545",
     color: "white",
-    transform: "translateY(-1px)",
+    // transform: "translateY(-1px)",
   }
 
   const modalOverlayStyle = {
@@ -594,7 +594,7 @@ const CourseDetails = () => {
 
   const confirmButtonHoverStyle = {
     backgroundColor: "#1db386",
-    transform: "translateY(-1px)",
+    // transform: "translateY(-1px)",
   }
 
   const cancelButtonStyle = {
@@ -612,7 +612,7 @@ const CourseDetails = () => {
 
   const cancelButtonHoverStyle = {
     backgroundColor: "#4b5563",
-    transform: "translateY(-1px)",
+    // transform: "translateY(-1px)",
   }
 
   const deleteConfirmStyle = {
