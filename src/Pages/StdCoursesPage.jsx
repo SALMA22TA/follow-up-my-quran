@@ -281,7 +281,7 @@ const filteredCourses = allCourses.filter((course) => {
                           <User size={20} color="#1EC8A0" />
                         )}
                       </div>
-                      <span> الشيخ {course.teacher}</span>
+                      <span> {course.teacher}</span>
                     </div>
 
                     {/* Footer */}

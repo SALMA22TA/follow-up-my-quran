@@ -2,14 +2,19 @@ import React, { useState, useEffect } from 'react'
 import { Link } from "react-router-dom"
 import "../styles/coming-soon-teacher.css"
 import Sidebar from '../Components/Sidebar'
+import StudentSidebar from '../Components/StudentSidebar'
+import { getUserRole } from '../services/authService'
 
 const ComingSoonTeacher = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+  const userRole = getUserRole()
 
   useEffect(() => {
     document.body.style.background = '#fff';
     return () => { document.body.style.background = ''; };
   }, []);
+
+  const SidebarComponent = userRole === '2' ? Sidebar : StudentSidebar;
 
   return (
     <div dir="rtl" style={{ minHeight: '100vh', background: '#fff', width: '100%', position: 'relative' }}>
@@ -27,13 +32,13 @@ const ComingSoonTeacher = () => {
         {/* Sidebar */}
         {isSidebarOpen && (
           <div style={{ width: '220px', minHeight: '100vh', background: '#fff', boxShadow: '-2px 0 5px rgba(0,0,0,0.07)', zIndex: 1000 }}>
-            <Sidebar />
+            <SidebarComponent />
           </div>
         )}
         {/* Main content */}
         <div className="coming-soon-container" style={{ flex: 1, marginRight: isSidebarOpen ? 220 : 0, transition: 'margin 0.3s', background: 'transparent' }}>
           <div className="coming-soon-card" style={{ background: '#f0f0f0', borderRadius: 20 }}>
-            <div className="feature-badge">للمعلمين</div>
+            <div className="feature-badge">{userRole === '2' ? 'للمعلمين' : 'للطلاب'}</div>
 
             <h1 className="coming-soon-title">المحادثات</h1>
 
@@ -47,18 +52,18 @@ const ComingSoonTeacher = () => {
             <h2 className="coming-soon-subtitle">قريباً...</h2>
 
             <p className="coming-soon-description">
-              نعمل حالياً على تطوير محادثات متكاملة للمعلمين، ستمكنك من التواصل بشكل فعال مع طلابك، متابعة تقدمهم،
-              وتقديم الإرشادات المخصصة لكل طالب. ستكون أداة قوية تساعدك في تحسين جودة التعليم وتوفير الوقت والجهد.
+              نعمل حالياً على تطوير محادثات متكاملة {userRole === '2' ? 'للمعلمين' : 'للطلاب'}، ستمكنك من التواصل بشكل فعال {userRole === '2' ? 'مع طلابك' : 'مع معلميك'}، متابعة تقدمك،
+              وتقديم الإرشادات المخصصة. ستكون أداة قوية تساعدك في تحسين جودة التعليم وتوفير الوقت والجهد.
             </p>
 
             <div className="teacher-benefits">
-              <h3 className="benefits-title">مميزات للمعلمين</h3>
+              <h3 className="benefits-title">مميزات {userRole === '2' ? 'للمعلمين' : 'للطلاب'}</h3>
               <div className="benefits-grid">
                 <div className="benefit-item">
                   <div className="benefit-icon students-icon"></div>
                   <div className="benefit-content">
-                    <h4>إدارة الطلاب</h4>
-                    <p>تنظيم الطلاب في مجموعات وإدارة جلسات التعليم بكفاءة</p>
+                    <h4>{userRole === '2' ? 'إدارة الطلاب' : 'التواصل مع المعلم'}</h4>
+                    <p>{userRole === '2' ? 'تنظيم الطلاب في مجموعات وإدارة جلسات التعليم بكفاءة' : 'التواصل المباشر مع المعلم وطرح الأسئلة'}</p>
                   </div>
                 </div>
 
@@ -66,7 +71,7 @@ const ComingSoonTeacher = () => {
                   <div className="benefit-icon feedback-icon"></div>
                   <div className="benefit-content">
                     <h4>تقديم الملاحظات</h4>
-                    <p>إرسال ملاحظات صوتية ونصية مخصصة لكل طالب</p>
+                    <p>إرسال ملاحظات صوتية ونصية مخصصة</p>
                   </div>
                 </div>
 
@@ -74,7 +79,7 @@ const ComingSoonTeacher = () => {
                   <div className="benefit-icon schedule-icon"></div>
                   <div className="benefit-content">
                     <h4>جدولة الدروس</h4>
-                    <p>تنظيم مواعيد الدروس وإرسال تذكيرات تلقائية للطلاب</p>
+                    <p>تنظيم مواعيد الدروس وإرسال تذكيرات تلقائية</p>
                   </div>
                 </div>
 
@@ -82,15 +87,15 @@ const ComingSoonTeacher = () => {
                   <div className="benefit-icon analytics-icon"></div>
                   <div className="benefit-content">
                     <h4>تحليلات وإحصائيات</h4>
-                    <p>متابعة تقدم الطلاب من خلال تقارير وإحصائيات مفصلة</p>
+                    <p>متابعة التقدم من خلال تقارير وإحصائيات مفصلة</p>
                   </div>
                 </div>
               </div>
             </div>
 
             <div className="action-buttons">
-              <Link to="/sheikh-dashboard" className="dashboard-button">
-                لوحة تحكم المعلم
+              <Link to={userRole === '2' ? "/sheikh-dashboard" : "/student-dashboard"} className="dashboard-button">
+                {userRole === '2' ? 'لوحة تحكم المعلم' : 'لوحة تحكم الطالب'}
               </Link>
             </div>
           </div>

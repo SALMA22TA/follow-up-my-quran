@@ -341,7 +341,7 @@ const App = () => {
         <Route
         path="/coming-soon-teacher"
         element={
-          <ProtectedRoute allowedRoles={[2]}>
+          <ProtectedRoute allowedRoles={[0, 2]}>
             <MainLayout>
               <ComingSoonTeacher />
             </MainLayout>

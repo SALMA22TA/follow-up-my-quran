@@ -23,6 +23,7 @@ const ExamAnswers = () => {
   const [error, setError] = useState(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [examTitle, setExamTitle] = useState("");
+  const [questionNumber, setQuestionNumber] = useState(null);
 
   const fetchQuestion = async () => {
     const token = localStorage.getItem("access_token");
@@ -48,6 +49,16 @@ const ExamAnswers = () => {
       const response = await api.get(`get_question/${questionId}`);
       console.log("Question response:", JSON.stringify(response.data, null, 2));
       setQuestion(response.data.data);
+
+      // Fetch all questions to get the question number
+      if (response.data.data?.exam_id) {
+        const questionsResponse = await api.get(`get_all_questions/${response.data.data.exam_id}`);
+        const allQuestions = questionsResponse.data?.data?.data || questionsResponse.data?.data || questionsResponse.data?.questions || [];
+        const currentQuestionIndex = allQuestions.findIndex(q => q.id === parseInt(questionId));
+        if (currentQuestionIndex !== -1) {
+          setQuestionNumber(currentQuestionIndex + 1);
+        }
+      }
     } catch (err) {
       if (err.response?.status === 401) {
         localStorage.removeItem("access_token");
@@ -347,7 +358,7 @@ const ExamAnswers = () => {
 
         <div style={styles.mainContent}>
           <h1 style={styles.pageTitle}>
-            {examTitle ? `عنوان الاختبار: ${examTitle}` : "عنوان الاختبار"} - السؤال {questionId}
+            {examTitle ? `عنوان الاختبار: ${examTitle}` : "عنوان الاختبار"} - السؤال {questionNumber || "..."}
           </h1>
 
           {error && (

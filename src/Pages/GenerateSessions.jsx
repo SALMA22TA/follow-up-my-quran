@@ -11,7 +11,6 @@ const GenerateSessions = () => {
   const [successMessage, setSuccessMessage] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // دالة لجلب الجداول المقبولة من الـ API
   const getAcceptedSchedules = async () => {
     console.log('Starting to fetch accepted schedules...'); 
     try {
@@ -25,7 +24,7 @@ const GenerateSessions = () => {
       console.log('Accepted schedules fetched successfully:', response.data); 
       const acceptedSchedules = response.data.data.data;
 
-      // Mapping للبيانات
+      
       const mappedSchedules = acceptedSchedules.map((schedule) => {
         try {
           const daysArray = JSON.parse(schedule.days);
@@ -46,27 +45,26 @@ const GenerateSessions = () => {
           
           const mappedSchedule = {
             id: schedule.id,
-            name: `طالب ${schedule.student_id}`,
+            name: schedule.student.fullName,
             sessionTime: schedule.time.split(':').slice(0, 2).join(':'),
             days: daysInArabic,
           };
-          console.log(`Mapped schedule for student ${schedule.student_id}:`, mappedSchedule); // طباعة كل جدول بعد الـ mapping
+          console.log(`Mapped schedule for student ${schedule.student.fullName}:`, mappedSchedule); 
           return mappedSchedule;
         } catch (error) {
-          console.error(`Error mapping schedule for student ${schedule.student_id}:`, error); // رسالة خطأ لو حصل مشكلة في الـ mapping
+          console.error(`Error mapping schedule for student ${schedule.student?.fullName}:`, error); 
           return null;
         }
-      }).filter(schedule => schedule !== null); // إزالة أي عناصر فاشلة في الـ mapping
+      }).filter(schedule => schedule !== null); 
 
-      console.log('All schedules mapped successfully:', mappedSchedules); // طباعة الجداول بعد الـ mapping
+      console.log('All schedules mapped successfully:', mappedSchedules); 
       return { schedules: mappedSchedules };
     } catch (error) {
-      console.error('Error fetching accepted schedules:', error.response?.data || error); // رسالة خطأ لو حصل مشكلة في جلب الجداول
+      console.error('Error fetching accepted schedules:', error.response?.data || error); 
       throw error.response?.data || error;
     }
   };
 
-  // دالة لإنشاء الجلسات
   const generateSessions = async (scheduleId) => {
     console.log(`Starting to generate sessions for schedule ID ${scheduleId}...`); 
     try {
@@ -88,30 +86,29 @@ const GenerateSessions = () => {
     }
   };
 
-  // جلب الجداول المقبولة عند تحميل الصفحة
   useEffect(() => {
     const fetchSchedules = async () => {
       try {
         const data = await getAcceptedSchedules();
-        console.log('Setting schedules in state:', data.schedules); // رسالة قبل تحديث الـ state
+        console.log('Setting schedules in state:', data.schedules); 
         setSchedules(data.schedules || []);
       } catch (error) {
-        console.error('Error in fetchSchedules:', error); // رسالة خطأ لو حصل مشكلة في الـ fetch
+        console.error('Error in fetchSchedules:', error); 
       }
     };
     fetchSchedules();
   }, []);
 
-  // دالة لفتح الـ pop-up للتأكيد
+ 
   const handleGenerateClick = (scheduleId) => {
-    console.log(`Generate button clicked for schedule ID ${scheduleId}`); // رسالة لما الشيخ يضغط على زرار "إنشاء جلسة"
+    console.log(`Generate button clicked for schedule ID ${scheduleId}`); 
     setSelectedScheduleId(scheduleId);
     setShowConfirmModal(true);
   };
 
-  // دالة لإنشاء الجلسات بعد التأكيد
+  
   const confirmGenerateSession = async () => {
-    console.log(`User confirmed generating session for schedule ID ${selectedScheduleId}`); // رسالة لما الشيخ يضغط "نعم" في الـ pop-up
+    console.log(`User confirmed generating session for schedule ID ${selectedScheduleId}`); 
     setLoading(true);
     try {
       await generateSessions(selectedScheduleId);
@@ -121,7 +118,7 @@ const GenerateSessions = () => {
         setSuccessMessage('');
       }, 3000);
 
-      // إعادة جلب الجداول بعد إنشاء الجلسات
+ 
       const updatedSchedules = await getAcceptedSchedules();
       setSchedules(updatedSchedules.schedules || []);
     } catch (error) {
@@ -134,9 +131,9 @@ const GenerateSessions = () => {
     }
   };
 
-  // دالة لإلغاء التأكيد
+  
   const cancelGenerateSession = () => {
-    console.log('User cancelled generating session'); // رسالة لما الشيخ يضغط "لا" في الـ pop-up
+    console.log('User cancelled generating session'); 
     setShowConfirmModal(false);
     setSelectedScheduleId(null);
   };
@@ -175,6 +172,14 @@ const GenerateSessions = () => {
     borderRadius: '5px',
     cursor: 'pointer',
     fontFamily: '"Tajawal", sans-serif',
+    transition: 'all 0.3s ease',
+  };
+
+  const buttonHoverStyle = {
+    ...buttonStyle,
+    backgroundColor: '#1db386',
+    transform: 'translateY(-2px)',
+    boxShadow: '0 4px 8px rgba(30, 200, 160, 0.2)',
   };
 
   const modalStyle = {
@@ -229,6 +234,16 @@ const GenerateSessions = () => {
     fontWeight: 'bold',
   };
 
+  // Function to format time with صباحاً/مساءً
+  const formatTimeWithPeriod = (time) => {
+    if (!time) return '';
+    const [hours, minutes] = time.split(':');
+    const hour = parseInt(hours);
+    const period = hour < 12 ? 'صباحاً' : 'مساءً';
+    const formattedHour = hour > 12 ? hour - 12 : hour;
+    return `${formattedHour}:${minutes} ${period}`;
+  };
+
   return (
     <><Navbar /><Sidebar />
     <div style={{ padding: '20px', marginTop: '90px', maxWidth: '1100px', marginRight: '220px', marginLeft: 'auto' }}>
@@ -254,13 +269,23 @@ const GenerateSessions = () => {
             {schedules.map((schedule) => (
               <tr key={schedule.id}>
                 <td style={tdStyle}>{schedule.name}</td>
-                <td style={tdStyle}>{schedule.sessionTime}</td>
+                <td style={tdStyle}>{formatTimeWithPeriod(schedule.sessionTime)}</td>
                 <td style={tdStyle}>{schedule.days}</td>
                 <td style={tdStyle}>
                   <button
                     style={buttonStyle}
                     onClick={() => handleGenerateClick(schedule.id)}
                     disabled={loading}
+                    onMouseEnter={(e) => {
+                      if (!loading) {
+                        Object.assign(e.target.style, buttonHoverStyle);
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!loading) {
+                        Object.assign(e.target.style, buttonStyle);
+                      }
+                    }}
                   >
                     {loading && selectedScheduleId === schedule.id ? 'جاري الإنشاء...' : 'إنشاء جلسة'}
                   </button>
