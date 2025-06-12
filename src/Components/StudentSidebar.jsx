@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import "../styles/Sidebar.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHouse, faBookOpen, faCommentDots, faUsersLine, faChalkboardUser, faCalendarDay, faCircleCheck } from '@fortawesome/free-solid-svg-icons';
+import { faHouse, faBookOpen, faCommentDots, faUsersLine, faChalkboardUser, faCalendarDay, faCircleCheck, faMicrophone } from '@fortawesome/free-solid-svg-icons';
 import { faFileLines, faClipboard } from '@fortawesome/free-regular-svg-icons';
 
 const StudentSidebar = () => {
@@ -40,6 +40,9 @@ const StudentSidebar = () => {
               <NavLink to="/student-exams" activeClassName="active" >  <FontAwesomeIcon icon={faFileLines} /> الاختبارات</NavLink>
             </li><li>
               <NavLink to="/progress" activeClassName="active" > <FontAwesomeIcon icon={faCircleCheck} />  الخطط</NavLink>
+            </li>
+            <li>
+              <NavLink to="/select-verse" activeClassName="active">  <FontAwesomeIcon icon={faMicrophone} /> تلاوة آية قرآنية</NavLink>
             </li>
             <li>
               <NavLink to="/discussions" activeClassName="active">  <FontAwesomeIcon icon={faCommentDots} /> المحادثات</NavLink>

@@ -244,7 +244,7 @@ const GenerateSessions = () => {
         <table style={tableStyle}>
           <thead>
             <tr>
-              <th style={thStyle}>اسم الطالب</th>
+              <th style={thStyle}>رقم الطالب</th>
               <th style={thStyle}>موعد الجلسة</th>
               <th style={thStyle}>الأيام</th>
               <th style={thStyle}>إنشاء جلسة</th>
