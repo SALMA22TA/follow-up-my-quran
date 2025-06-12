@@ -243,7 +243,7 @@ const CourseDetailsPage = () => {
                     boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)" 
                   }}>
                     <img
-                      src={course.image}
+                      src={course.image || "https://images.unsplash.com/photo-1609599006353-e629aaabfeae?q=80&w=1000&auto=format&fit=crop"}
                       alt={course.title}
                       style={{
                         width: "100%",
@@ -492,14 +492,15 @@ const CourseDetailsPage = () => {
                               style={{
                                 display: "flex",
                                 justifyContent: "space-between",
-                                alignItems: "flex-start",
+                                alignItems: "center",
                                 padding: "15px",
                                 backgroundColor: "#f8f8f8",
                                 borderRadius: "8px",
                                 cursor: "pointer",
                                 position: "relative",
                                 transition: "all 0.2s ease",
-                                border: "1px solid transparent"
+                                border: "1px solid transparent",
+                                marginBottom: "10px"
                               }}
                               onMouseEnter={(e) => {
                                 e.currentTarget.style.backgroundColor = "#fff";
@@ -514,20 +515,10 @@ const CourseDetailsPage = () => {
                                 e.currentTarget.style.boxShadow = "none";
                               }}
                             >
-                              {/* Video Icon */}
-                              <div style={{
-                                position: "absolute",
-                                top: "15px",
-                                left: "15px",
-                                zIndex: "1"
-                              }}>
-                                <Video size={20} color="#666" />
-                              </div>
-
                               {/* Video Thumbnail */}
                               <div style={{
-                                width: "120px",
-                                height: "68px",
+                                width: "60px",
+                                height: "40px",
                                 borderRadius: "8px",
                                 overflow: "hidden",
                                 marginLeft: "15px",
@@ -535,7 +526,7 @@ const CourseDetailsPage = () => {
                                 backgroundColor: "#eee"
                               }}>
                                 <img 
-                                  src={video.thumbnail || "https://placehold.co/120x68"}
+                                  src={video.thumbnail || "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80"}
                                   alt={video.title}
                                   style={{
                                     width: "100%",
@@ -544,8 +535,7 @@ const CourseDetailsPage = () => {
                                   }}
                                 />
                               </div>
-
-                              {/* Content */}
+                              {/* Video Name and Info */}
                               <div style={{ 
                                 display: "flex", 
                                 flexDirection: "column", 
@@ -563,10 +553,6 @@ const CourseDetailsPage = () => {
                                   color: "#666",
                                   fontSize: "14px"
                                 }}>
-                                  <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                                    <Clock size={14} />
-                                    <span>{video.duration || 'غير محدد'}</span>
-                                  </div>
                                   <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
                                     <Calendar size={14} />
                                     <span>{video.created_at ? new Date(video.created_at).toLocaleDateString('ar-SA') : 'غير محدد'}</span>

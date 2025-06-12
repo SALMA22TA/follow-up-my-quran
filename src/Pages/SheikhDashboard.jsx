@@ -18,7 +18,7 @@ const Dashboard = () => {
 
   return (
     <>
-      <Navbar /> {/* ✅ Navbar now spans the full width at the top */}
+      <Navbar />
       <div 
 
       style={dashboardContainer}>
@@ -26,32 +26,8 @@ const Dashboard = () => {
         <div 
 
         style={mainContent}>
-          <h1>لوحة التحكم</h1>
+          <h1>لوحة تحكم الشيخ</h1>
         
-
-          {/* <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
-  {[
-    { title: 'عدد الطلاب', value: 12 },
-    { title: 'السور المحفوظة', value: 5 },
-    { title: 'الجلسات القادمة', value: 2 },
-  ].map((card, index) => (
-    <div
-      key={index}
-      style={{
-        flex: '1',
-        minWidth: '250px',
-        padding: '20px',
-        backgroundColor: '#D5E7E1',
-        borderRadius: '12px',
-        textAlign: 'center',
-        boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-      }}
-    >
-      <h3 style={{ margin: '0 0 10px', color: '#1EC8A0' }}>{card.title}</h3>
-      <p style={{ fontSize: '24px', fontWeight: 'bold', margin: 0 }}>{card.value}</p>
-    </div>
-  ))}
-</div> */}
 
 <TodaysSessions />
           

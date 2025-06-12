@@ -1,4 +1,4 @@
-/************************************* MP3 Audio ********************************************* */
+/********************************** Added Waiting Notice********************************** */
 import { useState, useEffect, useRef } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
 import Navbar from "../Components/DashboardNavbar"
@@ -10,6 +10,7 @@ import Sidebar from "../Components/StudentSidebar";
 const Recitation = () => {
   const [isRecording, setIsRecording] = useState(false)
   const [timeLeft, setTimeLeft] = useState(30) // 30 seconds max
+  const [isLoading, setIsLoading] = useState(false) // New loading state
   const mediaRecorderRef = useRef(null)
   const audioChunksRef = useRef([])
   const timerRef = useRef(null)
@@ -20,7 +21,6 @@ const Recitation = () => {
 
   useEffect(() => {
     if (isRecording) {
-      
       timerRef.current = setInterval(() => {
         setTimeLeft((prev) => {
           if (prev <= 1) {
@@ -31,27 +31,18 @@ const Recitation = () => {
         })
       }, 1000)
     } else {
-      
       clearInterval(timerRef.current)
     }
-
-    
     return () => clearInterval(timerRef.current)
   }, [isRecording])
 
-  // Function to convert WebM to WAV
-  
   const webmToWav = async (webmBlob) => {
     try {
       if (!audioContextRef.current) {
-        
         audioContextRef.current = new (window.AudioContext || window.webkitAudioContext)()
       }
       const arrayBuffer = await webmBlob.arrayBuffer()
-      
       const audioBuffer = await audioContextRef.current.decodeAudioData(arrayBuffer)
-      
-      // Convert AudioBuffer to WAV
       const wavBuffer = audioBufferToWav(audioBuffer)
       return new Blob([wavBuffer], { type: 'audio/wav' })
     } catch (error) {
@@ -60,8 +51,6 @@ const Recitation = () => {
     }
   }
 
-  // Helper function to convert AudioBuffer to WAV
-  
   const audioBufferToWav = (buffer) => {
     const numChannels = buffer.numberOfChannels
     const sampleRate = buffer.sampleRate
@@ -69,8 +58,6 @@ const Recitation = () => {
     const bufferArray = new ArrayBuffer(length)
     const view = new DataView(bufferArray)
 
-    // Write WAV header
-    
     const writeString = (view, offset, string) => {
       for (let i = 0; i < string.length; i++) {
         view.setUint8(offset + i, string.charCodeAt(i))
@@ -91,7 +78,6 @@ const Recitation = () => {
     writeString(view, 36, 'data')
     view.setUint32(40, buffer.length * numChannels * 2, true)
 
-    // Write PCM data
     for (let i = 0; i < buffer.length; i++) {
       for (let channel = 0; channel < numChannels; channel++) {
         const sample = Math.max(-1, Math.min(1, buffer.getChannelData(channel)[i]))
@@ -102,23 +88,16 @@ const Recitation = () => {
     return bufferArray
   }
 
-  // Function to convert WAV to MP3 using lamejs
-  
   const wavToMp3 = async (wavBlob) => {
     try {
-      // Check if lamejs is available
-      
       if (!window.lamejs) {
         throw new Error("lamejs library is not loaded. Please ensure the script is included.")
       }
 
       const arrayBuffer = await wavBlob.arrayBuffer()
-      
       const audioContext = new (window.AudioContext || window.webkitAudioContext)()
       const audioBuffer = await audioContext.decodeAudioData(arrayBuffer)
 
-      // Use global lamejs
-      
       const { Mp3Encoder } = window.lamejs
       const mp3Encoder = new Mp3Encoder(1, audioBuffer.sampleRate, 128) // Mono, 128kbps
       const samples = audioBuffer.getChannelData(0).map(sample => Math.round(sample * 32768))
@@ -147,31 +126,25 @@ const Recitation = () => {
   const startRecording = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
-      
       mediaRecorderRef.current = new MediaRecorder(stream, { mimeType: 'audio/webm' })
       audioChunksRef.current = []
 
-      
       mediaRecorderRef.current.ondataavailable = (event) => {
-        
         audioChunksRef.current.push(event.data)
       }
 
-      
       mediaRecorderRef.current.onstop = async () => {
         const webmBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' })
         console.log("WebM Blob Size:", webmBlob.size)
 
         try {
-          // Convert WebM to WAV
+          setIsLoading(true) // Start loading
           const wavBlob = await webmToWav(webmBlob)
           console.log("WAV Blob Size:", wavBlob.size)
 
-          // Convert WAV to MP3
           const mp3Blob = await wavToMp3(wavBlob)
           console.log("MP3 Blob Size:", mp3Blob.size)
 
-          // Prepare FormData for backend
           const formData = new FormData()
           formData.append("audio", mp3Blob, "recitation.mp3")
           formData.append("surah_id", surahId)
@@ -195,10 +168,11 @@ const Recitation = () => {
           navigate("/recitation-feedback", { state: { feedback: data, surahName, verseNumber } })
         } catch (error) {
           console.error("Error processing or submitting recitation:", error)
+        } finally {
+          setIsLoading(false) // Stop loading
         }
       }
 
-      
       mediaRecorderRef.current.start()
       setIsRecording(true)
       setTimeLeft(30)
@@ -209,7 +183,6 @@ const Recitation = () => {
 
   const stopRecording = () => {
     if (mediaRecorderRef.current) {
-      
       mediaRecorderRef.current.stop()
       setIsRecording(false)
     }
@@ -225,18 +198,24 @@ const Recitation = () => {
           <p className="recitation-description">
             هل أنت جاهز للتسميع؟ اضغط على الزر أدناه لبدء التسجيل. سيظهر النص بعد انتهاء التسجيل.
           </p>
-          {!isRecording ? (
+          {!isRecording && !isLoading ? (
             <button onClick={startRecording} className="start-button">
               ابدأ تسميع هذه الآية
             </button>
-          ) : (
+          ) : isRecording ? (
             <div className="recording-container">
               <p className="timer-text">جاري التسجيل... الوقت المتبقي: {timeLeft} ثانية</p>
               <button onClick={stopRecording} className="stop-button">
                 إنهاء التسجيل
               </button>
             </div>
-          )}
+          ) : isLoading ? (
+            <div className="recording-container">
+              <p className="timer-text" style={{ color: '#20c997', fontWeight: '600' }}>
+                يرجى الانتظار... جاري معالجة التسجيل <span style={{ animation: 'pulse 1.5s infinite' }}>●</span>
+              </p>
+            </div>
+          ) : null}
         </div>
       </div>
     </>
@@ -244,6 +223,252 @@ const Recitation = () => {
 }
 
 export default Recitation
+/************************************* MP3 Audio ********************************************* */
+// import { useState, useEffect, useRef } from "react"
+// import { useLocation, useNavigate } from "react-router-dom"
+// import Navbar from "../Components/DashboardNavbar"
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faMicrophone } from '@fortawesome/free-solid-svg-icons';
+// import "../styles/recitation.css"
+// import Sidebar from "../Components/StudentSidebar";
+
+// const Recitation = () => {
+//   const [isRecording, setIsRecording] = useState(false)
+//   const [timeLeft, setTimeLeft] = useState(30) // 30 seconds max
+//   const mediaRecorderRef = useRef(null)
+//   const audioChunksRef = useRef([])
+//   const timerRef = useRef(null)
+//   const audioContextRef = useRef(null)
+//   const navigate = useNavigate()
+//   const { state } = useLocation()
+//   const { surahId, verseNumber, surahName } = state || {}
+
+//   useEffect(() => {
+//     if (isRecording) {
+      
+//       timerRef.current = setInterval(() => {
+//         setTimeLeft((prev) => {
+//           if (prev <= 1) {
+//             stopRecording()
+//             return 0
+//           }
+//           return prev - 1
+//         })
+//       }, 1000)
+//     } else {
+      
+//       clearInterval(timerRef.current)
+//     }
+
+    
+//     return () => clearInterval(timerRef.current)
+//   }, [isRecording])
+
+//   // Function to convert WebM to WAV
+  
+//   const webmToWav = async (webmBlob) => {
+//     try {
+//       if (!audioContextRef.current) {
+        
+//         audioContextRef.current = new (window.AudioContext || window.webkitAudioContext)()
+//       }
+//       const arrayBuffer = await webmBlob.arrayBuffer()
+      
+//       const audioBuffer = await audioContextRef.current.decodeAudioData(arrayBuffer)
+      
+//       // Convert AudioBuffer to WAV
+//       const wavBuffer = audioBufferToWav(audioBuffer)
+//       return new Blob([wavBuffer], { type: 'audio/wav' })
+//     } catch (error) {
+//       console.error("Error converting WebM to WAV:", error)
+//       throw error
+//     }
+//   }
+
+//   // Helper function to convert AudioBuffer to WAV
+  
+//   const audioBufferToWav = (buffer) => {
+//     const numChannels = buffer.numberOfChannels
+//     const sampleRate = buffer.sampleRate
+//     const length = buffer.length * numChannels * 2 + 44
+//     const bufferArray = new ArrayBuffer(length)
+//     const view = new DataView(bufferArray)
+
+//     // Write WAV header
+    
+//     const writeString = (view, offset, string) => {
+//       for (let i = 0; i < string.length; i++) {
+//         view.setUint8(offset + i, string.charCodeAt(i))
+//       }
+//     }
+
+//     writeString(view, 0, 'RIFF')
+//     view.setUint32(4, 36 + buffer.length * numChannels * 2, true)
+//     writeString(view, 8, 'WAVE')
+//     writeString(view, 12, 'fmt ')
+//     view.setUint16(16, 16, true)
+//     view.setUint16(20, 1, true)
+//     view.setUint16(22, numChannels, true)
+//     view.setUint32(24, sampleRate, true)
+//     view.setUint32(28, sampleRate * numChannels * 2, true)
+//     view.setUint16(32, numChannels * 2, true)
+//     view.setUint16(34, 16, true)
+//     writeString(view, 36, 'data')
+//     view.setUint32(40, buffer.length * numChannels * 2, true)
+
+//     // Write PCM data
+//     for (let i = 0; i < buffer.length; i++) {
+//       for (let channel = 0; channel < numChannels; channel++) {
+//         const sample = Math.max(-1, Math.min(1, buffer.getChannelData(channel)[i]))
+//         view.setInt16(44 + (i * numChannels + channel) * 2, sample * 0x7FFF, true)
+//       }
+//     }
+
+//     return bufferArray
+//   }
+
+//   // Function to convert WAV to MP3 using lamejs
+  
+//   const wavToMp3 = async (wavBlob) => {
+//     try {
+//       // Check if lamejs is available
+      
+//       if (!window.lamejs) {
+//         throw new Error("lamejs library is not loaded. Please ensure the script is included.")
+//       }
+
+//       const arrayBuffer = await wavBlob.arrayBuffer()
+      
+//       const audioContext = new (window.AudioContext || window.webkitAudioContext)()
+//       const audioBuffer = await audioContext.decodeAudioData(arrayBuffer)
+
+//       // Use global lamejs
+      
+//       const { Mp3Encoder } = window.lamejs
+//       const mp3Encoder = new Mp3Encoder(1, audioBuffer.sampleRate, 128) // Mono, 128kbps
+//       const samples = audioBuffer.getChannelData(0).map(sample => Math.round(sample * 32768))
+//       const mp3Data = []
+
+//       const blockSize = 1152
+//       for (let i = 0; i < samples.length; i += blockSize) {
+//         const sampleChunk = samples.slice(i, i + blockSize)
+//         const mp3buf = mp3Encoder.encodeBuffer(sampleChunk)
+//         if (mp3buf.length > 0) {
+//           mp3Data.push(mp3buf)
+//         }
+//       }
+//       const mp3buf = mp3Encoder.flush()
+//       if (mp3buf.length > 0) {
+//         mp3Data.push(mp3buf)
+//       }
+
+//       return new Blob(mp3Data, { type: 'audio/mp3' })
+//     } catch (error) {
+//       console.error("Error converting WAV to MP3:", error)
+//       throw error
+//     }
+//   }
+
+//   const startRecording = async () => {
+//     try {
+//       const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
+      
+//       mediaRecorderRef.current = new MediaRecorder(stream, { mimeType: 'audio/webm' })
+//       audioChunksRef.current = []
+
+      
+//       mediaRecorderRef.current.ondataavailable = (event) => {
+        
+//         audioChunksRef.current.push(event.data)
+//       }
+
+      
+//       mediaRecorderRef.current.onstop = async () => {
+//         const webmBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' })
+//         console.log("WebM Blob Size:", webmBlob.size)
+
+//         try {
+//           // Convert WebM to WAV
+//           const wavBlob = await webmToWav(webmBlob)
+//           console.log("WAV Blob Size:", wavBlob.size)
+
+//           // Convert WAV to MP3
+//           const mp3Blob = await wavToMp3(wavBlob)
+//           console.log("MP3 Blob Size:", mp3Blob.size)
+
+//           // Prepare FormData for backend
+//           const formData = new FormData()
+//           formData.append("audio", mp3Blob, "recitation.mp3")
+//           formData.append("surah_id", surahId)
+//           formData.append("verse_number", verseNumber)
+
+//           const token = localStorage.getItem("access_token")
+//           const response = await fetch("http://localhost:8000/api/v1/student/recitation/check", {
+//             method: "POST",
+//             headers: {
+//               "Authorization": `Bearer ${token}`,
+//             },
+//             body: formData,
+//           })
+
+//           if (!response.ok) {
+//             throw new Error("فشل في التحقق من التسميع")
+//           }
+
+//           const data = await response.json()
+//           console.log("API Response:", data)
+//           navigate("/recitation-feedback", { state: { feedback: data, surahName, verseNumber } })
+//         } catch (error) {
+//           console.error("Error processing or submitting recitation:", error)
+//         }
+//       }
+
+      
+//       mediaRecorderRef.current.start()
+//       setIsRecording(true)
+//       setTimeLeft(30)
+//     } catch (error) {
+//       console.error("Error starting recording:", error)
+//     }
+//   }
+
+//   const stopRecording = () => {
+//     if (mediaRecorderRef.current) {
+      
+//       mediaRecorderRef.current.stop()
+//       setIsRecording(false)
+//     }
+//   }
+
+//   return (
+//     <>
+//       <Navbar />
+//       <Sidebar/>
+//       <div dir="rtl" className="recitation-container">
+//         <div className="recitation-card">
+//           <h1 className="recitation-title"> <FontAwesomeIcon icon={faMicrophone} /> تسميع</h1>
+//           <p className="recitation-description">
+//             هل أنت جاهز للتسميع؟ اضغط على الزر أدناه لبدء التسجيل. سيظهر النص بعد انتهاء التسجيل.
+//           </p>
+//           {!isRecording ? (
+//             <button onClick={startRecording} className="start-button">
+//               ابدأ تسميع هذه الآية
+//             </button>
+//           ) : (
+//             <div className="recording-container">
+//               <p className="timer-text">جاري التسجيل... الوقت المتبقي: {timeLeft} ثانية</p>
+//               <button onClick={stopRecording} className="stop-button">
+//                 إنهاء التسجيل
+//               </button>
+//             </div>
+//           )}
+//         </div>
+//       </div>
+//     </>
+//   )
+// }
+
+// export default Recitation
 /************************************************************************************* */
 // import { useState, useEffect, useRef } from "react";
 // import { useLocation, useNavigate } from "react-router-dom";

@@ -242,20 +242,9 @@ const StudentDashboard = () => {
                     onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "white")}
                   >
                     <h3 style={{ color: "black", marginTop: "25px" }}>دورة {course.title}</h3>
-                    <p style={{ margin: "5px 0" }}>مع {course.teacher?.teacherinfo?.fname} {course.teacher?.teacherinfo?.lname}</p>
+                    <p style={{ margin: "5px 0" }}>مع  الشيخ {course.teacher?.teacherinfo?.fname} {course.teacher?.teacherinfo?.lname}</p>
 
-                    <span
-                      style={{
-                        color: "#1EC8A0",
-                        cursor: "pointer",
-                        fontSize: "14px",
-                        position: "absolute",
-                        bottom: "10px",
-                        left: "10px",
-                      }}
-                    >
-                      التفاصيل
-                    </span>
+
                   </div>
                 ))
               ) : (
