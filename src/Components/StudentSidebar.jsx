@@ -47,7 +47,7 @@ const StudentSidebar = () => {
               <NavLink to="/select-verse" activeClassName="active">  <FontAwesomeIcon icon={faMicrophone} /> تلاوة آية قرآنية</NavLink>
             </li>
             <li>
-              <NavLink to="/discussions" activeClassName="active">  <FontAwesomeIcon icon={faCommentDots} /> المحادثات</NavLink>
+              <NavLink to="/coming-soon-teacher" activeClassName="active">  <FontAwesomeIcon icon={faCommentDots} /> المحادثات</NavLink>
             </li>
           </ul>
         </div>

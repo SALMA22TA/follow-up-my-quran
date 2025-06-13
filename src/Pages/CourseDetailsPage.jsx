@@ -310,7 +310,7 @@ const CourseDetailsPage = () => {
                               <User2 size={20} color="#1EC8A0" />
                             )}
                           </div>
-                          <span>{course?.teacher?.teacherinfo?.fname} {course?.teacher?.teacherinfo?.lname || 'المدرس'}</span>
+                          <span> الشيخ{course?.teacher?.teacherinfo?.fname} {course?.teacher?.teacherinfo?.lname || 'المدرس'}</span>
                         </div>
                       </div>
                     </div>

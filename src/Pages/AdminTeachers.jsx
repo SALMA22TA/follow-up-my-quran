@@ -659,13 +659,45 @@ const AdminTeachers = () => {
               </table>
               {/* Pagination summary row */}
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '18px 24px', color: '#888', fontSize: '1rem', borderTop: '1px solid #F3F6F6', background: '#FAFAFA', borderRadius: '0 0 16px 16px' }}>
-                <div>عرض 1-5 من 5 معلمين</div>
+                <div>عرض {filteredTeachers.length > 0 ? `1-${filteredTeachers.length}` : '0'} من {teachers.length} معلمين</div>
                 <div style={{ display: 'flex', gap: '8px' }}>
-                  <button style={{ background: '#fff', border: '1px solid #E0E0E0', color: '#888', borderRadius: '8px', padding: '4px 18px', fontWeight: 500, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px', transition: 'all 0.2s' }}>
+                  <button 
+                    style={{ 
+                      background: '#fff', 
+                      border: '1px solid #E0E0E0', 
+                      color: '#888', 
+                      borderRadius: '8px', 
+                      padding: '4px 18px', 
+                      fontWeight: 500, 
+                      cursor: 'pointer', 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      gap: '6px', 
+                      transition: 'all 0.2s',
+                      opacity: filteredTeachers.length === 0 ? 0.5 : 1,
+                      pointerEvents: filteredTeachers.length === 0 ? 'none' : 'auto'
+                    }}
+                  >
                     <FontAwesomeIcon icon={faChevronRight} />
                     السابق
                   </button>
-                  <button style={{ background: '#fff', border: '1px solid #E0E0E0', color: '#888', borderRadius: '8px', padding: '4px 18px', fontWeight: 500, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px', transition: 'all 0.2s' }}>
+                  <button 
+                    style={{ 
+                      background: '#fff', 
+                      border: '1px solid #E0E0E0', 
+                      color: '#888', 
+                      borderRadius: '8px', 
+                      padding: '4px 18px', 
+                      fontWeight: 500, 
+                      cursor: 'pointer', 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      gap: '6px', 
+                      transition: 'all 0.2s',
+                      opacity: filteredTeachers.length === 0 ? 0.5 : 1,
+                      pointerEvents: filteredTeachers.length === 0 ? 'none' : 'auto'
+                    }}
+                  >
                     التالي
                     <FontAwesomeIcon icon={faChevronLeft} />
                   </button>

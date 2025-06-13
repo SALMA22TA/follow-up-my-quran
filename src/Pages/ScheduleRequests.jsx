@@ -398,7 +398,7 @@ const ScheduleRequests = () => {
                       <span style={{ fontWeight: "500" }}>⏰ الساعة:</span> {request.time || "غير محدد"}
                     </p>
                     <p style={requestDetailsStyle}>
-                      <span style={{ fontWeight: "500" }}>⏱️ المدة:</span> {request.duration || "غير محدد"}
+                      <span style={{ fontWeight: "500" }}>⏱️ المدة:</span> {request.duration || "غير محدد"} دقيقة
                     </p>
                   </div>
                   <div style={buttonContainerStyle}>

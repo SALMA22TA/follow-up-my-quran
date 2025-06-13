@@ -54,9 +54,9 @@ const AdminSidebar = () => {
             <li>
               <NavLink to="/reports-feedback" activeClassName="active"><FontAwesomeIcon icon={faFileLines} /> التقارير والآراء</NavLink>
             </li>
-            <li>
+            {/* <li>
               <NavLink to="/admin/settings" activeClassName="active"><FontAwesomeIcon icon={faGear} /> الإعدادات</NavLink>
-            </li>
+            </li> */}
           </ul>
         </div>
       )}
