@@ -58,11 +58,11 @@ const TeachersSection = () => {
                 ))}
             </div>
 
-            <div style={{ marginTop: "40px" }}>
+            {/* <div style={{ marginTop: "40px" }}>
                 <Link to="/teacher-list" style={styles.moreButton}>
                     عرض المزيد
                 </Link>
-            </div>
+            </div> */}
         </div>
     );
 };
